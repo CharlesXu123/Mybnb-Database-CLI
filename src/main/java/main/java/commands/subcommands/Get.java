@@ -23,8 +23,7 @@ public class Get extends SubCmd implements Callable {
         String query = "select * from " + database;
         ResultSet rs = st.executeQuery(query);
         while(rs.next()){
-            System.out.println(rs.getString("cNum"));
-            System.out.println(rs.getString("dept"));
+            System.out.println(rs.getString(1));
         }
         return 1;
     }
