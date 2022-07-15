@@ -35,6 +35,6 @@ public class Mybnb implements Callable<Integer> {
     }
 
     public static void main(String[] args) {
-        new CommandLine(new Mybnb()).execute("-h");
+        new CommandLine(new Mybnb()).execute("Get", "Course");
     }
 }

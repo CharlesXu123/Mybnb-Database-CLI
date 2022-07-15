@@ -9,16 +9,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "Get",
         mixinStandardHelpOptions = true,
         description = "this is the get tool ")
-public class Get implements Callable {
-    public Connection conn;
-    public Get() throws ClassNotFoundException, SQLException {
-        String url = "jdbc:mysql://127.0.0.1/c43TUT";
-        String username = "root";
-        String pass = "apart1571709";
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        this.conn = DriverManager.getConnection(url, username, pass);
-    }
+public class Get extends SubCmd implements Callable {
 
     @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
     boolean help;
