@@ -1,8 +1,10 @@
+package main.java;
+
 import java.sql.*;
 
 public class connector {
     public static void main (String[] args) throws Exception {
-        String url = "jdbc:mysql://127.0.0.1/c43Project";
+        String url = "jdbc:mysql://127.0.0.1/c43TUT";
         String username = "root";
         String pass = "apart1571709";
         Class.forName("com.mysql.cj.jdbc.Driver");
