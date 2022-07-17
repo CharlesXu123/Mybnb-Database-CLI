@@ -1003,18 +1003,22 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </column>
     <column id="288" parent="284" name="name">
       <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
     <column id="289" parent="284" name="address">
       <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
     <column id="290" parent="284" name="date_of_birth">
       <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
     <column id="291" parent="284" name="occupation">
       <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
     <index id="292" parent="284" name="PRIMARY">
@@ -1027,10 +1031,10 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <trigger id="294" parent="284" name="generate_Host_uId">
+    <trigger id="294" parent="284" name="host_trigger">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
-      <SourceTextLength>79</SourceTextLength>
+      <SourceTextLength>237</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
     <column id="295" parent="285" name="uId">
@@ -1040,22 +1044,27 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </column>
     <column id="296" parent="285" name="name">
       <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
     <column id="297" parent="285" name="address">
       <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
     <column id="298" parent="285" name="date_of_birth">
       <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
     <column id="299" parent="285" name="occupation">
       <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
     <column id="300" parent="285" name="payment_info">
       <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
     <index id="301" parent="285" name="PRIMARY">
@@ -1068,10 +1077,10 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <trigger id="303" parent="285" name="generate_Renter_uId">
+    <trigger id="303" parent="285" name="renter_trigger">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
-      <SourceTextLength>79</SourceTextLength>
+      <SourceTextLength>237</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
     <column id="304" parent="286" name="id">
