@@ -9,11 +9,11 @@ public class SubCmd {
     public SubCmd(){
         try {
 //            Dotenv dotenv = Dotenv.configure().load();
+//            String pass = dotenv.get("PASSWORD");
             String url = "jdbc:mysql://127.0.0.1/c43Project";
             String username = "root";
-//            String pass = dotenv.get("PASSWORD");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.conn = DriverManager.getConnection(url, username, "");
+            this.conn = DriverManager.getConnection(url, username, System.getenv("PASSWORD"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

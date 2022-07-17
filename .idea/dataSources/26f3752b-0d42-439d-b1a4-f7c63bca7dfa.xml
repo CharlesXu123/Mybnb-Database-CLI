@@ -984,34 +984,120 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="284" parent="274" name="myTable">
+    <table id="284" parent="274" name="Host">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="285" parent="284" name="id">
+    <table id="285" parent="274" name="Renter">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="286" parent="274" name="myTable">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <column id="287" parent="284" name="uId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="288" parent="284" name="name">
+      <DataType>varchar(50)|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="289" parent="284" name="address">
+      <DataType>varchar(225)|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="290" parent="284" name="date_of_birth">
+      <DataType>date|0s</DataType>
+      <Position>4</Position>
+    </column>
+    <column id="291" parent="284" name="occupation">
+      <DataType>varchar(225)|0s</DataType>
+      <Position>5</Position>
+    </column>
+    <index id="292" parent="284" name="PRIMARY">
+      <ColNames>uId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="293" parent="284" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <trigger id="294" parent="284" name="generate_Host_uId">
+      <Definer>root@localhost</Definer>
+      <Events>I</Events>
+      <SourceTextLength>79</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="295" parent="285" name="uId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="296" parent="285" name="name">
+      <DataType>varchar(50)|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="297" parent="285" name="address">
+      <DataType>varchar(225)|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="298" parent="285" name="date_of_birth">
+      <DataType>date|0s</DataType>
+      <Position>4</Position>
+    </column>
+    <column id="299" parent="285" name="occupation">
+      <DataType>varchar(225)|0s</DataType>
+      <Position>5</Position>
+    </column>
+    <column id="300" parent="285" name="payment_info">
+      <DataType>varchar(255)|0s</DataType>
+      <Position>6</Position>
+    </column>
+    <index id="301" parent="285" name="PRIMARY">
+      <ColNames>uId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="302" parent="285" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <trigger id="303" parent="285" name="generate_Renter_uId">
+      <Definer>root@localhost</Definer>
+      <Events>I</Events>
+      <SourceTextLength>79</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="304" parent="286" name="id">
       <AutoIncrement>6</AutoIncrement>
       <DataType>mediumint unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="286" parent="284" name="name">
+    <column id="305" parent="286" name="name">
       <DataType>varchar(255)|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="287" parent="284" name="phone">
+    <column id="306" parent="286" name="phone">
       <DataType>varchar(100)|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="288" parent="284" name="email">
+    <column id="307" parent="286" name="email">
       <DataType>varchar(255)|0s</DataType>
       <Position>4</Position>
     </column>
-    <index id="289" parent="284" name="PRIMARY">
+    <index id="308" parent="286" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="290" parent="284" name="PRIMARY">
+    <key id="309" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

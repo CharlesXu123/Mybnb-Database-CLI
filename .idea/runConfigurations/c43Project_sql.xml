@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="c43Project.sql" type="DatabaseScript" editBeforeRun="true">
-    <script-file value="$PROJECT_DIR$/mysqlFiles/c43Project.sql" />
-    <script-mode>FILE</script-mode>
-    <data-source id="26f3752b-0d42-439d-b1a4-f7c63bca7dfa" namespace="schema/&quot;c43Project&quot;" />
-    <method v="2" />
-  </configuration>
-</component>
