@@ -22,7 +22,9 @@
           <option name="languageId" value="MySQL" />
           <option name="urls">
             <array>
-              <option value="file://$PROJECT_DIR$/mysqlFiles/c43Project.sql" />
+              <option value="file://$PROJECT_DIR$/mysqlFiles/initialize.sql" />
+              <option value="file://$PROJECT_DIR$/mysqlFiles/insert.sql" />
+              <option value="file://$PROJECT_DIR$/mysqlFiles/test.sql" />
             </array>
           </option>
         </State>
