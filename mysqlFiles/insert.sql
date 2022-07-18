@@ -240,3 +240,16 @@ VALUES
     ('Alice Rios','607-3702 Quisque Street','2022-10-23','Dolor Sit Amet Corporation'),
     ('Gay Underwood','P.O. Box 734, 536 Tristique Av.','2023-01-02','Pellentesque Tincidunt Limited'),
     ('Hashim Ortiz','611-5263 Ad Ave','2022-08-16','Mauris Eu Turpis Associates');
+
+INSERT INTO  listing (uid,type,latitude,longitude,`postal-code`,city,country)
+VALUES ('B3BBEBC4-1A67-1C37-A275-5F66E659C5A6','in',3,6,'379850','Tønsberg','Austria'),
+       ('888AA8C4-E4D0-CC96-5CCB-6081E8E3574B','sem',8,5,'70384','Tranås','Ukraine'),
+       ('9BEF2B87-3448-4BAE-3879-EB4F19931C6C','ut',1,4,'89428','Warszawa','Italy'),
+       ('A8D3E37A-C551-4252-265B-D8D723383815','enim.',1,4,'514518','South Burlington','Turkey'),
+       ('FC6578B9-5535-7933-1AE5-EE540BEE994F','facilisis',8,9,'60725','Hamburg','South Africa'),
+       ('91AD5131-E864-8270-E518-B681E2D0CEB8','tristique',0,5,'743722','Uitenhage','New Zealand'),
+       ('8E8CC249-D867-91A6-71DB-6F007DE8867B','ut',3,6,'6294','Hengelo','Australia'),
+       ('91CB15A0-4D11-BA5E-2279-B57511F58F75','Proin',9,10,'8144 UM','Saint-LŽger','New Zealand'),
+       ('FDD2A1FB-A39E-791A-F3C3-746EF7FAE908','scelerisque',2,10,'886384','Huntly','Spain'),
+       ('69E96897-9D6D-643B-A15C-EE168A6C20D6','vitae',7,8,'32G 4X5','Virginia','Chile');
+
