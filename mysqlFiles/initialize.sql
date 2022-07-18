@@ -42,3 +42,13 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'need be at least 18 years old!';
     END IF;
 END;
+
+DROP TABLE IF EXISTS Owned;
+
+CREATE TABLE Owned (
+                      uId char(36) not null ,
+#                       lId char(36) not null ,
+                      FOREIGN KEY (uId)
+                        REFERENCES Renter(uId)
+                        ON UPDATE CASCADE
+);
