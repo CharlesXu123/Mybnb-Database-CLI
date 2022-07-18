@@ -1,4 +1,4 @@
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Preston donnell','6728 Aliquam Avenue','1999-06-07','Vulputate Lacus Institute','670654 6557434452'),
     ('Noble Payne','P.O. Box 962, 6664 Massa. Ave','1999-09-06','Aliquet Sem Institute','417500 492481 5732'),
@@ -10,7 +10,7 @@ VALUES
     ('Wynne Mcintosh','Ap #216-2820 Sapien. St.','2000-03-05','Eget Foundation','4916228847584844'),
     ('Asher Harvey','Ap #381-9299 Justo Street','2000-02-19','Interdum Enim Incorporated','658839 2212381124'),
     ('Harlan Barton','P.O. Box 538, 5814 Ut Rd.','2000-10-22','Arcu Nunc Institute','6486247576722367');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Cally Lopez','P.O. Box 695, 8595 Mollis Rd.','2000-08-31','Ac Feugiat Limited','4024 007 14 7671'),
     ('Daphne Suarez','P.O. Box 258, 8832 Ut Av.','2000-02-02','Amet Luctus Institute','547665 8672373149'),
@@ -22,7 +22,7 @@ VALUES
     ('Mollie Case','8964 Nullam Rd.','2000-07-07','Suspendisse Ac Corporation','676152883880'),
     ('Joy Strickland','Ap #539-3648 Adipiscing. St.','2000-03-28','Non Magna Corporation','4905745484163221'),
     ('Stewart Hinton','P.O. Box 293, 8706 Sed Rd.','2000-05-25','Feugiat Placerat Corp.','558518 778877 8528');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Ivor Kelley','7618 Eu St.','1999-11-30','Arcu Vivamus Limited','676728 293688 5521'),
     ('Amanda Joyner','P.O. Box 655, 6032 Nisi. Av.','1999-06-21','Eu Limited','4936186774471532'),
@@ -34,7 +34,7 @@ VALUES
     ('Craig Park','Ap #488-1412 Vulputate, Road','1999-12-15','Dolor Fusce LLC','364878988784676'),
     ('Leo Martin','P.O. Box 397, 845 Cras Rd.','1999-12-05','Tincidunt Orci Quis Limited','214938454553731'),
     ('Inez Harrell','356-9271 Libero St.','2000-07-17','Ipsum Donec Sollicitudin Limited','3035 218966 13512');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Reese Roy','4049 Adipiscing Avenue','2000-01-25','Lectus Cum Industries','545685 418845 5397'),
     ('Melvin Singleton','P.O. Box 907, 2111 Adipiscing Ave','1999-06-05','Sit Amet Industries','342146444449749'),
@@ -46,7 +46,7 @@ VALUES
     ('Nora Daniel','Ap #291-9606 Et Rd.','2000-07-15','Ultricies Dignissim Limited','6545422658868987'),
     ('Henry Cox','122-6478 Hendrerit Rd.','1999-10-12','Aliquam Arcu Associates','201484392956731'),
     ('Pearl Knowles','Ap #308-3325 Mauris Rd.','2000-05-03','Accumsan Neque Ltd','4913779357786834');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Geoffrey Kerr','9705 Ut Ave','2000-10-25','Tincidunt Tempus Industries','4556 6967 5592 8358'),
     ('Noble Orr','P.O. Box 693, 5431 Suspendisse St.','1999-06-08','In Corp.','6771 4449 6123 9552'),
@@ -58,7 +58,7 @@ VALUES
     ('Carl Valdez','412-7205 Tempus Av.','2000-07-04','Lectus Convallis Est Institute','633 45463 23122 282'),
     ('Ria Case','P.O. Box 672, 6421 Augue Av.','2000-10-16','Enim Mauris Inc.','302296233428566'),
     ('Daquan Daniel','P.O. Box 463, 4498 Sagittis. St.','2000-07-25','Donec Egestas Industries','6456 7458 6636 3780');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Kelly Frye','304-4880 Hendrerit Av.','2000-07-27','Neque Sed Limited','676752574558762633'),
     ('Shaine Stanton','154-9129 A Ave','2000-05-19','Interdum Feugiat Limited','4916 872 32 5334'),
@@ -70,7 +70,7 @@ VALUES
     ('Fallon West','Ap #130-7911 Amet Av.','2000-10-12','Massa Vestibulum Accumsan Incorporated','546543 6568637569'),
     ('Ronan Kaufman','420-803 Suspendisse Rd.','1999-05-24','Erat Volutpat Nulla PC','3055 572362 75354'),
     ('Demetrius Lambert','240-185 Aliquam St.','2000-03-28','Maecenas Malesuada Ltd','201499493584638');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Brandon Chambers','Ap #240-4277 In Ave','2000-02-22','A Scelerisque PC','4913751538378864'),
     ('Mechelle Giles','269-224 Hymenaeos. Road','1999-08-21','Ornare Sagittis Felis Corporation','5365 2392 8741 9686'),
@@ -82,7 +82,7 @@ VALUES
     ('Danielle Wilcox','Ap #256-5936 Enim Rd.','1999-11-17','Orci Sem Associates','4905563197235553677'),
     ('Yoko Price','Ap #998-5507 Etiam St.','1999-06-02','Magna Praesent Interdum Institute','3024 832884 22419'),
     ('Lilah Houston','232-9904 Nam St.','2000-04-13','Convallis Foundation','300837764546136');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Quon Welch','Ap #965-2810 Nullam Rd.','2000-04-10','Luctus Felis Foundation','644 34448 24215 540'),
     ('Tatiana Mayo','Ap #260-6236 Lectus Street','2000-06-10','Varius LLC','4905 5463 4891 6766'),
@@ -94,7 +94,7 @@ VALUES
     ('Orlando Chan','9480 Dolor Road','2000-07-24','Cursus Purus Nullam LLC','5462275844255447'),
     ('Belle Montoya','Ap #184-4736 Sed Rd.','2000-06-26','Et Pede PC','364776774888737'),
     ('Brielle Gallagher','835-5357 Eu Street','2000-01-23','Eget Laoreet Posuere Corporation','402 40071 37215 239');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Barry Owens','772-4883 Condimentum. Street','1999-08-03','Pellentesque Ultricies Dignissim Limited','645376 862667 7722'),
     ('Driscoll Chandler','P.O. Box 878, 9802 Mauris Street','2000-01-14','Ornare Elit Institute','362554937714724'),
@@ -106,7 +106,7 @@ VALUES
     ('Rhiannon Hamilton','654-5795 Pellentesque Av.','2000-02-28','Sed Turpis Ltd','6759 835899 48659'),
     ('Aimee Nixon','132-4898 Donec Rd.','2000-02-17','Dapibus Corporation','3679 352237 26453'),
     ('Isaiah Lancaster','Ap #166-184 Cursus Ave','2000-03-18','Montes Inc.','4716 3284 2559 3381');
-INSERT INTO Renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
 VALUES
     ('Ivy Sullivan','908-1309 At, Av.','1999-10-27','Libero Et LLC','645 93772 32326 478'),
     ('Vivian Gallegos','525-904 Nam Ave','1999-05-28','Cubilia Curae Donec Institute','6759343914944381762'),
@@ -121,7 +121,7 @@ VALUES
 
 
 
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Linus Hurst','5378 Aliquam Rd.','2000-03-04','Cursus Industries'),
     ('Neville Cunningham','P.O. Box 914, 7461 Sapien, St.','1999-12-02','Magna Malesuada Corp.'),
@@ -133,7 +133,7 @@ VALUES
     ('Teegan Berg','Ap #748-8327 Dapibus Road','2000-02-21','Gravida Aliquam Corp.'),
     ('Wesley Butler','Ap #652-8974 Fusce Avenue','1999-06-05','Vel Mauris Company'),
     ('Bethany Mathis','Ap #586-6018 Mi St.','1999-08-15','Libero Et Tristique Ltd');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Chastity Alexander','477-9587 Libero Av.','2000-04-01','Nunc Sollicitudin Commodo Corp.'),
     ('Naida Flowers','Ap #427-2919 Eu, Rd.','1999-10-31','Nulla Facilisi LLC'),
@@ -145,7 +145,7 @@ VALUES
     ('Xantha Avila','6234 Mauris St.','2000-10-18','Egestas A Scelerisque LLC'),
     ('Belle Snow','269-912 Ipsum. St.','2000-08-10','Aliquam Vulputate Inc.'),
     ('Basia Cervantes','866-7479 Tincidunt Rd.','1999-06-09','Sit LLP');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Oleg Cooke','Ap #773-2282 Amet Av.','2000-02-24','Auctor Ullamcorper Company'),
     ('Carissa Reed','P.O. Box 321, 3550 Malesuada Ave','2000-04-02','Libero Dui Nec Corporation'),
@@ -157,7 +157,7 @@ VALUES
     ('Alec Waters','Ap #473-1415 Neque Av.','1999-09-10','Integer Tincidunt Aliquam Foundation'),
     ('Kadeem Horn','727-2558 Ut St.','2000-04-18','Est Nunc Ullamcorper Industries'),
     ('Haley Dyer','Ap #279-6140 Semper St.','2000-10-20','Tempor Est Foundation');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('John Oliver','Ap #859-4784 Metus Street','1999-07-27','Enim Non Nisi Associates'),
     ('Grady Oneal','662-775 Sollicitudin Road','2000-07-12','Nullam Vitae Diam Consulting'),
@@ -169,7 +169,7 @@ VALUES
     ('Reagan Whitaker','5578 Sed St.','1999-08-21','Morbi Non Consulting'),
     ('Declan Snider','339-7061 Lectus Road','2000-03-09','Velit In Industries'),
     ('Rhoda Oneil','Ap #654-6758 Egestas Street','1999-07-04','Urna Nunc Incorporated');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Gray House','Ap #328-4882 Commodo Road','2000-11-03','Eu Enim Etiam Corporation'),
     ('Ulric Pollard','415-916 Massa. Av.','2000-01-09','Arcu Vel PC'),
@@ -181,7 +181,7 @@ VALUES
     ('Mariko Graham','Ap #729-5931 Ipsum Road','2000-10-17','Magna Sed PC'),
     ('Quintessa Mcleod','P.O. Box 735, 7395 Quisque Av.','1999-09-23','A Sollicitudin Orci Incorporated'),
     ('Natalie David','P.O. Box 541, 3207 Fringilla, Ave','1999-10-22','Mus PC');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Avye Atkinson','402-8241 Mauris St.','1999-08-18','Malesuada Fringilla Est Incorporated'),
     ('Kylie Gilmore','Ap #887-2624 Eget Ave','1999-05-30','Ante Associates'),
@@ -193,7 +193,7 @@ VALUES
     ('Nathaniel Dale','5313 Pede, Rd.','2000-07-27','Dui Semper Associates'),
     ('Erin Sullivan','339-8264 Aliquet, Street','2000-02-18','Praesent Luctus Curabitur Incorporated'),
     ('Ima Price','P.O. Box 469, 8756 Nisi Rd.','1999-06-29','Adipiscing Elit Etiam PC');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Ignatius Mcdaniel','Ap #810-2737 Nec Rd.','2000-01-12','Sem Elit Corporation'),
     ('India Wagner','P.O. Box 191, 6151 Lacus. Rd.','2000-08-19','Duis Inc.'),
@@ -205,7 +205,7 @@ VALUES
     ('Burke Mcdaniel','257-7083 Varius Street','1999-10-03','Facilisis Eget Industries'),
     ('Lamar Singleton','P.O. Box 230, 2423 Orci. Street','2000-09-09','Enim Mi Ltd'),
     ('Melissa Beach','P.O. Box 114, 9895 Eleifend, Rd.','2000-09-22','In Felis Nulla Institute');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Lani Vaughan','Ap #596-8052 Enim Ave','1999-08-02','Nullam Incorporated'),
     ('Abigail Hester','Ap #551-7209 Quis Street','1999-08-06','Diam Luctus Corporation'),
@@ -217,7 +217,7 @@ VALUES
     ('Hasad Goodwin','Ap #927-8376 Netus Rd.','2000-02-02','Mollis Duis LLC'),
     ('Linus Donovan','P.O. Box 314, 8330 Blandit Av.','1999-09-27','Libero At LLC'),
     ('Uma Carrillo','198-2734 Mauris St.','1999-12-31','Egestas Blandit Industries');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Lara Stuart','7498 Mus. Street','2000-10-22','Eleifend Egestas Sed Corporation'),
     ('Graiden Estrada','7141 Lectus Rd.','2000-09-12','Vehicula LLP'),
@@ -229,7 +229,7 @@ VALUES
     ('Anika Knox','Ap #140-9170 Ut Rd.','2000-03-02','Risus Varius Foundation'),
     ('Lionel Pollard','4440 Vel Ave','2000-02-27','Lacus Cras LLP'),
     ('Duncan Wallace','Ap #341-3313 Donec Rd.','2000-05-16','Velit Pellentesque LLC');
-INSERT INTO Host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
     ('Yasir Lawson','Ap #446-2632 Scelerisque Ave','2000-06-11','Arcu Vestibulum Inc.'),
     ('Rigel Lancaster','Ap #545-9123 Vestibulum. St.','2000-01-10','A Feugiat Industries'),
@@ -241,16 +241,6 @@ VALUES
     ('Gisela Fleming','P.O. Box 748, 5127 Eu St.','1999-09-18','Augue Sed PC'),
     ('Aquila Winters','537-8387 Adipiscing, Rd.','1999-12-05','In Tempus Eu Limited'),
     ('Keefe Mcneil','166-1460 Feugiat. Street','1999-06-04','Vulputate Posuere Vulputate Corporation');
-    ('Silas Garrett','2874 Ante St.','2023-07-13','Nec Ante Blandit LLP'),
-    ('Isabella Bender','Ap #836-3597 Dis Rd.','2022-10-03','Etiam Gravida Incorporated'),
-    ('Carl Terry','209-9968 Vel Avenue','2022-01-17','Lobortis Class Inc.'),
-    ('Griffin Navarro','Ap #398-2476 Cras Street','2021-09-20','Aliquam Fringilla Institute'),
-    ('Declan Salazar','626-1104 Fermentum Rd.','2021-12-05','Maecenas Iaculis Aliquet Inc.'),
-    ('Isaiah Pittman','Ap #168-515 Ultrices Avenue','2021-10-01','Interdum Sed LLP'),
-    ('Barclay Guerrero','Ap #464-7733 In Avenue','2022-03-01','Turpis In Incorporated'),
-    ('Alice Rios','607-3702 Quisque Street','2022-10-23','Dolor Sit Amet Corporation'),
-    ('Gay Underwood','P.O. Box 734, 536 Tristique Av.','2023-01-02','Pellentesque Tincidunt Limited'),
-    ('Hashim Ortiz','611-5263 Ad Ave','2022-08-16','Mauris Eu Turpis Associates');
 
 INSERT INTO  listing (uid,type,latitude,longitude,`postal-code`,city,country)
 VALUES ('B3BBEBC4-1A67-1C37-A275-5F66E659C5A6','in',3,6,'379850','Tønsberg','Austria'),

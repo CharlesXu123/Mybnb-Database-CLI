@@ -4,3 +4,8 @@ VALUES
 
 INSERT INTO Owned(uId)
 VALUES ('78053aa0-061c-11ed-b1e1-692fb2ef982d');
+
+SELECT date_of_birth
+FROM host
+GROUP BY date_of_birth
+ORDER BY date_of_birth
