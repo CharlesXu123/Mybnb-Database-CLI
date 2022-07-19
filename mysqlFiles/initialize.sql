@@ -45,7 +45,6 @@ END;
 ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
-
 CREATE TABLE listing (
                          uid char(36) NOT NULL primary key ,
                          type varchar(255) default NULL,
@@ -70,7 +69,6 @@ CREATE TABLE available (
                            uid char(36) NOT NULL primary key ,
                            available boolean default TRUE,
                            price double default 0
-
 );
 
 CREATE TRIGGER available_trigger
@@ -83,25 +81,30 @@ BEGIN
 
 end;
 
-CREATE TABLE has (
-                     amenityId mediumint(8) unsigned NOT NULL auto_increment,
-                     listingId varchar(255),
-                     PRIMARY KEY (amenityId, listingId)
-);
 
-DROP TABLE IF EXISTS amenities;
 CREATE TABLE amenities (
                            uid char(36) NOT NULL primary key,
-                           amenities varchar(255)
+                           amenity varchar(255)
 );
 
+CREATE TABLE has (
+                     amenityId char(36) NOT NULL,
+                     listingId char(36) NOT NULL,
+                     PRIMARY KEY (amenityId, listingId),
+                     foreign key (amenityId) references amenities(uid),
+                     foreign key (listingId) references listing(uid)
+);
 CREATE TABLE rented (
-                        uid char(36) NOT NULL primary key ,
+                        listingId char(36) NOT NULL,
+                        renterId char(36) NOT NULL,
                         comments varchar(8) default NULL,
                         `start-date` varchar(255) default NULL,
                         `end-date` varchar(100) default NULL,
                         rating INTEGER(5) default NULL,
-                        status varchar(255) default NULL
+                        status varchar(255) default NULL,
+                        primary key (listingId, renterId),
+                        foreign key (listingId) references listing(uid),
+                        foreign key (renterId) references Renter(uid)
 );
 
 # status: pending, ongoing, cancelled
@@ -116,3 +119,4 @@ CREATE TABLE owned (
                            REFERENCES listing(uId)
                            ON UPDATE CASCADE ON DELETE CASCADE
 );
+
