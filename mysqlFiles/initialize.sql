@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS Renter;
+DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenities,rented;
 
-CREATE TABLE Renter (
+CREATE TABLE renter (
     uId char(36) primary key,
     name varchar(50) not null ,
     address varchar(225) not null ,
@@ -10,7 +10,7 @@ CREATE TABLE Renter (
 );
 
 CREATE TRIGGER renter_trigger
-    BEFORE INSERT ON Renter
+    BEFORE INSERT ON renter
     FOR EACH ROW
 BEGIN
     IF new.uId IS NULL THEN
@@ -21,9 +21,7 @@ BEGIN
     END IF;
 END;
 
-DROP TABLE IF EXISTS Host;
-
-CREATE TABLE Host (
+CREATE TABLE host (
                         uId char(36) primary key,
                         name varchar(50) not null ,
                         address varchar(225) not null ,
@@ -32,7 +30,7 @@ CREATE TABLE Host (
 );
 
 CREATE TRIGGER host_trigger
-    BEFORE INSERT ON Host
+    BEFORE INSERT ON host
     FOR EACH ROW
 BEGIN
     IF new.uId IS NULL THEN
@@ -43,15 +41,11 @@ BEGIN
     END IF;
 END;
 
-
-
-
 ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
 
-DROP TABLE IF EXISTS listing;
 CREATE TABLE listing (
                          uid char(36) NOT NULL primary key ,
                          type varchar(255) default NULL,
@@ -72,7 +66,6 @@ BEGIN
 end;
 # insert into listing values(1,NULL,3,4,NULL,NULL, NULL);
 #type: full house, apartment, room
-DROP TABLE IF EXISTS available;
 CREATE TABLE available (
                            uid char(36) NOT NULL primary key ,
                            available boolean default TRUE,
@@ -90,7 +83,6 @@ BEGIN
 
 end;
 
-DROP TABLE IF EXISTS has;
 CREATE TABLE has (
                      amenityId mediumint(8) unsigned NOT NULL auto_increment,
                      listingId varchar(255),
@@ -103,7 +95,6 @@ CREATE TABLE amenities (
                            amenities varchar(255)
 );
 
-DROP TABLE IF EXISTS rented;
 CREATE TABLE rented (
                         uid char(36) NOT NULL primary key ,
                         comments varchar(8) default NULL,
@@ -115,3 +106,13 @@ CREATE TABLE rented (
 
 # status: pending, ongoing, cancelled
 
+CREATE TABLE owned (
+                       uId char(36) not null ,
+                       lId char(36) not null ,
+                       FOREIGN KEY (uId)
+                           REFERENCES renter(uId)
+                           ON UPDATE CASCADE ON DELETE CASCADE,
+                       FOREIGN KEY (lId)
+                           REFERENCES listing(uId)
+                           ON UPDATE CASCADE ON DELETE CASCADE
+);
