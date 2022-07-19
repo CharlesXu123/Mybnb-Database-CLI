@@ -88,9 +88,9 @@ CREATE TABLE amenities (
 );
 
 CREATE TABLE has (
-                     amenityId char(36) NOT NULL,
                      listingId char(36) NOT NULL,
-                     PRIMARY KEY (amenityId, listingId),
+                     amenityId char(36) NOT NULL,
+                     PRIMARY KEY (listingId,amenityId),
                      foreign key (amenityId) references amenities(uid),
                      foreign key (listingId) references listing(uid)
 );

@@ -1095,34 +1095,34 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <SourceTextLength>80</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
-    <column id="309" parent="289" name="amenityId">
+    <column id="309" parent="289" name="listingId">
       <DataType>char(36)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="310" parent="289" name="listingId">
+    <column id="310" parent="289" name="amenityId">
       <DataType>char(36)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <foreign-key id="311" parent="289" name="has_ibfk_1">
-      <ColNames>amenityId</ColNames>
-      <RefColNames>uid</RefColNames>
-      <RefTableName>amenities</RefTableName>
-    </foreign-key>
-    <foreign-key id="312" parent="289" name="has_ibfk_2">
+    <foreign-key id="311" parent="289" name="has_ibfk_2">
       <ColNames>listingId</ColNames>
       <RefColNames>uid</RefColNames>
       <RefTableName>listing</RefTableName>
     </foreign-key>
+    <foreign-key id="312" parent="289" name="has_ibfk_1">
+      <ColNames>amenityId</ColNames>
+      <RefColNames>uid</RefColNames>
+      <RefTableName>amenities</RefTableName>
+    </foreign-key>
     <index id="313" parent="289" name="PRIMARY">
-      <ColNames>amenityId
-listingId</ColNames>
+      <ColNames>listingId
+amenityId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="314" parent="289" name="listingId">
-      <ColNames>listingId</ColNames>
+    <index id="314" parent="289" name="amenityId">
+      <ColNames>amenityId</ColNames>
       <Type>btree</Type>
     </index>
     <key id="315" parent="289" name="PRIMARY">
