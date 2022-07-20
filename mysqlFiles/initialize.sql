@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenities,rented;
+DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenities,rented,being_rented;
 
 CREATE TABLE renter (
     uId char(36) primary key,
@@ -109,6 +109,7 @@ CREATE TABLE rented (
 CREATE TABLE owned (
                        uId char(36) not null ,
                        lId char(36) not null ,
+                       PRIMARY KEY (uId, lId),
                        FOREIGN KEY (uId)
                            REFERENCES renter(uId)
                            ON UPDATE CASCADE ON DELETE CASCADE,
@@ -116,3 +117,23 @@ CREATE TABLE owned (
                            REFERENCES listing(uId)
                            ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE TABLE being_rented (
+    rId char(36) not null,
+    lId char(36) not null,
+    hId char(36) not null,
+    start_data DATE not null,
+    end_data DATE not null,
+    status varchar(225) default 'not canceled' check (status IN ('canceled','not canceled')),
+    rate INTEGER default null check (rate >= 0 AND rate <= 5),
+    primary key (rId, lId, hId),
+    FOREIGN KEY (rId)
+        REFERENCES renter(uId)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY (hId)
+        REFERENCES host(uid)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY (lId)
+        REFERENCES listing(uid)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+)
