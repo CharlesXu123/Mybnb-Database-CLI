@@ -1,15 +1,15 @@
-INSERT INTO renter (name,address,date_of_birth,occupation,payment_info)
+INSERT INTO renter (uid, name,address,date_of_birth,occupation,payment_info)
 VALUES
-    ('Preston donnell','6728 Aliquam Avenue','1999-06-07','Vulputate Lacus Institute','670654 6557434452'),
-    ('Noble Payne','P.O. Box 962, 6664 Massa. Ave','1999-09-06','Aliquet Sem Institute','417500 492481 5732'),
-    ('Quail Berg','Ap #754-6127 Erat, Ave','1999-06-20','Tincidunt Congue LLP','630 48734 41764 944'),
-    ('Minerva Terrell','3927 Adipiscing St.','2000-02-16','Ut Quam Vel LLC','6334 1254 5373 4669'),
-    ('Kaye Fowler','906-4772 Gravida Av.','1999-09-21','Id Blandit Consulting','675 98623 94577 759'),
-    ('Patrick Ware','Ap #615-8048 Placerat Rd.','1999-12-26','Velit Cras Institute','525 72878 35683 676'),
-    ('Zephr Church','Ap #761-1644 Ipsum Ave','1999-11-04','Mi Lacinia Industries','6304558847788882'),
-    ('Wynne Mcintosh','Ap #216-2820 Sapien. St.','2000-03-05','Eget Foundation','4916228847584844'),
-    ('Asher Harvey','Ap #381-9299 Justo Street','2000-02-19','Interdum Enim Incorporated','658839 2212381124'),
-    ('Harlan Barton','P.O. Box 538, 5814 Ut Rd.','2000-10-22','Arcu Nunc Institute','6486247576722367');
+    ('0','Preston donnell','6728 Aliquam Avenue','1999-06-07','Vulputate Lacus Institute','670654 6557434452'),
+    ('1','Noble Payne','P.O. Box 962, 6664 Massa. Ave','1999-09-06','Aliquet Sem Institute','417500 492481 5732'),
+    ('2','Quail Berg','Ap #754-6127 Erat, Ave','1999-06-20','Tincidunt Congue LLP','630 48734 41764 944'),
+    ('3','Minerva Terrell','3927 Adipiscing St.','2000-02-16','Ut Quam Vel LLC','6334 1254 5373 4669'),
+    ('4','Kaye Fowler','906-4772 Gravida Av.','1999-09-21','Id Blandit Consulting','675 98623 94577 759'),
+    ('5','Patrick Ware','Ap #615-8048 Placerat Rd.','1999-12-26','Velit Cras Institute','525 72878 35683 676'),
+    ('6','Zephr Church','Ap #761-1644 Ipsum Ave','1999-11-04','Mi Lacinia Industries','6304558847788882'),
+    ('7','Wynne Mcintosh','Ap #216-2820 Sapien. St.','2000-03-05','Eget Foundation','4916228847584844'),
+    ('8','Asher Harvey','Ap #381-9299 Justo Street','2000-02-19','Interdum Enim Incorporated','658839 2212381124'),
+    ('9','Harlan Barton','P.O. Box 538, 5814 Ut Rd.','2000-10-22','Arcu Nunc Institute','6486247576722367');
 
 INSERT INTO host (name,address,date_of_birth,occupation)
 VALUES
@@ -101,3 +101,26 @@ VALUES ('a', '1'),
        ('h', '2'),
        ('h', '9');
 
+insert into rented
+values   ('0','a','0','eleifend, nunc','2021-07-24','2022-10-01',4,'eu'),
+         ('1','b','1','iaculis enim,','2021-07-21','2023-06-15',2,'convallis,'),
+         ('2','c','2','rhoncus. Proin','2021-07-26','2023-06-22',1,'Cras'),
+         ('3','d','3','vel arcu','2021-07-26','2023-04-09',3,'nisl.'),
+         ('4','e','4','aliquet diam.','2021-07-23','2021-11-03',1,'vel'),
+         ('5','f','5','gravida molestie','2021-07-21','2022-11-14',2,'a,'),
+         ('6','g','6','molestie dapibus','2021-07-27','2022-10-28',5,'Vivamus'),
+         ('7','h','7','magna. Ut','2021-07-23','2021-09-30',3,'interdum.'),
+         ('8','i','8','commodo at,','2021-07-27','2023-02-25',4,'Praesent'),
+         ('9','j','9','a sollicitudin','2021-07-25','2022-12-21',4,'sed');
+
+insert into available
+VALUES  ('a','2021-07-25',true,106),
+        ('b','2021-07-25',true,86),
+        ('c','2021-07-20',true,57),
+        ('d','2021-07-28',true,92),
+        ('e','2021-07-23',true,144),
+        ('f','2021-07-21',false,100),
+        ('g','2021-07-27',false,136),
+        ('h','2021-07-23',false,183),
+        ('i','2021-07-26',false,85),
+        ('j','2021-07-27',false,182);
