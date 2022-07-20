@@ -65,12 +65,13 @@ BEGIN
 
 end;
 # insert into listing values(1,NULL,3,4,NULL,NULL, NULL);
-#type: full house, apartment, room
+# type: full house, apartment, room
 CREATE TABLE available (
-                           uid char(36) NOT NULL primary key ,
+                           listingId char(36) NOT NULL,
+                           queryDate date NOT NULL,
                            available boolean default TRUE,
-                           price double default 0
-
+                           price double not null default 0,
+                           primary key(listingId, queryDate)
 );
 
 CREATE TRIGGER available_trigger
@@ -92,24 +93,43 @@ CREATE TABLE has (
 DROP TABLE IF EXISTS amenities;
 CREATE TABLE amenities (
                            uid char(36) NOT NULL primary key,
-                           amenities varchar(255)
+                           amenity varchar(255)
+);
+
+CREATE TABLE has (
+                     listingId char(36) NOT NULL,
+                     amenityId char(36) NOT NULL,
+                     PRIMARY KEY (listingId,amenityId),
+                     foreign key (amenityId) references amenities(uid),
+                     foreign key (listingId) references listing(uid)
 );
 
 CREATE TABLE rented (
-                        uid char(36) NOT NULL primary key ,
-                        comments varchar(8) default NULL,
-                        `start-date` varchar(255) default NULL,
-                        `end-date` varchar(100) default NULL,
+                        listingId char(36) NOT NULL,
+                        renterId char(36) NOT NULL,
+                        comments varchar(255) default NULL,
+                        `start-date` date NOT NULL,
+                        `end-date` date NOT NULL,
                         rating INTEGER(5) default NULL,
-                        status varchar(255) default NULL
+                        status varchar(255) default NULL,
+                        primary key (listingId, renterId, `start-date`),
+                        foreign key (listingId) references listing(uid),
+                        foreign key (renterId) references Renter(uid)
 );
 
+CREATE TRIGGER rented_trigger
+    BEFORE INSERT ON rented
+    FOR EACH ROW
+BEGIN
+    IF new.`start-date` >= new.`end-date` THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid, start date earlier than end date';
+    END IF;
+END;
 # status: pending, ongoing, cancelled
 
 CREATE TABLE owned (
                        uId char(36) not null ,
                        lId char(36) not null ,
-                       PRIMARY KEY (uId, lId),
                        FOREIGN KEY (uId)
                            REFERENCES renter(uId)
                            ON UPDATE CASCADE ON DELETE CASCADE,
@@ -137,3 +157,4 @@ CREATE TABLE being_rented (
         REFERENCES listing(uid)
         ON UPDATE CASCADE ON DELETE RESTRICT
 )
+
