@@ -12,3 +12,6 @@ SELECT date_of_birth
 FROM host
 GROUP BY date_of_birth
 ORDER BY date_of_birth
+
+insert into rented
+values ('v','j','9','neque. Nullam','2023-09-28','2022-06-11',1,'id,');
