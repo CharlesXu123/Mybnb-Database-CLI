@@ -64,7 +64,7 @@ BEGIN
 
 end;
 # insert into listing values(1,NULL,3,4,NULL,NULL, NULL);
-#type: full house, apartment, room
+# type: full house, apartment, room
 CREATE TABLE available (
                            listingId char(36) NOT NULL,
                            queryDate date NOT NULL,
@@ -72,7 +72,6 @@ CREATE TABLE available (
                            price double not null default 0,
                            primary key(listingId, queryDate)
 );
-
 
 CREATE TABLE amenities (
                            uid char(36) NOT NULL primary key,
@@ -88,14 +87,14 @@ CREATE TABLE has (
 );
 
 CREATE TABLE rented (
-                        rentId char(36) NOT NULL primary key,
                         listingId char(36) NOT NULL,
                         renterId char(36) NOT NULL,
                         comments varchar(255) default NULL,
-                        `start-date` date default NULL,
-                        `end-date` date default NULL,
+                        `start-date` date NOT NULL,
+                        `end-date` date NOT NULL,
                         rating INTEGER(5) default NULL,
                         status varchar(255) default NULL,
+                        primary key (listingId, renterId, `start-date`),
                         foreign key (listingId) references listing(uid),
                         foreign key (renterId) references Renter(uid)
 );

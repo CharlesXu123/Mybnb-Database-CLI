@@ -1277,116 +1277,111 @@ amenityId</ColNames>
       <ColNames>lId</ColNames>
       <Type>btree</Type>
     </index>
-    <column id="346" parent="294" name="rentId">
+    <column id="346" parent="294" name="listingId">
       <DataType>char(36)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="347" parent="294" name="listingId">
+    <column id="347" parent="294" name="renterId">
       <DataType>char(36)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="348" parent="294" name="renterId">
-      <DataType>char(36)|0s</DataType>
-      <NotNull>1</NotNull>
+    <column id="348" parent="294" name="comments">
+      <DataType>varchar(255)|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="349" parent="294" name="comments">
-      <DataType>varchar(255)|0s</DataType>
+    <column id="349" parent="294" name="start-date">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="350" parent="294" name="start-date">
+    <column id="350" parent="294" name="end-date">
       <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="351" parent="294" name="end-date">
-      <DataType>date|0s</DataType>
+    <column id="351" parent="294" name="rating">
+      <DataType>int|0s</DataType>
       <Position>6</Position>
     </column>
-    <column id="352" parent="294" name="rating">
-      <DataType>int|0s</DataType>
+    <column id="352" parent="294" name="status">
+      <DataType>varchar(255)|0s</DataType>
       <Position>7</Position>
     </column>
-    <column id="353" parent="294" name="status">
-      <DataType>varchar(255)|0s</DataType>
-      <Position>8</Position>
-    </column>
-    <foreign-key id="354" parent="294" name="rented_ibfk_1">
+    <foreign-key id="353" parent="294" name="rented_ibfk_1">
       <ColNames>listingId</ColNames>
       <RefColNames>uid</RefColNames>
       <RefTableName>listing</RefTableName>
     </foreign-key>
-    <foreign-key id="355" parent="294" name="rented_ibfk_2">
+    <foreign-key id="354" parent="294" name="rented_ibfk_2">
       <ColNames>renterId</ColNames>
       <RefColNames>uId</RefColNames>
       <RefTableName>renter</RefTableName>
     </foreign-key>
-    <index id="356" parent="294" name="PRIMARY">
-      <ColNames>rentId</ColNames>
+    <index id="355" parent="294" name="PRIMARY">
+      <ColNames>listingId
+renterId
+start-date</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="357" parent="294" name="listingId">
-      <ColNames>listingId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="358" parent="294" name="renterId">
+    <index id="356" parent="294" name="renterId">
       <ColNames>renterId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="359" parent="294" name="PRIMARY">
+    <key id="357" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <trigger id="360" parent="294" name="rented_trigger">
+    <trigger id="358" parent="294" name="rented_trigger">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>174</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
-    <column id="361" parent="295" name="uId">
+    <column id="359" parent="295" name="uId">
       <DataType>char(36)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="362" parent="295" name="name">
+    <column id="360" parent="295" name="name">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="363" parent="295" name="address">
+    <column id="361" parent="295" name="address">
       <DataType>varchar(225)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="364" parent="295" name="date_of_birth">
+    <column id="362" parent="295" name="date_of_birth">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="365" parent="295" name="occupation">
+    <column id="363" parent="295" name="occupation">
       <DataType>varchar(225)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="366" parent="295" name="payment_info">
+    <column id="364" parent="295" name="payment_info">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <index id="367" parent="295" name="PRIMARY">
+    <index id="365" parent="295" name="PRIMARY">
       <ColNames>uId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="368" parent="295" name="PRIMARY">
+    <key id="366" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <trigger id="369" parent="295" name="renter_trigger">
+    <trigger id="367" parent="295" name="renter_trigger">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>237</SourceTextLength>
