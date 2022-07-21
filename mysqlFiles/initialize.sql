@@ -67,7 +67,7 @@ end;
 # type: full house, apartment, room
 CREATE TABLE available (
                            lId char(36) NOT NULL,
-                           queryDate date NOT NULL,
+                           query_date date NOT NULL,
                            available boolean default FALSE,
                            price double not null default 0,
                            primary key(lId, queryDate),

@@ -1,0 +1,121 @@
+Index: mysqlFiles/initialize.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>DROP TABLE IF EXISTS Renter;\n\nCREATE TABLE Renter (\n    uId char(36) primary key,\n    name varchar(50) not null ,\n    address varchar(225) not null ,\n    date_of_birth DATE not null,\n    occupation varchar(225) not null ,\n    payment_info varchar(255) not null\n);\n\nCREATE TRIGGER renter_trigger\n    BEFORE INSERT ON Renter\n    FOR EACH ROW\nBEGIN\n    IF new.uId IS NULL THEN\n        SET new.uId = uuid();\n    END IF;\n    IF (YEAR(CURDATE()) - YEAR(new.date_of_birth)) < 18 THEN\n        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'need be at least 18 years old!';\n    END IF;\nEND;\n\nDROP TABLE IF EXISTS Host;\n\nCREATE TABLE Host (\n                        uId char(36) primary key,\n                        name varchar(50) not null ,\n                        address varchar(225) not null ,\n                        date_of_birth DATE not null,\n                        occupation varchar(225) not null\n);\n\nCREATE TRIGGER host_trigger\n    BEFORE INSERT ON Host\n    FOR EACH ROW\nBEGIN\n    IF new.uId IS NULL THEN\n        SET new.uId = uuid();\n    END IF;\n    IF (YEAR(CURDATE()) - YEAR(new.date_of_birth)) < 18 THEN\n        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'need be at least 18 years old!';\n    END IF;\nEND;\n\n\n\n\n################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################\n################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################\n################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################\n################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################\n\nDROP TABLE IF EXISTS listing;\nCREATE TABLE listing (\n                         uid char(36) NOT NULL primary key ,\n                         type varchar(255) default NULL,\n                         latitude double default NULL,\n                         longitude  double default NULL,\n                         `postal-code` varchar(10) default null,\n                         city varchar(64) default null,\n                         country varchar(32) default null\n);\nCREATE TRIGGER listing_trigger\n    BEFORE INSERT ON listing\n    FOR EACH ROW\nBEGIN\n    IF new.uid IS NULL THEN\n        SET new.uid = uuid();\n    end if;\n\nend;\n# insert into listing values(1,NULL,3,4,NULL,NULL, NULL);\n#type: full house, apartment, room\nDROP TABLE IF EXISTS available;\nCREATE TABLE available (\n                           uid char(36) NOT NULL primary key ,\n                           available boolean default TRUE,\n                           price double default 0\n\n);\n\nCREATE TRIGGER available_trigger\n    BEFORE INSERT ON available\n    FOR EACH ROW\nBEGIN\n    IF new.uid IS NULL THEN\n        SET new.uid = uuid();\n    end if;\n\nend;\n\nDROP TABLE IF EXISTS has;\nCREATE TABLE has (\n                     amenityId mediumint(8) unsigned NOT NULL auto_increment,\n                     listingId varchar(255),\n                     PRIMARY KEY (amenityId, listingId)\n);\n\nDROP TABLE IF EXISTS amenities;\nCREATE TABLE amenities (\n                           uid char(36) NOT NULL primary key,\n                           amenities varchar(255)\n);\n\nDROP TABLE IF EXISTS rented;\nCREATE TABLE rented (\n                        uid char(36) NOT NULL primary key ,\n                        comments varchar(8) default NULL,\n                        `start-date` varchar(255) default NULL,\n                        `end-date` varchar(100) default NULL,\n                        rating INTEGER(5) default NULL,\n                        status varchar(255) default NULL\n);\n\n# status: pending, ongoing, cancelled\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/mysqlFiles/initialize.sql b/mysqlFiles/initialize.sql
+--- a/mysqlFiles/initialize.sql	(revision eab627f1b22684aaaed82ae429ee8393bd87ed72)
++++ b/mysqlFiles/initialize.sql	(date 1658237943352)
+@@ -1,4 +1,4 @@
+-DROP TABLE IF EXISTS Renter;
++DROP TABLE IF EXISTS Renter, Host, listing, available, rented, has, amenities;
+ 
+ CREATE TABLE Renter (
+     uId char(36) primary key,
+@@ -21,8 +21,6 @@
+     END IF;
+ END;
+ 
+-DROP TABLE IF EXISTS Host;
+-
+ CREATE TABLE Host (
+                         uId char(36) primary key,
+                         name varchar(50) not null ,
+@@ -51,7 +49,6 @@
+ ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
+ ################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
+ 
+-DROP TABLE IF EXISTS listing;
+ CREATE TABLE listing (
+                          uid char(36) NOT NULL primary key ,
+                          type varchar(255) default NULL,
+@@ -72,7 +69,6 @@
+ end;
+ # insert into listing values(1,NULL,3,4,NULL,NULL, NULL);
+ #type: full house, apartment, room
+-DROP TABLE IF EXISTS available;
+ CREATE TABLE available (
+                            uid char(36) NOT NULL primary key ,
+                            available boolean default TRUE,
+@@ -90,27 +86,29 @@
+ 
+ end;
+ 
+-DROP TABLE IF EXISTS has;
+ CREATE TABLE has (
+                      amenityId mediumint(8) unsigned NOT NULL auto_increment,
+                      listingId varchar(255),
+-                     PRIMARY KEY (amenityId, listingId)
+-);
++                     PRIMARY KEY (amenityId, listingId),
++                     foreign key (amenityId) references amenities(uid),
++                     foreign key (listingId) references listing(uid)
++                 );
+ 
+-DROP TABLE IF EXISTS amenities;
+ CREATE TABLE amenities (
+                            uid char(36) NOT NULL primary key,
+                            amenities varchar(255)
+ );
+ 
+-DROP TABLE IF EXISTS rented;
+ CREATE TABLE rented (
+-                        uid char(36) NOT NULL primary key ,
++                        listingId char(36) NOT NULL primary key ,
++                        renterId char(36) NOT NULL primary key ,
+                         comments varchar(8) default NULL,
+                         `start-date` varchar(255) default NULL,
+                         `end-date` varchar(100) default NULL,
+                         rating INTEGER(5) default NULL,
+-                        status varchar(255) default NULL
++                        status varchar(255) default NULL,
++                        foreign key (listingId) references listing(uid),
++                        foreign key (renterId) references Renter(uid)
+ );
+ 
+ # status: pending, ongoing, cancelled
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"90d3cfab-c1a7-4783-921e-9a8169f8edcd\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/mysqlFiles/test.sql\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/mysqlFiles/initialize.sql\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/mysqlFiles/initialize.sql\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/target/classes/main/java/commands/subcommands/SubCmd.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/main/java/commands/subcommands/SubCmd.class\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"das://26f3752b-0d42-439d-b1a4-f7c63bca7dfa.sql\" root0=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2Bv8a3lDSRuU5jSPzeSoMl37gLn\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"last_directory_selection\": \"/Users/xushengsong/Documents/IntelliJ/c43Project/src/main/java/main/java\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"project.structure.last.edited\": \"Project\",\n    \"project.structure.proportion\": \"0.15\",\n    \"project.structure.side.proportion\": \"0.2\",\n    \"settings.editor.selected.configurable\": \"database.query.execution\"\n  },\n  \"keyToStringList\": {\n    \"DatabaseDriversLRU\": [\n      \"mysql\"\n    ],\n    \"RunConfigurationTargetLRU\": [\n      \"26f3752b-0d42-439d-b1a4-f7c63bca7dfa/schema/\\\"c43Project\\\"\",\n      \"26f3752b-0d42-439d-b1a4-f7c63bca7dfa\"\n    ]\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/mysqlFiles\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Database Script.test\">\n    <configuration name=\"App\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.java.App\" />\n      <module name=\"c43Project\" />\n      <option name=\"PROGRAM_PARAMETERS\" value=\"get\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"main.java.commands.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Connector\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.java.Connector\" />\n      <module name=\"c43Project\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"main.java.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <extension name=\"net.ashald.envfile\">\n        <option name=\"IS_ENABLED\" value=\"false\" />\n        <option name=\"IS_SUBST\" value=\"false\" />\n        <option name=\"IS_PATH_MACRO_SUPPORTED\" value=\"false\" />\n        <option name=\"IS_IGNORE_MISSING_FILES\" value=\"false\" />\n        <option name=\"IS_ENABLE_EXPERIMENTAL_INTEGRATIONS\" value=\"false\" />\n        <ENTRIES>\n          <ENTRY IS_ENABLED=\"true\" PARSER=\"runconfig\" />\n        </ENTRIES>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"main.java.commands.Mybnb\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.java.commands.Mybnb\" />\n      <module name=\"c43Project\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"main.java.commands.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <extension name=\"net.ashald.envfile\">\n        <option name=\"IS_ENABLED\" value=\"true\" />\n        <option name=\"IS_SUBST\" value=\"false\" />\n        <option name=\"IS_PATH_MACRO_SUPPORTED\" value=\"false\" />\n        <option name=\"IS_IGNORE_MISSING_FILES\" value=\"false\" />\n        <option name=\"IS_ENABLE_EXPERIMENTAL_INTEGRATIONS\" value=\"false\" />\n        <ENTRIES>\n          <ENTRY IS_ENABLED=\"true\" PARSER=\"runconfig\" />\n        </ENTRIES>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"initialize\" type=\"DatabaseScript\">\n      <script-file value=\"$PROJECT_DIR$/mysqlFiles/initialize.sql\" />\n      <script-mode>FILE</script-mode>\n      <data-source id=\"26f3752b-0d42-439d-b1a4-f7c63bca7dfa\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"insert\" type=\"DatabaseScript\">\n      <script-file value=\"$PROJECT_DIR$/mysqlFiles/insert.sql\" />\n      <script-mode>FILE</script-mode>\n      <data-source id=\"26f3752b-0d42-439d-b1a4-f7c63bca7dfa\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"test\" type=\"DatabaseScript\">\n      <script-file value=\"$PROJECT_DIR$/mysqlFiles/test.sql\" />\n      <script-mode>FILE</script-mode>\n      <data-source id=\"26f3752b-0d42-439d-b1a4-f7c63bca7dfa\" />\n      <method v=\"2\" />\n    </configuration>\n    <list>\n      <item itemvalue=\"Application.Connector\" />\n      <item itemvalue=\"Application.main.java.commands.Mybnb\" />\n      <item itemvalue=\"Application.App\" />\n      <item itemvalue=\"Database Script.test\" />\n      <item itemvalue=\"Database Script.initialize\" />\n      <item itemvalue=\"Database Script.insert\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.main.java.commands.Mybnb\" />\n        <item itemvalue=\"Application.Connector\" />\n        <item itemvalue=\"Application.App\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"90d3cfab-c1a7-4783-921e-9a8169f8edcd\" name=\"Changes\" comment=\"\" />\n      <created>1657775257511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1657775257511</updated>\n      <workItem from=\"1657775258807\" duration=\"7331000\" />\n      <workItem from=\"1657833462713\" duration=\"9316000\" />\n      <workItem from=\"1657859164699\" duration=\"1239000\" />\n      <workItem from=\"1657860621468\" duration=\"2851000\" />\n      <workItem from=\"1657863520472\" duration=\"248000\" />\n      <workItem from=\"1657863843927\" duration=\"1495000\" />\n      <workItem from=\"1657865443681\" duration=\"71000\" />\n      <workItem from=\"1658073148926\" duration=\"2150000\" />\n      <workItem from=\"1658075669832\" duration=\"2924000\" />\n      <workItem from=\"1658082419138\" duration=\"25000\" />\n      <workItem from=\"1658082478209\" duration=\"6898000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"UnknownFeatures\">\n    <option featureType=\"com.intellij.fileTypeFactory\" implementationName=\".env\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"create-table\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision eab627f1b22684aaaed82ae429ee8393bd87ed72)
++++ b/.idea/workspace.xml	(date 1658237655139)
+@@ -5,12 +5,8 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/mysqlFiles/test.sql" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/mysqlFiles/initialize.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/initialize.sql" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/commands/subcommands/SubCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/commands/subcommands/SubCmd.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -25,6 +21,11 @@
+     </option>
+   </component>
+   <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="create-table" />
++      </map>
++    </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="HighlightingSettingsPerFile">
+@@ -51,6 +52,7 @@
+     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+     "WebServerToolWindowFactoryState": "false",
+     "last_directory_selection": "/Users/xushengsong/Documents/IntelliJ/c43Project/src/main/java/main/java",
++    "node.js.selected.package.tslint": "(autodetect)",
+     "nodejs_package_manager_path": "npm",
+     "project.structure.last.edited": "Project",
+     "project.structure.proportion": "0.15",

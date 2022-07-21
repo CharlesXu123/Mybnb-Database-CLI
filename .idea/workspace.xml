@@ -5,20 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="add being_rented table initailization">
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/InsertSub/Renter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/initialize.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/initialize.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysqlFiles/test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/test.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/Mybnb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/Mybnb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Get.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Insert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Insert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/commands/Mybnb.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/commands/Mybnb.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/commands/subcommands/Get.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/commands/subcommands/Insert.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/commands/subcommands/Insert.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/connector.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,30 +53,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_directory_selection&quot;: &quot;/Users/xushengsong/Documents/IntelliJ/c43Project/src/main/java/main/java&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_directory_selection": "/Users/xushengsong/Documents/IntelliJ/c43Project/src/main/java/main/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ],
-    &quot;RunConfigurationTargetLRU&quot;: [
-      &quot;26f3752b-0d42-439d-b1a4-f7c63bca7dfa/schema/\&quot;c43Project\&quot;&quot;,
-      &quot;26f3752b-0d42-439d-b1a4-f7c63bca7dfa&quot;
+    "RunConfigurationTargetLRU": [
+      "26f3752b-0d42-439d-b1a4-f7c63bca7dfa/schema/\"c43Project\"",
+      "26f3752b-0d42-439d-b1a4-f7c63bca7dfa"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/mysqlFiles" />
