@@ -70,7 +70,7 @@ CREATE TABLE available (
                            query_date date NOT NULL,
                            available boolean default FALSE,
                            price double not null default 0,
-                           primary key(lId, queryDate),
+                           primary key(lId, query_date),
                            FOREIGN KEY (lId)
                             REFERENCES listing(lId)
                             ON UPDATE CASCADE ON DELETE CASCADE
