@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenities,rented,being_rented;
+DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenity,rented;
 
 CREATE TABLE renter (
     uId char(36) primary key,
@@ -41,9 +41,9 @@ BEGIN
     END IF;
 END;
 
-################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
-################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
-################# LISTINGS, RENTED, AVAILABLE, AMENITIES #############################################
+################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
+################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
+################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
 
 CREATE TABLE listing (
                          lId char(36) NOT NULL primary key ,
@@ -76,7 +76,7 @@ CREATE TABLE available (
                             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE amenities (
+CREATE TABLE amenity (
                            aId char(36) NOT NULL primary key,
                            amenity varchar(255)
 );
@@ -85,38 +85,13 @@ CREATE TABLE has (
                      lId char(36) NOT NULL,
                      aId char(36) NOT NULL,
                      PRIMARY KEY (lId,aId),
-                     foreign key (aId) references amenities(aId),
+                     foreign key (aId) references amenity(aId),
                      foreign key (lId) references listing(lId)
 );
 
-CREATE TABLE rented (
-                        lId char(36) NOT NULL,
-                        rId char(36) NOT NULL,
-                        comments varchar(255) default NULL,
-                        start_date date NOT NULL,
-                        end_date date NOT NULL,
-                        rating INTEGER(5) default NULL check (rating >= 0 AND rating <= 5),
-                        canceled BOOLEAN default FALSE,
-                        primary key (lId, rId, start_date),
-                        foreign key (lId)
-                            references listing(lId)
-                            ON UPDATE CASCADE ON DELETE RESTRICT,
-                        foreign key (rId) references Renter(uid)
-                            ON UPDATE CASCADE ON DELETE RESTRICT
-);
-
-CREATE TRIGGER rented_trigger
-    BEFORE INSERT ON rented
-    FOR EACH ROW
-BEGIN
-    IF new.start_date >= new.end_date THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid, start date earlier than end date';
-    END IF;
-END;
-
-################# owned, being_rented #############################################
-################# owned, being_rented #############################################
-################# owned, being_rented #############################################
+################# owned, rented #############################################
+################# owned, rented #############################################
+################# owned, rented #############################################
 
 CREATE TABLE owned (
                        uId char(36) not null ,
@@ -130,15 +105,18 @@ CREATE TABLE owned (
                            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE being_rented (
+CREATE TABLE rented (
     rId char(36) not null,
     lId char(36) not null,
     hId char(36) not null,
-    start_data DATE not null,
-    end_data DATE not null,
+    start_date DATE not null,
+    end_date DATE not null,
     canceled BOOLEAN default FALSE,
-    rating INTEGER default null check (rating >= 0 AND rating <= 5),
-    primary key (rId, lId, hId, start_data),
+    host_rating INTEGER default null check (host_rating >= 0 AND host_rating <= 5),
+    renter_rating INTEGER default null check (renter_rating >= 0 AND renter_rating <= 5),
+    host_comments varchar(255) default null,
+    renter_comments varchar(255) default null,
+    primary key (rId, lId, hId, start_date),
     FOREIGN KEY (rId)
         REFERENCES renter(uId)
         ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -150,11 +128,11 @@ CREATE TABLE being_rented (
         ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TRIGGER being_rented_trigger
-    BEFORE INSERT ON being_rented
+CREATE TRIGGER rented_trigger
+    BEFORE INSERT ON rented
     FOR EACH ROW
 BEGIN
-    IF new.start_data >= new.end_data THEN
+    IF new.start_date >= new.end_date THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid, start date earlier than end date';
     END IF;
 END;

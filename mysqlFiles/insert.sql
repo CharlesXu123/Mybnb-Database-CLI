@@ -32,7 +32,7 @@ VALUES ('a','in',3,6,'379850','Tønsberg','Austria'),
        ('i','scelerisque',2,10,'886384','Huntly','Spain'),
        ('j','vitae',7,8,'32G 4X5','Virginia','Chile');
 
-INSERT INTO amenities
+INSERT INTO amenity
 values ('1', 'Toilet paper'),
        ('2', 'Soap for hands and body'),
        ('3', 'One towel per guest'),
@@ -97,17 +97,17 @@ VALUES ('a', '1'),
        ('h', '2'),
        ('h', '9');
 
-insert into rented(lId, rId, comments, start_date, end_date, rating)
-values   ('a','0','eleifend, nunc','2021-07-24','2022-10-01',4),
-         ('b','1','iaculis enim,','2021-07-21','2023-06-15',2),
-         ('c','2','rhoncus. Proin','2021-07-26','2023-06-22',1),
-         ('d','3','vel arcu','2021-07-26','2023-04-09',3),
-         ('e','4','aliquet diam.','2021-07-23','2021-11-03',1),
-         ('f','5','gravida molestie','2021-07-21','2022-11-14',2),
-         ('g','6','molestie dapibus','2021-07-27','2022-10-28',5),
-         ('h','7','magna. Ut','2021-07-23','2021-09-30',3),
-         ('i','8','commodo at,','2021-07-27','2023-02-25',4),
-         ('j','9','a sollicitudin','2021-07-25','2022-12-21',4);
+# insert into rented(lId, rId, comments, start_date, end_date, rating)
+# values   ('a','0','eleifend, nunc','2021-07-24','2022-10-01',4),
+#          ('b','1','iaculis enim,','2021-07-21','2023-06-15',2),
+#          ('c','2','rhoncus. Proin','2021-07-26','2023-06-22',1),
+#          ('d','3','vel arcu','2021-07-26','2023-04-09',3),
+#          ('e','4','aliquet diam.','2021-07-23','2021-11-03',1),
+#          ('f','5','gravida molestie','2021-07-21','2022-11-14',2),
+#          ('g','6','molestie dapibus','2021-07-27','2022-10-28',5),
+#          ('h','7','magna. Ut','2021-07-23','2021-09-30',3),
+#          ('i','8','commodo at,','2021-07-27','2023-02-25',4),
+#          ('j','9','a sollicitudin','2021-07-25','2022-12-21',4);
 
 insert into available
 VALUES  ('a','2021-07-25',true,106),

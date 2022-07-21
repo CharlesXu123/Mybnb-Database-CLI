@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="add being_rented table initailization">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/initialize.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/initialize.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +85,7 @@
       <recent name="$PROJECT_DIR$/mysqlFiles" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Mybnb insert renter">
+  <component name="RunManager" selected="Database Script.initialize">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.App" />
       <module name="c43Project" />
