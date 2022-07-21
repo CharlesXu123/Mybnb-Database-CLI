@@ -85,8 +85,11 @@ CREATE TABLE has (
                      lId char(36) NOT NULL,
                      aId char(36) NOT NULL,
                      PRIMARY KEY (lId,aId),
-                     foreign key (aId) references amenity(aId),
+                     foreign key (aId) references amenity(aId)
+                         ON UPDATE CASCADE ON DELETE CASCADE,
                      foreign key (lId) references listing(lId)
+                         ON UPDATE CASCADE ON DELETE CASCADE
+
 );
 
 ################# owned, rented #############################################

@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="add being_rented table initailization">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/initialize.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/initialize.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
