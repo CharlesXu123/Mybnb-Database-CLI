@@ -1,5 +1,6 @@
 package main.java.commands;
 
+import main.java.commands.subcommands.Queries;
 import main.java.commands.subcommands.Test;
 import main.java.commands.subcommands.Insert;
 import picocli.CommandLine;
@@ -17,7 +18,8 @@ import java.util.concurrent.Callable;
         optionListHeading = "Options are:%n",
         subcommands = {
                 Insert.class,
-                Test.class
+                Test.class,
+                Queries.class
         })
 public class Mybnb implements Callable<Integer> {
     final Integer SUCCESS = 0;
