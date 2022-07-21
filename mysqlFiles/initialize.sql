@@ -41,13 +41,21 @@ BEGIN
     END IF;
 END;
 
+CREATE TRIGGER host_delete_trigger
+    BEFORE DELETE ON host
+    FOR EACH ROW
+BEGIN
+    DELETE FROM listing WHERE listing.lId IN (SELECT lId FROM owned WHERE owned.uId = OLD.uId);
+    UPDATE rented SET canceled = false WHERE rented.hId = OLD.uId;
+end;
+
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
 
 CREATE TABLE listing (
                          lId char(36) NOT NULL primary key ,
-                         type varchar(255) default NULL,
+                         type varchar(255) default NULL check ( type IN ('full house','apartment','room') ),
                          latitude double default NULL,
                          longitude  double default NULL,
                          postal_code varchar(10) default null,
@@ -98,12 +106,13 @@ CREATE TABLE owned (
                        lId char(36) not null ,
                        PRIMARY KEY (uId, lId),
                        FOREIGN KEY (uId)
-                           REFERENCES renter(uId)
-                           ON UPDATE CASCADE ON DELETE CASCADE,
+                           REFERENCES host(uId)
+                           ON UPDATE CASCADE ON DELETE CASCADE ,
                        FOREIGN KEY (lId)
                            REFERENCES listing(lId)
                            ON UPDATE CASCADE ON DELETE CASCADE
 );
+
 
 CREATE TABLE rented (
     rentedId char(36),
@@ -141,21 +150,21 @@ BEGIN
     END IF;
 END;
 
-CREATE TRIGGER rented_update_trigger
-    BEFORE UPDATE ON rented
-    FOR EACH ROW
-BEGIN
-    IF NEW.lId IS NUlL OR NEW.hId IS NULL OR NEW.rId IS NULL THEN
-    SET NEW.canceled = true;
-end if;
+# CREATE TRIGGER rented_update_trigger
+#     BEFORE UPDATE ON rented
+#     FOR EACH ROW
+# BEGIN
+#     IF NEW.lId IS NUlL OR NEW.hId IS NULL OR NEW.rId IS NULL THEN
+#     SET NEW.canceled = true;
+# end if;
+#
+# end;
 
-end;
-
-CREATE TRIGGER rented_cleanup_trigger
-    AFTER UPDATE ON rented
-    FOR EACH ROW
-BEGIN
-    IF OLD.lId IS NULL AND OLD.hId IS NULL AND OLD.rId IS NULL THEN
-        DELETE FROM rented WHERE rented.rentedId = OLD.rentedId;
-    end if;
-end;
+# CREATE TRIGGER rented_cleanup_trigger
+#     AFTER UPDATE ON rented
+#     FOR EACH ROW
+# BEGIN
+#     IF OLD.lId IS NULL AND OLD.hId IS NULL AND OLD.rId IS NULL THEN
+#         DELETE FROM rented WHERE rented.rentedId = OLD.rentedId;
+#     end if;
+# end;

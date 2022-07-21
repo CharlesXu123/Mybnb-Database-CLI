@@ -1,20 +1,17 @@
 package main.java.commands.subcommands;
 
-import main.java.commands.subcommands.InsertSub.Host;
-import main.java.commands.subcommands.InsertSub.Renter;
+import main.java.commands.subcommands.DeleteSub.Host;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
 
 
-@CommandLine.Command(name = "Insert",
+@CommandLine.Command(name = "Delete",
         mixinStandardHelpOptions = true,
-        description = "this is the get tool ",
         subcommands = {
-                Renter.class,
                 Host.class
         })
-public class Insert implements Callable<Integer> {
+public class Delete implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         return 1;
