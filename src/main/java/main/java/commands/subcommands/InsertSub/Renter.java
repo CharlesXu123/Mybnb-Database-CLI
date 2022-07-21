@@ -11,6 +11,8 @@ import java.sql.*;
         description = "renter can create account using this command"
 )
 public class Renter extends SubCmd implements Callable<Integer> {
+    @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
+    boolean help;
     @CommandLine.Option(names = {"-name"}, description = "renter name", required = true)
     String name;
 

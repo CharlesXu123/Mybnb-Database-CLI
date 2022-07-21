@@ -85,8 +85,8 @@ CREATE TABLE has (
                      lId char(36) NOT NULL,
                      aId char(36) NOT NULL,
                      PRIMARY KEY (lId,aId),
-                     foreign key (aId) references amenity(aId),
-                     foreign key (lId) references listing(lId)
+                     foreign key (aId) references amenity(aId) on update cascade on delete cascade ,
+                     foreign key (lId) references listing(lId) on update cascade on delete cascade
 );
 
 ################# owned, rented #############################################
@@ -106,9 +106,10 @@ CREATE TABLE owned (
 );
 
 CREATE TABLE rented (
-    rId char(36) not null,
-    lId char(36) not null,
-    hId char(36) not null,
+    rentedId char(36),
+    rId char(36),
+    lId char(36),
+    hId char(36),
     start_date DATE not null,
     end_date DATE not null,
     canceled BOOLEAN default FALSE,
@@ -116,23 +117,45 @@ CREATE TABLE rented (
     renter_rating INTEGER default null check (renter_rating >= 0 AND renter_rating <= 5),
     host_comments varchar(255) default null,
     renter_comments varchar(255) default null,
-    primary key (rId, lId, hId, start_date),
+    primary key (rentedId),
     FOREIGN KEY (rId)
         REFERENCES renter(uId)
-        ON UPDATE CASCADE ON DELETE RESTRICT,
+        ON UPDATE CASCADE ON DELETE SET NULL ,
     FOREIGN KEY (hId)
         REFERENCES host(uid)
-        ON UPDATE CASCADE ON DELETE RESTRICT,
+        ON UPDATE CASCADE ON DELETE SET NULL ,
     FOREIGN KEY (lId)
         REFERENCES listing(lId)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-CREATE TRIGGER rented_trigger
+CREATE TRIGGER rented_insert_trigger
     BEFORE INSERT ON rented
     FOR EACH ROW
 BEGIN
+    IF NEW.rentedId IS NULL THEN
+        SET NEW.rentedId = uuid();
+    end if;
     IF new.start_date >= new.end_date THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid, start date earlier than end date';
     END IF;
 END;
+
+CREATE TRIGGER rented_update_trigger
+    BEFORE UPDATE ON rented
+    FOR EACH ROW
+BEGIN
+    IF NEW.lId IS NUlL OR NEW.hId IS NULL OR NEW.rId IS NULL THEN
+    SET NEW.canceled = true;
+end if;
+
+end;
+
+CREATE TRIGGER rented_cleanup_trigger
+    AFTER UPDATE ON rented
+    FOR EACH ROW
+BEGIN
+    IF OLD.lId IS NULL AND OLD.hId IS NULL AND OLD.rId IS NULL THEN
+        DELETE FROM rented WHERE rented.rentedId = OLD.rentedId;
+    end if;
+end;
