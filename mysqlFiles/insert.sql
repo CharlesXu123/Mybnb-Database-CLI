@@ -11,20 +11,16 @@ VALUES
     ('8','Asher Harvey','Ap #381-9299 Justo Street','2000-02-19','Interdum Enim Incorporated','658839 2212381124'),
     ('9','Harlan Barton','P.O. Box 538, 5814 Ut Rd.','2000-10-22','Arcu Nunc Institute','6486247576722367');
 
-INSERT INTO host (name,address,date_of_birth,occupation)
+INSERT INTO host (name,address,date_of_birth,occupation,uId)
 VALUES
-    ('Linus Hurst','5378 Aliquam Rd.','2000-03-04','Cursus Industries'),
-    ('Neville Cunningham','P.O. Box 914, 7461 Sapien, St.','1999-12-02','Magna Malesuada Corp.'),
-    ('Christian Cardenas','Ap #389-1324 Cursus, St.','1999-10-26','Sociis Natoque Penatibus Corp.'),
-    ('Allen Owen','513-8729 Nunc. Ave','1999-11-12','Hendrerit Ltd'),
-    ('Inga Hopkins','Ap #485-7325 Adipiscing, Rd.','2000-05-03','Tempor Diam Dictum Associates'),
-    ('Kaseem Henderson','190-8157 Aliquam Rd.','1999-09-29','Convallis In Associates'),
-    ('Carl Moody','434-7239 Nulla Ave','2000-06-06','Ut Associates'),
-    ('Teegan Berg','Ap #748-8327 Dapibus Road','2000-02-21','Gravida Aliquam Corp.'),
-    ('Wesley Butler','Ap #652-8974 Fusce Avenue','1999-06-05','Vel Mauris Company'),
-    ('Bethany Mathis','Ap #586-6018 Mi St.','1999-08-15','Libero Et Tristique Ltd');
+    ('Ulysses Cantrell','Ap #969-9742 Aliquam Road','1999-12-07','Velit Cras Limited',1),
+    ('Griffith Snyder','479-3022 Lorem, Rd.','2000-08-24','Auctor Vitae Company',2),
+    ('Wang Flynn','Ap #463-6521 Feugiat Rd.','2000-10-05','Iaculis Institute',3),
+    ('Lance Payne','293-8490 Cras Avenue','2000-06-17','Dolor Corp.',4),
+    ('Palmer Hodge','P.O. Box 826, 651 Sed Street','1999-11-11','Iaculis Foundation',5);
 
-INSERT INTO  listing (uid,type,latitude,longitude,`postal-code`,city,country)
+
+INSERT INTO  listing (lid,type,latitude,longitude,postal_code,city,country)
 VALUES ('a','in',3,6,'379850','Tønsberg','Austria'),
        ('b','sem',8,5,'70384','Tranås','Ukraine'),
        ('c','ut',1,4,'89428','Warszawa','Italy'),
@@ -87,7 +83,7 @@ values ('1', 'Toilet paper'),
        ('48','Towels to wipe off paws at the door');
 
 
-INSERT INTO has (listingId, amenityId)
+INSERT INTO has (lId, aId)
 VALUES ('a', '1'),
        ('a', '2'),
        ('a', '3'),
@@ -101,17 +97,17 @@ VALUES ('a', '1'),
        ('h', '2'),
        ('h', '9');
 
-insert into rented
-values   ('a','0','eleifend, nunc','2021-07-24','2022-10-01',4,'eu'),
-         ('b','1','iaculis enim,','2021-07-21','2023-06-15',2,'convallis,'),
-         ('c','2','rhoncus. Proin','2021-07-26','2023-06-22',1,'Cras'),
-         ('d','3','vel arcu','2021-07-26','2023-04-09',3,'nisl.'),
-         ('e','4','aliquet diam.','2021-07-23','2021-11-03',1,'vel'),
-         ('f','5','gravida molestie','2021-07-21','2022-11-14',2,'a,'),
-         ('g','6','molestie dapibus','2021-07-27','2022-10-28',5,'Vivamus'),
-         ('h','7','magna. Ut','2021-07-23','2021-09-30',3,'interdum.'),
-         ('i','8','commodo at,','2021-07-27','2023-02-25',4,'Praesent'),
-         ('j','9','a sollicitudin','2021-07-25','2022-12-21',4,'sed');
+insert into rented(lId, rId, comments, start_date, end_date, rating)
+values   ('a','0','eleifend, nunc','2021-07-24','2022-10-01',4),
+         ('b','1','iaculis enim,','2021-07-21','2023-06-15',2),
+         ('c','2','rhoncus. Proin','2021-07-26','2023-06-22',1),
+         ('d','3','vel arcu','2021-07-26','2023-04-09',3),
+         ('e','4','aliquet diam.','2021-07-23','2021-11-03',1),
+         ('f','5','gravida molestie','2021-07-21','2022-11-14',2),
+         ('g','6','molestie dapibus','2021-07-27','2022-10-28',5),
+         ('h','7','magna. Ut','2021-07-23','2021-09-30',3),
+         ('i','8','commodo at,','2021-07-27','2023-02-25',4),
+         ('j','9','a sollicitudin','2021-07-25','2022-12-21',4);
 
 insert into available
 VALUES  ('a','2021-07-25',true,106),

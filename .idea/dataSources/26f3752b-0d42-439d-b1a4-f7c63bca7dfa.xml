@@ -984,37 +984,487 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="284" parent="274" name="myTable">
+    <table id="284" parent="274" name="amenities">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="285" parent="284" name="id">
+    <table id="285" parent="274" name="available">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="286" parent="274" name="being_rented">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="287" parent="274" name="has">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="288" parent="274" name="host">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="289" parent="274" name="listing">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="290" parent="274" name="myTable">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="291" parent="274" name="owned">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="292" parent="274" name="rented">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="293" parent="274" name="renter">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <column id="294" parent="284" name="aId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="295" parent="284" name="amenity">
+      <DataType>varchar(255)|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <index id="296" parent="284" name="PRIMARY">
+      <ColNames>aId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="297" parent="284" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="298" parent="285" name="lId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="299" parent="285" name="queryDate">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="300" parent="285" name="available">
+      <DataType>tinyint(1)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <Position>3</Position>
+    </column>
+    <column id="301" parent="285" name="price">
+      <DataType>double|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <foreign-key id="302" parent="285" name="available_ibfk_1">
+      <ColNames>lId</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>lId</RefColNames>
+      <RefTableName>listing</RefTableName>
+    </foreign-key>
+    <index id="303" parent="285" name="PRIMARY">
+      <ColNames>lId
+queryDate</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="304" parent="285" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <check id="305" parent="286" name="being_rented_chk_1">
+      <NameSurrogate>1</NameSurrogate>
+      <Predicate>(`rate` &gt;= 0) and (`rate` &lt;= 5)</Predicate>
+    </check>
+    <column id="306" parent="286" name="rId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="307" parent="286" name="lId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="308" parent="286" name="hId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="309" parent="286" name="start_data">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="310" parent="286" name="end_data">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="311" parent="286" name="canceled">
+      <DataType>tinyint(1)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <Position>6</Position>
+    </column>
+    <column id="312" parent="286" name="rate">
+      <DataType>int|0s</DataType>
+      <Position>7</Position>
+    </column>
+    <foreign-key id="313" parent="286" name="being_rented_ibfk_1">
+      <ColNames>rId</ColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>uId</RefColNames>
+      <RefTableName>renter</RefTableName>
+    </foreign-key>
+    <foreign-key id="314" parent="286" name="being_rented_ibfk_3">
+      <ColNames>lId</ColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>lId</RefColNames>
+      <RefTableName>listing</RefTableName>
+    </foreign-key>
+    <foreign-key id="315" parent="286" name="being_rented_ibfk_2">
+      <ColNames>hId</ColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>uId</RefColNames>
+      <RefTableName>host</RefTableName>
+    </foreign-key>
+    <index id="316" parent="286" name="PRIMARY">
+      <ColNames>rId
+lId
+hId
+start_data</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="317" parent="286" name="lId">
+      <ColNames>lId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="318" parent="286" name="hId">
+      <ColNames>hId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="319" parent="286" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <trigger id="320" parent="286" name="being_rented_trigger">
+      <Definer>root@localhost</Definer>
+      <Events>I</Events>
+      <SourceTextLength>170</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="321" parent="287" name="lId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="322" parent="287" name="aId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <foreign-key id="323" parent="287" name="has_ibfk_2">
+      <ColNames>lId</ColNames>
+      <RefColNames>lId</RefColNames>
+      <RefTableName>listing</RefTableName>
+    </foreign-key>
+    <foreign-key id="324" parent="287" name="has_ibfk_1">
+      <ColNames>aId</ColNames>
+      <RefColNames>aId</RefColNames>
+      <RefTableName>amenities</RefTableName>
+    </foreign-key>
+    <index id="325" parent="287" name="PRIMARY">
+      <ColNames>lId
+aId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="326" parent="287" name="aId">
+      <ColNames>aId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="327" parent="287" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="328" parent="288" name="uId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="329" parent="288" name="name">
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="330" parent="288" name="address">
+      <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="331" parent="288" name="date_of_birth">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="332" parent="288" name="occupation">
+      <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <index id="333" parent="288" name="PRIMARY">
+      <ColNames>uId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="334" parent="288" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <trigger id="335" parent="288" name="host_trigger">
+      <Definer>root@localhost</Definer>
+      <Events>I</Events>
+      <SourceTextLength>237</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="336" parent="289" name="lId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="337" parent="289" name="type">
+      <DataType>varchar(255)|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="338" parent="289" name="latitude">
+      <DataType>double|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="339" parent="289" name="longitude">
+      <DataType>double|0s</DataType>
+      <Position>4</Position>
+    </column>
+    <column id="340" parent="289" name="postal_code">
+      <DataType>varchar(10)|0s</DataType>
+      <Position>5</Position>
+    </column>
+    <column id="341" parent="289" name="city">
+      <DataType>varchar(64)|0s</DataType>
+      <Position>6</Position>
+    </column>
+    <column id="342" parent="289" name="country">
+      <DataType>varchar(32)|0s</DataType>
+      <Position>7</Position>
+    </column>
+    <index id="343" parent="289" name="PRIMARY">
+      <ColNames>lId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="344" parent="289" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <trigger id="345" parent="289" name="listing_trigger">
+      <Definer>root@localhost</Definer>
+      <Events>I</Events>
+      <SourceTextLength>80</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="346" parent="290" name="id">
       <AutoIncrement>6</AutoIncrement>
       <DataType>mediumint unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="286" parent="284" name="name">
+    <column id="347" parent="290" name="name">
       <DataType>varchar(255)|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="287" parent="284" name="phone">
+    <column id="348" parent="290" name="phone">
       <DataType>varchar(100)|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="288" parent="284" name="email">
+    <column id="349" parent="290" name="email">
       <DataType>varchar(255)|0s</DataType>
       <Position>4</Position>
     </column>
-    <index id="289" parent="284" name="PRIMARY">
+    <index id="350" parent="290" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="290" parent="284" name="PRIMARY">
+    <key id="351" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
+    <column id="352" parent="291" name="uId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="353" parent="291" name="lId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <foreign-key id="354" parent="291" name="owned_ibfk_1">
+      <ColNames>uId</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>uId</RefColNames>
+      <RefTableName>renter</RefTableName>
+    </foreign-key>
+    <foreign-key id="355" parent="291" name="owned_ibfk_2">
+      <ColNames>lId</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>lId</RefColNames>
+      <RefTableName>listing</RefTableName>
+    </foreign-key>
+    <index id="356" parent="291" name="PRIMARY">
+      <ColNames>uId
+lId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="357" parent="291" name="lId">
+      <ColNames>lId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="358" parent="291" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="359" parent="292" name="lId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="360" parent="292" name="rId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="361" parent="292" name="comments">
+      <DataType>varchar(255)|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="362" parent="292" name="start_date">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="363" parent="292" name="end_date">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="364" parent="292" name="rating">
+      <DataType>int|0s</DataType>
+      <Position>6</Position>
+    </column>
+    <column id="365" parent="292" name="canceled">
+      <DataType>tinyint(1)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <Position>7</Position>
+    </column>
+    <foreign-key id="366" parent="292" name="rented_ibfk_1">
+      <ColNames>lId</ColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>lId</RefColNames>
+      <RefTableName>listing</RefTableName>
+    </foreign-key>
+    <foreign-key id="367" parent="292" name="rented_ibfk_2">
+      <ColNames>rId</ColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>uId</RefColNames>
+      <RefTableName>renter</RefTableName>
+    </foreign-key>
+    <index id="368" parent="292" name="PRIMARY">
+      <ColNames>lId
+rId
+start_date</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="369" parent="292" name="rId">
+      <ColNames>rId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="370" parent="292" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <trigger id="371" parent="292" name="rented_trigger">
+      <Definer>root@localhost</Definer>
+      <Events>I</Events>
+      <SourceTextLength>170</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="372" parent="293" name="uId">
+      <DataType>char(36)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="373" parent="293" name="name">
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="374" parent="293" name="address">
+      <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="375" parent="293" name="date_of_birth">
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="376" parent="293" name="occupation">
+      <DataType>varchar(225)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="377" parent="293" name="payment_info">
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <index id="378" parent="293" name="PRIMARY">
+      <ColNames>uId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="379" parent="293" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <trigger id="380" parent="293" name="renter_trigger">
+      <Definer>root@localhost</Definer>
+      <Events>I</Events>
+      <SourceTextLength>237</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
   </database-model>
 </dataSource>

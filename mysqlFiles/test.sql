@@ -15,3 +15,8 @@ ORDER BY date_of_birth
 
 insert into rented
 values ('j','9','neque. Nullam','2023-09-28','2022-06-11',1,'id,');
+
+SELECT `COLUMN_NAME`
+FROM `INFORMATION_SCHEMA`.`COLUMNS`
+WHERE `TABLE_SCHEMA`='c43Project'
+  AND `TABLE_NAME`='renter';

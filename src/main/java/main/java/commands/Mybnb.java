@@ -1,13 +1,11 @@
 package main.java.commands;
 
-import main.java.commands.subcommands.Get;
+import main.java.commands.subcommands.Test;
 import main.java.commands.subcommands.Insert;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
 
-import java.sql.*;
 import java.util.concurrent.Callable;
 
 @Command(name = "Mybnb",
@@ -19,7 +17,7 @@ import java.util.concurrent.Callable;
         optionListHeading = "Options are:%n",
         subcommands = {
                 Insert.class,
-                Get.class
+                Test.class
         })
 public class Mybnb implements Callable<Integer> {
     final Integer SUCCESS = 0;
