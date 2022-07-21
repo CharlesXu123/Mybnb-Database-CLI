@@ -1,8 +1,8 @@
 package main.java.commands.subcommands;
 
 
+import main.java.commands.subcommands.ExecuteQueries.LatSearch;
 import main.java.commands.subcommands.ExecuteQueries.ShowListings;
-import main.java.commands.subcommands.InsertSub.Renter;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -12,15 +12,16 @@ import java.util.concurrent.Callable;
         mixinStandardHelpOptions = true,
         description = "this is the Query tool ",
         subcommands = {
-                ShowListings.class
+                ShowListings.class,
+                LatSearch.class
         })
 public class Queries implements Callable<Integer> {
+    public static void main(String[] args) {
+
+    }
+
     @Override
     public Integer call() throws Exception {
         return null;
-    }
-
-    public static void main(String[] args) {
-
     }
 }

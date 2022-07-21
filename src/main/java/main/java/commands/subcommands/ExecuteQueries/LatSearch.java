@@ -9,12 +9,18 @@ import java.sql.Statement;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(
-        name = "Listing",
-        description = "show all the listings available atm"
+        name = "LatSearch",
+        description = "Search listings by latitude longitude within 20kms"
 )
 
-public class ShowListings extends SubCmd implements Callable<Integer> {
+public class LatSearch extends SubCmd implements Callable<Integer> {
+    @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
+    boolean help;
+    @CommandLine.Option(names = {"-latitude"}, description = "latitude", required = true)
+    double lat1;
 
+    @CommandLine.Option(names = {"-longitude"}, description = "longitude", required = true)
+    double long1;
 
     @Override
     public Integer call() {
@@ -22,7 +28,8 @@ public class ShowListings extends SubCmd implements Callable<Integer> {
             Statement st = this.conn.createStatement();
             ResultSet resultSet = st.executeQuery("SELECT * from listing");
             String[] str = {"ListingID", "RoomType", "latitude", "longitude", "postalcode", "city", "country"};
-            Utils.printResult(str, resultSet);
+//            Utils.printResult(str, resultSet);
+            Utils.SearchByLatLong(str, resultSet, lat1, long1);
             st.close();
             this.conn.close();
         } catch (Exception e) {
