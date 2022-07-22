@@ -63,16 +63,18 @@ public class Utils {
             ArrayList<String[]> listings = new ArrayList<>();
             int columnsNumber = args.length;
             while (resultSet.next()) {
-                double lat2 = Double.parseDouble(resultSet.getString(3));
-                double long2 = Double.parseDouble(resultSet.getString(4));
+                //column number of latitude and longtitude
+                double lat2 = Double.parseDouble(resultSet.getString(4));
+                double long2 = Double.parseDouble(resultSet.getString(5));
+
                 double distance = calculateDistance(lat1, long1, lat2, long2);
                 if (distance <= 20) {
-                    String[] lst = new String[9];
+                    String[] lst = new String[columnsNumber + 2];
 
                     for (int i = 1; i <= columnsNumber; i++) {
                         lst[i - 1] = resultSet.getString(i);
                     }
-                    lst[7] = String.valueOf(distance);
+                    lst[columnsNumber] = String.valueOf(distance);
                     listings.add(lst);
                 }
 
@@ -80,7 +82,7 @@ public class Utils {
             Collections.sort(listings, new Comparator<String[]>() {
                 @Override
                 public int compare(String[] o1, String[] o2) {
-                    return Double.valueOf(Double.parseDouble(o1[7])).compareTo(Double.parseDouble(o2[7]));
+                    return Double.valueOf(Double.parseDouble(o1[columnsNumber])).compareTo(Double.parseDouble(o2[columnsNumber]));
                 }
             });
             for (int i = 0; i < listings.size(); i++) {
@@ -107,11 +109,11 @@ public class Utils {
             ArrayList<String[]> listings = new ArrayList<>();
             int columnsNumber = str.length;
             while (resultSet.next()) {
-                String cur_postal = resultSet.getString(5);
+                String cur_postal = resultSet.getString(6);
                 cur_postal = cur_postal.substring(0, 3);
                 postal = postal.substring(0, 3);
                 if (cur_postal.equals(postal)) {
-                    String[] lst = new String[9];
+                    String[] lst = new String[columnsNumber + 2];
                     for (int i = 1; i <= columnsNumber; i++) {
                         lst[i - 1] = resultSet.getString(i);
                     }
@@ -120,7 +122,7 @@ public class Utils {
             }
 
             for (int i = 0; i < listings.size(); i++) {
-                for (int j = 0; j < 8; j++) {
+                for (int j = 0; j < columnsNumber; j++) {
                     if (j > 0) System.out.print(",  ");
                     System.out.print(listings.get(i)[j] + " ");
                 }

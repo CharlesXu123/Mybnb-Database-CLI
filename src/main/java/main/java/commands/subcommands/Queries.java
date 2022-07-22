@@ -1,6 +1,7 @@
 package main.java.commands.subcommands;
 
 
+import main.java.commands.subcommands.ExecuteQueries.AddressSearch;
 import main.java.commands.subcommands.ExecuteQueries.LatSearch;
 import main.java.commands.subcommands.ExecuteQueries.PostalSearch;
 import main.java.commands.subcommands.ExecuteQueries.ShowListings;
@@ -15,7 +16,8 @@ import java.util.concurrent.Callable;
         subcommands = {
                 ShowListings.class,
                 LatSearch.class,
-                PostalSearch.class
+                PostalSearch.class,
+                AddressSearch.class
         })
 public class Queries implements Callable<Integer> {
     public static void main(String[] args) {

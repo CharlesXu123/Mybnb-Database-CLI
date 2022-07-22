@@ -20,21 +20,22 @@
 #     ('Palmer Hodge','P.O. Box 826, 651 Sed Street','1999-11-11','Iaculis Foundation',5);
 
 
-INSERT INTO listing (lid, type, latitude, longitude, postal_code, city, country)
-VALUES ('a', 'in', 3, 6, '379850', 'Tønsberg', 'Austria'),
-       ('b', 'sem', 8, 5, '70384', 'Tranås', 'Ukraine'),
-       ('c', 'ut', 1, 4, '89428', 'Warszawa', 'Italy'),
-       ('d', 'enim.', 1, 4, '514518', 'South Burlington', 'Turkey'),
-       ('e', 'facilisis', 8, 9, '60725', 'Hamburg', 'South Africa'),
-       ('f', 'tristique', 0, 5, '743722', 'Uitenhage', 'New Zealand'),
-       ('g', 'ut', 3, 6, '6294', 'Hengelo', 'Australia'),
-       ('h', 'Proin', 9, 10, '8144 UM', 'Saint-LŽger', 'New Zealand'),
-       ('i', 'scelerisque', 2, 10, '886384', 'Huntly', 'Spain'),
-       ('j', 'vitae', 7, 8, '32G 4X5', 'Virginia', 'Chile'),
-       ('k', 'vitae', 43.784635, -79.189862, '32G 4X5', 'Virginia', 'Chile'),
-       ('l', 'vitae', 43.778657, -79.251816, '32G 4X5', 'Virginia', 'Chile'),
-       ('m', 'vitae', 43.800476, -79.340542, '32G 4X5', 'Virginia', 'Chile'),
-       ('n', 'vitae', 43.829009, -79.161257, '32G 4X5', 'Virginia', 'Chile');
+INSERT INTO listing (lid, type, latitude, longitude, address, postal_code, city, country)
+VALUES ('a', 'in', 3, 6, 'what', '379850', 'Tønsberg', 'Austria'),
+       ('b', 'sem', 8, 5, 'what', '70384', 'Tranås', 'Ukraine'),
+       ('c', 'ut', 1, 4, 'what', '89428', 'Warszawa', 'Italy'),
+       ('d', 'enim.', 1, 4, 'what', '514518', 'South Burlington', 'Turkey'),
+       ('e', 'facilisis', 8, 9, 'what', '60725', 'Hamburg', 'South Africa'),
+       ('f', 'tristique', 0, 5, 'what', '743722', 'Uitenhage', 'New Zealand'),
+       ('g', 'ut', 3, 6, 'what', '6294', 'Hengelo', 'Australia'),
+       ('h', 'Proin', 9, 10, 'what', '8144 UM', 'Saint-LŽger', 'New Zealand'),
+       ('i', 'scelerisque', 2, 10, 'what', '886384', 'Huntly', 'Spain'),
+       ('j', 'vitae', 7, 8, 'what', '32G 4X5', 'Virginia', 'Chile'),
+       ('k', 'vitae', 43.784635, -79.189862, 'what', '32G 4X5', 'Virginia', 'Chile'),
+       ('l', 'vitae', 43.778657, -79.251816, 'what', '32G 4X5', 'Virginia', 'Chile'),
+       ('m', 'vitae', 43.800476, -79.340542, 'what', '32G 4X5', 'Virginia', 'Chile'),
+       ('n', 'vitae', 43.829009, -79.161257, 'what', '32G 4X5', 'Virginia', 'Chile'),
+       ('o', 'vitae', 43.829009, -79.161257, 'screw driver', '32G 4X5', 'Virginia', 'Chile');
 
 
 #

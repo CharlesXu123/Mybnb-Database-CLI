@@ -28,7 +28,7 @@ public class PostalSearch extends SubCmd implements Callable<Integer> {
             System.out.println("Postal is" + postal);
             Statement st = this.conn.createStatement();
             ResultSet resultSet = st.executeQuery("SELECT * from listing");
-            String[] str = {"ListingID", "RoomType", "latitude", "longitude", "postal_code", "city", "country"};
+            String[] str = {"ListingID", "RoomType", "address", "latitude", "longitude", "postal_code", "city", "country"};
             Utils utl = new Utils();
             utl.SearchByPostal(str, resultSet, postal);
             st.close();
