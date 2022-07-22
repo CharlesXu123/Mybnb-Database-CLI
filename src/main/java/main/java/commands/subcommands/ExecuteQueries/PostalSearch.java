@@ -1,5 +1,6 @@
 package main.java.commands.subcommands.ExecuteQueries;
 
+
 import main.java.commands.subcommands.SubCmd;
 import main.java.commands.subcommands.Utils;
 import picocli.CommandLine;
@@ -9,27 +10,27 @@ import java.sql.Statement;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(
-        name = "LatSearch",
+        name = "PostalSearch",
         description = "Search listings by latitude longitude within 20kms"
 )
 
-public class LatSearch extends SubCmd implements Callable<Integer> {
+public class PostalSearch extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
     boolean help;
-    @CommandLine.Option(names = {"-latitude"}, description = "latitude", required = true)
-    double lat1;
+    @CommandLine.Option(names = {"-postal_code"}, description = "postal code", required = true)
+    String postal;
 
-    @CommandLine.Option(names = {"-longitude"}, description = "longitude", required = true)
-    double long1;
 
     @Override
     public Integer call() {
         try {
+            postal = postal.replace("&", " ");
+            System.out.println("Postal is" + postal);
             Statement st = this.conn.createStatement();
             ResultSet resultSet = st.executeQuery("SELECT * from listing");
             String[] str = {"ListingID", "RoomType", "latitude", "longitude", "postal_code", "city", "country"};
             Utils utl = new Utils();
-            utl.SearchByLatLong(str, resultSet, lat1, long1);
+            utl.SearchByPostal(str, resultSet, postal);
             st.close();
             this.conn.close();
         } catch (Exception e) {
