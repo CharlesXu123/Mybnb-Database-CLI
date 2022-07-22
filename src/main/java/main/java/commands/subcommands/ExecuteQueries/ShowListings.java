@@ -21,7 +21,7 @@ public class ShowListings extends SubCmd implements Callable<Integer> {
         try {
             Statement st = this.conn.createStatement();
             ResultSet resultSet = st.executeQuery("SELECT * from listing");
-            String[] str = {"ListingID", "RoomType", "latitude", "longitude", "postalcode", "city", "country"};
+            String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
             Utils.printResult(str, resultSet);
             st.close();
             this.conn.close();

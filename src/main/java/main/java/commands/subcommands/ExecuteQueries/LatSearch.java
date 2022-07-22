@@ -29,7 +29,8 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
             ResultSet resultSet = st.executeQuery("SELECT * from listing");
             String[] str = {"ListingID", "RoomType", "latitude", "longitude", "postalcode", "city", "country"};
 //            Utils.printResult(str, resultSet);
-            Utils.SearchByLatLong(str, resultSet, lat1, long1);
+            Utils utl = new Utils();
+            utl.SearchByLatLong(str, resultSet, lat1, long1);
             st.close();
             this.conn.close();
         } catch (Exception e) {

@@ -32,7 +32,9 @@ VALUES ('a', 'in', 3, 6, '379850', 'Tønsberg', 'Austria'),
        ('i', 'scelerisque', 2, 10, '886384', 'Huntly', 'Spain'),
        ('j', 'vitae', 7, 8, '32G 4X5', 'Virginia', 'Chile'),
        ('k', 'vitae', 43.784635, -79.189862, '32G 4X5', 'Virginia', 'Chile'),
-       ('l', 'vitae', 43.778657, -79.251816, '32G 4X5', 'Virginia', 'Chile');
+       ('l', 'vitae', 43.778657, -79.251816, '32G 4X5', 'Virginia', 'Chile'),
+       ('m', 'vitae', 43.800476, -79.340542, '32G 4X5', 'Virginia', 'Chile'),
+       ('n', 'vitae', 43.829009, -79.161257, '32G 4X5', 'Virginia', 'Chile');
 
 
 #
