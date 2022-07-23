@@ -18,4 +18,10 @@ public class SubCmd {
             throw new RuntimeException(e);
         }
     }
+
+    public void cleanUp(ResultSet rs, Statement st) throws SQLException {
+        if (rs != null) {rs.close();}
+        if (st != null) {st.close();}
+        if (this.conn != null) {this.conn.close();}
+    }
 }

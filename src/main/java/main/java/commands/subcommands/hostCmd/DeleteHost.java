@@ -11,6 +11,8 @@ import java.util.concurrent.Callable;
         description = "delete a host"
 )
 public class DeleteHost extends SubCmd implements Callable<Integer> {
+    @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
+    boolean help;
     @CommandLine.Option(names = {"-uId"}, description = "host's uId", required = true)
     String uId;
 

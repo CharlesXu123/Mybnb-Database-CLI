@@ -1408,59 +1408,53 @@ lId</ColNames>
       <SourceTextLength>250</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
-    <trigger id="371" parent="292" name="update_rented_trigger">
-      <Definer>root@localhost</Definer>
-      <Events>U</Events>
-      <SourceTextLength>323</SourceTextLength>
-      <Turn>before-row</Turn>
-    </trigger>
-    <column id="372" parent="293" name="uId">
+    <column id="371" parent="293" name="uId">
       <DataType>char(36)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="373" parent="293" name="name">
+    <column id="372" parent="293" name="name">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="374" parent="293" name="address">
+    <column id="373" parent="293" name="address">
       <DataType>varchar(225)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="375" parent="293" name="date_of_birth">
+    <column id="374" parent="293" name="date_of_birth">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="376" parent="293" name="occupation">
+    <column id="375" parent="293" name="occupation">
       <DataType>varchar(225)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="377" parent="293" name="payment_info">
+    <column id="376" parent="293" name="payment_info">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <index id="378" parent="293" name="PRIMARY">
+    <index id="377" parent="293" name="PRIMARY">
       <ColNames>uId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="379" parent="293" name="PRIMARY">
+    <key id="378" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <trigger id="380" parent="293" name="renter_trigger">
+    <trigger id="379" parent="293" name="renter_trigger">
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>237</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
-    <trigger id="381" parent="293" name="renter_delete_trigger">
+    <trigger id="380" parent="293" name="renter_delete_trigger">
       <Definer>root@localhost</Definer>
       <Events>D</Events>
       <SourceTextLength>75</SourceTextLength>

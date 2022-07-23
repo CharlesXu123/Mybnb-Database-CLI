@@ -1,9 +1,6 @@
 package main.java.commands.subcommands;
 
-import main.java.commands.subcommands.hostCmd.AddHost;
-import main.java.commands.subcommands.hostCmd.CancelBooking;
-import main.java.commands.subcommands.hostCmd.DeleteHost;
-import main.java.commands.subcommands.hostCmd.MyBookings;
+import main.java.commands.subcommands.hostCmd.*;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -17,6 +14,10 @@ import java.util.concurrent.Callable;
                 DeleteHost.class,
                 MyBookings.class,
                 CancelBooking.class,
+                CreateListing.class,
+                MyListings.class,
+                UpdateAmenities.class,
+                UpdateListingInfo.class
         })
 public class Host implements Callable<Integer> {
     @Override

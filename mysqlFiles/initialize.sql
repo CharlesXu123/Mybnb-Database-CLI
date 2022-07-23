@@ -84,7 +84,7 @@ CREATE TABLE available (
                            lId char(36) NOT NULL,
                            query_date date NOT NULL,
                            available boolean default FALSE,
-                           price double not null default 0,
+                           price double not null default 0 check ( price >= 0 ),
                            primary key(lId, query_date),
                            FOREIGN KEY (lId)
                             REFERENCES listing(lId)

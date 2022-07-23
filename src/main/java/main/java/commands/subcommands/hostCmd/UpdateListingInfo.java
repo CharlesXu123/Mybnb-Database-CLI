@@ -10,5 +10,66 @@ package main.java.commands.subcommands.hostCmd;
 //    that day). The host can change the availability of a listing on a date it is
 //    available (and make it unavailable for rent that date).
 
-public class UpdateListingInfo {
+import main.java.commands.subcommands.SubCmd;
+import picocli.CommandLine;
+
+import java.sql.Statement;
+import java.util.concurrent.Callable;
+
+@CommandLine.Command(
+        name = "UpdateListingInfo",
+        description = "host can update listing's availability and price use this command")
+public class UpdateListingInfo extends SubCmd implements Callable<Integer> {
+    @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
+    boolean help;
+
+    @CommandLine.Option(names = {"-lId"}, description = "listing Id", required = true)
+    String lId;
+
+    @CommandLine.Option(names = {"-startDate"}, description = "start date for update", required = true)
+    String start_date;
+
+    @CommandLine.Option(names = {"-endDate"}, description = "end date for update", required = true)
+    String end_date;
+
+    @CommandLine.Option(names = {"-price"}, description = "update the listing price between startDate and endDate if given")
+    String price = "not given";
+
+    @CommandLine.Option(names = {"-setUnavailable"}, description = "set listing as unavailable between startDate and endDate if given", negatable = true)
+    boolean setUnavailable;
+
+    private void parseInput() {
+        lId = lId.replace("&", " ");
+        start_date = start_date.replace("&", " ");
+        end_date = end_date.replace("&", " ");
+        price = price.replace("&", " ");
+    }
+    @Override
+    public Integer call() throws Exception {
+        parseInput();
+        try {
+            Statement st = this.conn.createStatement();
+            if (!price.equals("not given")) {
+                String query1 = "UPDATE available SET price='%s' WHERE lId = '%s' AND query_date >= '%s' AND query_date <= '%s';";
+                query1 = String.format(query1, price, lId, start_date, end_date);
+                st.executeUpdate(query1);
+            }
+            String query2;
+            if (setUnavailable) {
+                query2 = "UPDATE available SET available=false WHERE lId = '%s' AND query_date >= '%s' AND query_date <= '%s';";
+            }
+            else {
+                query2 = "UPDATE available SET available=true WHERE lId = '%s' AND query_date >= '%s' AND query_date <= '%s';";
+            }
+            query2 = String.format(query2, lId, start_date, end_date);
+            st.executeUpdate(query2);
+            System.out.println("update listing info");
+        }
+        catch (Exception e) {
+            System.err.println("Got an error!");
+            System.err.println(e);
+            return 0;
+        }
+        return 1;
+    }
 }

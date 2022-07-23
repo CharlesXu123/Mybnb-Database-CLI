@@ -42,10 +42,33 @@ CREATE TRIGGER update_rented_trigger
         UPDATE available SET available=true WHERE available.lId = NEW.lId AND available.query_date >= NEW.start_date AND available.query_date<= NEW.end_date;
     end;
 
-UPDATE rented SET canceled=true WHERE rentedId='3_r';
+UPDATE rented SET canceled=false WHERE rentedId='3_r';
 
 DROP TRIGGER update_rented_trigger;
 
 UPDATE rented SET canceled=true WHERE rentedId='2_r';
 
+CREATE TRIGGER insert_listing_trigger
+    AFTER INSERT ON listing
+    FOR EACH ROW
+BEGIN
+    INSERT INTO owned VALUES (NEW.lId, '2');
+end;
+
+INSERT INTO owned VALUES ('10i', 2);
+
+INSERT INTO listing(type,latitude,longitude,postal_code,city,country)
+VALUES ('room','123','123','123','toronto','canada');
+
+DROP TRIGGER insert_listing_trigger;
+
+select listing.* from listing,owned where 1=1;
+
+INSERT INTO has VALUES ('2i',(SELECT aId FROM amenities WHERE amenity='a'));
+
+DELETE FROM has WHERE lId='2i';
+
+UPDATE available SET price='1.1ab' WHERE true;
+
+SELECT price*2 from available;
 

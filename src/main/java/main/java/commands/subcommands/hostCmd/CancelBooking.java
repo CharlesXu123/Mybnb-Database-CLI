@@ -15,11 +15,15 @@ public class CancelBooking extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
     boolean help;
 
-    @CommandLine.Option(names = {"-rentedId"}, description = "rented(booking) Id")
+    @CommandLine.Option(names = {"-rentedId"}, description = "rented(booking) Id",required = true)
     String rentedId;
+
+    @CommandLine.Option(names = {"-hId"}, description = "host Id", required = true)
+    String hId;
 
     private void parseInput() {
         rentedId = rentedId.replace("&", " ");
+        hId = hId.replace("&", " ");
     }
 
     public Integer call() {
@@ -36,7 +40,7 @@ public class CancelBooking extends SubCmd implements Callable<Integer> {
                         UPDATE available SET available=true WHERE available.lId = NEW.lId AND available.query_date >= NEW.start_date AND available.query_date<= NEW.end_date;
                     end;
                 
-                UPDATE rented SET canceled=true WHERE rentedId='%s';
+                UPDATE rented SET canceled=true WHERE rentedId='%s' AND hId='%s';
                 
                 DROP TRIGGER update_rented_trigger;
                 """;
