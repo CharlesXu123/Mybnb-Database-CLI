@@ -10,7 +10,7 @@ public class SubCmd {
         try {
 //            Dotenv dotenv = Dotenv.configure().load();
 //            String pass = dotenv.get("PASSWORD");
-            String url = "jdbc:mysql://127.0.0.1/c43Project";
+            String url = "jdbc:mysql://127.0.0.1/c43Project?allowMultiQueries=true";
             String username = "root";
             Class.forName("com.mysql.cj.jdbc.Driver");
             this.conn = DriverManager.getConnection(url, username,  System.getenv("PASSWORD"));

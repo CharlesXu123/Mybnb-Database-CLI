@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="add being_rented table initailization">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/j_text_utils_0_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Utils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/MyBookings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/c43Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/c43Project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/test.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Host.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Host.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/SubCmd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/SubCmd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/CancelBooking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/CancelBooking.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +93,7 @@
       <recent name="$PROJECT_DIR$/mysqlFiles" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Mybnb host myBookings">
+  <component name="RunManager" selected="Application.documentation">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.App" />
       <module name="c43Project" />
@@ -130,6 +125,27 @@
       <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
       <module name="c43Project" />
       <option name="PROGRAM_PARAMETERS" value="Host Add -name=first&amp;renter -address=2&amp;my&amp;addre -DOB=2021-11-2 -occupation=student" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Mybnb host cancel bookings" type="Application" factoryName="Application">
+      <envs>
+        <env name="PASSWORD" value="apart1571709" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
+      <module name="c43Project" />
+      <option name="PROGRAM_PARAMETERS" value="Host CancelBooking -rentedId=5_r" />
       <extension name="net.ashald.envfile">
         <option name="IS_ENABLED" value="false" />
         <option name="IS_SUBST" value="false" />
@@ -260,7 +276,7 @@
       </envs>
       <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
       <module name="c43Project" />
-      <option name="PROGRAM_PARAMETERS" value="Insert renter -h" />
+      <option name="PROGRAM_PARAMETERS" value="Renter Add -h" />
       <extension name="net.ashald.envfile">
         <option name="IS_ENABLED" value="false" />
         <option name="IS_SUBST" value="false" />
@@ -298,6 +314,7 @@
       <item itemvalue="Application.Mybnb host delete" />
       <item itemvalue="Application.Mybnb host add" />
       <item itemvalue="Application.Mybnb host myBookings" />
+      <item itemvalue="Application.Mybnb host cancel bookings" />
       <item itemvalue="Application.Mybnb renter add" />
       <item itemvalue="Application.documentation" />
       <item itemvalue="Application.Mybnb test" />

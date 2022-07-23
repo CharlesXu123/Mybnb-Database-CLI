@@ -3,7 +3,6 @@ package main.java.commands.subcommands;
 import dnl.utils.text.table.TextTable;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -28,8 +28,24 @@ WHERE host.uId = '1';
 DELETE FROM renter
 WHERE renter.uId = '1';
 
-SELECT * FROM renter WHERE renter.uId = '1'
+SELECT * FROM renter WHERE renter.uId = '1';
 
 DELETE FROM listing WHERE listing.lId IN (SELECT lId FROM owned WHERE owned.uId = '1');
 
-SELECT * from rented WHERE hId='2';
+CREATE TRIGGER update_rented_trigger
+    BEFORE UPDATE ON rented
+    FOR EACH ROW
+    BEGIN
+        IF NEW.end_date < CURDATE() THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'you can not cancel complete booking!';
+        end if;
+        UPDATE available SET available=true WHERE available.lId = NEW.lId AND available.query_date >= NEW.start_date AND available.query_date<= NEW.end_date;
+    end;
+
+UPDATE rented SET canceled=true WHERE rentedId='3_r';
+
+DROP TRIGGER update_rented_trigger;
+
+UPDATE rented SET canceled=true WHERE rentedId='2_r';
+
+
