@@ -1,4 +1,4 @@
-package main.java.commands.subcommands.DeleteSub;
+package main.java.commands.subcommands.renterCmd;
 
 import main.java.commands.subcommands.SubCmd;
 import picocli.CommandLine;
@@ -7,29 +7,27 @@ import java.sql.PreparedStatement;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(
-        name = "host",
-        description = "delete a host"
-)
-public class Host extends SubCmd implements Callable<Integer> {
-    @CommandLine.Option(names = {"-uId"}, description = "host's uId", required = true)
+        name = "Delete",
+        description = "operation to delete renter")
+public class DeleteRenter extends SubCmd implements Callable<Integer> {
+    @CommandLine.Option(names = {"-uId"}, description = "renter's uId", required = true)
     String uId;
 
     private void parseInput() {
         uId = uId.replace("&", " ");
     }
-
     @Override
     public Integer call() throws Exception {
         parseInput();
         try{
             String query = """
-                DELETE FROM host
-                WHERE host.uId = (?);
+                DELETE FROM renter
+                WHERE renter.uId = (?);
                 """;
             PreparedStatement pst = this.conn.prepareStatement(query);
             pst.setString(1, uId);
             pst.executeUpdate();
-            System.out.println("host deleted");
+            System.out.println("renter deleted");
         }
         catch (Exception e) {
             System.err.println("Got an error!");

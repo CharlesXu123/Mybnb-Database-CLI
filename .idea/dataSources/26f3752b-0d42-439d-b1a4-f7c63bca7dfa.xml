@@ -1184,7 +1184,7 @@ aId</ColNames>
     <trigger id="324" parent="288" name="host_delete_trigger">
       <Definer>root@localhost</Definer>
       <Events>D</Events>
-      <SourceTextLength>172</SourceTextLength>
+      <SourceTextLength>171</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
     <check id="325" parent="289" name="listing_chk_1">
@@ -1452,6 +1452,12 @@ lId</ColNames>
       <Definer>root@localhost</Definer>
       <Events>I</Events>
       <SourceTextLength>237</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="380" parent="293" name="renter_delete_trigger">
+      <Definer>root@localhost</Definer>
+      <Events>D</Events>
+      <SourceTextLength>75</SourceTextLength>
       <Turn>before-row</Turn>
     </trigger>
   </database-model>

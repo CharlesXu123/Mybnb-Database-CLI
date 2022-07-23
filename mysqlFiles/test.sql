@@ -25,4 +25,11 @@ values ('1','a');
 DELETE FROM host
 WHERE host.uId = '1';
 
+DELETE FROM renter
+WHERE renter.uId = '1';
+
+SELECT * FROM renter WHERE renter.uId = '1'
+
 DELETE FROM listing WHERE listing.lId IN (SELECT lId FROM owned WHERE owned.uId = '1');
+
+

@@ -21,6 +21,13 @@ BEGIN
     END IF;
 END;
 
+CREATE TRIGGER renter_delete_trigger
+    BEFORE DELETE ON renter
+    FOR EACH ROW
+BEGIN
+    UPDATE rented SET canceled = true WHERE rented.rId = OLD.uId;
+end;
+
 CREATE TABLE host (
                         uId char(36) primary key,
                         name varchar(50) not null ,
@@ -46,7 +53,7 @@ CREATE TRIGGER host_delete_trigger
     FOR EACH ROW
 BEGIN
     DELETE FROM listing WHERE listing.lId IN (SELECT lId FROM owned WHERE owned.uId = OLD.uId);
-    UPDATE rented SET canceled = false WHERE rented.hId = OLD.uId;
+    UPDATE rented SET canceled = true WHERE rented.hId = OLD.uId;
 end;
 
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################

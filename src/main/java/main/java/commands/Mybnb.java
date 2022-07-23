@@ -1,8 +1,8 @@
 package main.java.commands;
 
-import main.java.commands.subcommands.Delete;
+import main.java.commands.subcommands.Renter;
 import main.java.commands.subcommands.Test;
-import main.java.commands.subcommands.Insert;
+import main.java.commands.subcommands.Host;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -17,8 +17,8 @@ import java.util.concurrent.Callable;
         parameterListHeading = "Params are:%n",
         optionListHeading = "Options are:%n",
         subcommands = {
-                Insert.class,
-                Delete.class,
+                Host.class,
+                Renter.class,
                 Test.class
         })
 public class Mybnb implements Callable<Integer> {
