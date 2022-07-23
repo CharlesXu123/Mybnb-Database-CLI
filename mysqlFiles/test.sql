@@ -32,4 +32,4 @@ SELECT * FROM renter WHERE renter.uId = '1'
 
 DELETE FROM listing WHERE listing.lId IN (SELECT lId FROM owned WHERE owned.uId = '1');
 
-
+SELECT * from rented WHERE hId='2';
