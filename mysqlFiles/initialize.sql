@@ -25,7 +25,7 @@ CREATE TRIGGER renter_delete_trigger
     BEFORE DELETE ON renter
     FOR EACH ROW
 BEGIN
-    UPDATE rented SET canceled = true WHERE rented.rId = OLD.uId;
+    UPDATE rented SET canceled = true WHERE rented.rId = OLD.uId AND rented.end_date > CURDATE();
 end;
 
 CREATE TABLE host (
@@ -53,7 +53,7 @@ CREATE TRIGGER host_delete_trigger
     FOR EACH ROW
 BEGIN
     DELETE FROM listing WHERE listing.lId IN (SELECT lId FROM owned WHERE owned.uId = OLD.uId);
-    UPDATE rented SET canceled = true WHERE rented.hId = OLD.uId;
+    UPDATE rented SET canceled = true WHERE rented.hId = OLD.uId AND rented.end_date > CURDATE();
 end;
 
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
@@ -152,9 +152,6 @@ BEGIN
     IF NEW.rentedId IS NULL THEN
         SET NEW.rentedId = uuid();
     end if;
-    IF new.start_date >= new.end_date THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid, start date earlier than end date';
-    END IF;
 END;
 
 # CREATE TRIGGER rented_update_trigger

@@ -46,8 +46,13 @@ public class AddHost extends SubCmd implements Callable<Integer> {
             pst.setString(2, address);
             pst.setString(3, data_of_birth);
             pst.setString(4, occupation);
-            pst.executeUpdate();
-            System.out.println("host created");
+            int action = pst.executeUpdate();
+            if (action > 0) {
+                System.out.println("host created");
+            }
+            else {
+                System.err.println("unable to create host");
+            }
         }
         catch (Exception e) {
             System.err.println("Got an error!");

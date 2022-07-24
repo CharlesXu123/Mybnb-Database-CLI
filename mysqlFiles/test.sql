@@ -72,3 +72,51 @@ UPDATE available SET price='1.1ab' WHERE true;
 
 SELECT price*2 from available;
 
+CREATE TRIGGER delete_listing_trigger
+    BEFORE DELETE ON listing
+    FOR EACH ROW
+    BEGIN
+        UPDATE rented SET canceled = true WHERE rented.lId = OLD.lId;
+    end;
+
+DELETE FROM listing WHERE lId='10i';
+
+DROP TRIGGER delete_listing_trigger;
+
+CREATE TRIGGER create_booking_trigger
+    BEFORE INSERT ON rented
+    FOR EACH ROW
+BEGIN
+    IF NEW.start_date > NEW.end_date THEN #OR NEW.start_date < CURDATE() THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid';
+    END IF;
+    IF EXISTS (SELECT * FROM available WHERE available.lId='1i' AND available.query_date<=NEW.start_date AND available.query_date>=NEW.end_date AND available=false) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'listing unavailable during this period';
+    end if;
+    UPDATE available SET available=false WHERE available.lId='1i' AND available.query_date<=NEW.start_date AND available.query_date>=NEW.end_date;
+END;
+
+UPDATE available set available=true where lId='1i';
+
+INSERT INTO rented(rId, lId, hId, start_date, end_date) values ('1','1i',(SELECT uId FROM owned WHERE owned.lId='1i'),'2022-05-24','2022-05-24');
+
+DROP TRIGGER create_booking_trigger;
+
+SELECT * FROM available WHERE available.lId='1i' AND available.query_date<='2022-05-24' AND available.query_date>='2022-05-24' AND available=false;
+
+DROP TRIGGER IF EXISTS update_available_trigger;
+CREATE TRIGGER update_available_trigger
+    BEFORE UPDATE ON available
+    FOR EACH ROW
+    BEGIN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'listing was booked during this period!';
+        IF EXISTS(SELECT * FROM rented WHERE rented.lId=NEW.lId AND ((start_date between '' AND '') OR (end_date between '' AND ''))) THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'listing was booked during this period!';
+        end if;
+    end;
+
+UPDATE available SET price='200' WHERE lId = '2i' AND query_date >= '2021-02-02' AND query_date <= '2021-02-02';
+
+SELECT * FROM rented WHERE rented.lId='2i' AND ((start_date between '2021-02-02' AND '2021-02-02') OR (end_date between '2021-02-02' AND '2021-02-02')) AND canceled=false;
+
+UPDATE rented SET canceled=false where lId='5i';

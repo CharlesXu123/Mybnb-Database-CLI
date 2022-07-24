@@ -5,6 +5,8 @@ import dnl.utils.text.table.TextTable;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.*;
+import java.util.Date;
 
 public class Utils {
     public static void printResult(String[] args, ResultSet resultSet) {
@@ -26,5 +28,19 @@ public class Utils {
             System.err.println("Got an error!");
             System.err.println(e);
         }
+    }
+
+    public static boolean validTime (String start_date, String end_date) {
+        try {
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date d1 = sdformat.parse(start_date);
+            Date d2 = sdformat.parse(end_date);
+            if(d1.compareTo(d2) <= 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 }

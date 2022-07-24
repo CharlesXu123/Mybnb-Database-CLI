@@ -48,6 +48,7 @@ public class CreateListing extends SubCmd implements Callable<Integer> {
         parseInput();
         try{
             String query = """
+                DROP TRIGGER IF EXISTS insert_listing_trigger;
                 CREATE TRIGGER insert_listing_trigger
                     AFTER INSERT ON listing
                     FOR EACH ROW

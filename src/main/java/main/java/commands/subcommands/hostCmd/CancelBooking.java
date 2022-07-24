@@ -30,7 +30,8 @@ public class CancelBooking extends SubCmd implements Callable<Integer> {
         parseInput();
         try{
             String query = """
-                CREATE TRIGGER update_rented_trigger
+                DROP TRIGGER IF EXISTS cancel_booking_trigger;
+                CREATE TRIGGER cancel_booking_trigger
                     BEFORE UPDATE ON rented
                     FOR EACH ROW
                     BEGIN
@@ -42,11 +43,12 @@ public class CancelBooking extends SubCmd implements Callable<Integer> {
                 
                 UPDATE rented SET canceled=true WHERE rentedId='%s' AND hId='%s';
                 
-                DROP TRIGGER update_rented_trigger;
+                DROP TRIGGER cancel_booking_trigger;
                 """;
             Statement st = this.conn.createStatement();
-            query = String.format(query,rentedId);
-            st.executeUpdate(query);
+            query = String.format(query,rentedId,hId);
+            int action = st.executeUpdate(query);
+            System.out.println(action);
             System.out.println("order canceled");
         }
         catch (Exception e) {

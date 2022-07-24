@@ -16,6 +16,8 @@ import picocli.CommandLine;
 import java.sql.Statement;
 import java.util.concurrent.Callable;
 
+import static main.java.commands.subcommands.Utils.validTime;
+
 @CommandLine.Command(
         name = "UpdateListingInfo",
         description = "host can update listing's availability and price use this command")
@@ -47,8 +49,25 @@ public class UpdateListingInfo extends SubCmd implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         parseInput();
+        if (!validTime(start_date, end_date)) {
+            System.err.println("invalid startDate or endDate");
+            return 0;
+        }
         try {
             Statement st = this.conn.createStatement();
+            String query = """
+                    DROP TRIGGER IF EXISTS update_available_trigger;
+                    CREATE TRIGGER update_available_trigger
+                        BEFORE UPDATE ON available
+                        FOR EACH ROW
+                        BEGIN
+                            IF EXISTS(SELECT * FROM rented WHERE rented.lId=NEW.lId AND ((start_date between '%s' AND '%s') OR (end_date between '%s' AND '%s')) AND canceled=false) THEN
+                                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'listing unavailable during this period';
+                            end if;
+                        end;
+                    """;
+            query = String.format(query, start_date, end_date, start_date, end_date);
+            st.executeUpdate(query);
             if (!price.equals("not given")) {
                 String query1 = "UPDATE available SET price='%s' WHERE lId = '%s' AND query_date >= '%s' AND query_date <= '%s';";
                 query1 = String.format(query1, price, lId, start_date, end_date);
