@@ -18,7 +18,8 @@ import java.util.concurrent.Callable;
                 MyListings.class,
                 UpdateAmenities.class,
                 UpdateListingInfo.class,
-                DeleteListing.class
+                DeleteListing.class,
+                CommentAndRate.class
         })
 public class Host implements Callable<Integer> {
     @Override

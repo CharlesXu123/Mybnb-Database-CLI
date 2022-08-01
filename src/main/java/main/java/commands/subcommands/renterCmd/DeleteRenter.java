@@ -10,6 +10,8 @@ import java.util.concurrent.Callable;
         name = "Delete",
         description = "operation to delete renter")
 public class DeleteRenter extends SubCmd implements Callable<Integer> {
+    @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
+    boolean help;
     @CommandLine.Option(names = {"-uId"}, description = "renter's uId", required = true)
     String uId;
 

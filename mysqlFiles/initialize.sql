@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenity,rented;
+DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenity,rented,calendar;
 
 CREATE TABLE renter (
     uId char(36) primary key,
@@ -91,6 +91,10 @@ CREATE TABLE available (
                             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE calendar (
+    query_date date not null primary key
+);
+
 CREATE TABLE amenity (
                            aId char(36) NOT NULL primary key,
                            amenity varchar(255)
@@ -153,22 +157,3 @@ BEGIN
         SET NEW.rentedId = uuid();
     end if;
 END;
-
-# CREATE TRIGGER rented_update_trigger
-#     BEFORE UPDATE ON rented
-#     FOR EACH ROW
-# BEGIN
-#     IF NEW.lId IS NUlL OR NEW.hId IS NULL OR NEW.rId IS NULL THEN
-#     SET NEW.canceled = true;
-# end if;
-#
-# end;
-
-# CREATE TRIGGER rented_cleanup_trigger
-#     AFTER UPDATE ON rented
-#     FOR EACH ROW
-# BEGIN
-#     IF OLD.lId IS NULL AND OLD.hId IS NULL AND OLD.rId IS NULL THEN
-#         DELETE FROM rented WHERE rented.rentedId = OLD.rentedId;
-#     end if;
-# end;

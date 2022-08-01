@@ -29,6 +29,7 @@ public class CancelBooking extends SubCmd implements Callable<Integer> {
         parseInput();
         try{
             String query = """
+                DROP TRIGGER IF EXISTS cancel_booking_trigger;
                 CREATE TRIGGER cancel_booking_trigger
                     BEFORE UPDATE ON rented
                     FOR EACH ROW

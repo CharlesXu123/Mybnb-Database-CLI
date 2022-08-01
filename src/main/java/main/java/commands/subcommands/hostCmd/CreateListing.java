@@ -48,19 +48,22 @@ public class CreateListing extends SubCmd implements Callable<Integer> {
         parseInput();
         try{
             String query = """
-                DROP TRIGGER IF EXISTS insert_listing_trigger;
-                CREATE TRIGGER insert_listing_trigger
-                    AFTER INSERT ON listing
-                    FOR EACH ROW
-                BEGIN
-                    INSERT INTO owned VALUES ('%s',NEW.lId);
-                end;
-                
-                INSERT INTO listing(type,latitude,longitude,postal_code,city,country)
-                VALUES ('%s','%s','%s','%s','%s','%s');
-                
-                DROP TRIGGER insert_listing_trigger
-                """;
+                    DROP TRIGGER IF EXISTS insert_listing_trigger;
+                    CREATE TRIGGER insert_listing_trigger
+                        AFTER INSERT ON listing
+                        FOR EACH ROW
+                    BEGIN
+                        INSERT INTO owned VALUES ('%s',NEW.lId);
+                        INSERT INTO available (lid, query_date)
+                            SELECT lId, query_date
+                            from calendar, (select lId from listing where lId=NEW.lId) as tmp;
+                    end;
+                                    
+                    INSERT INTO listing(type,latitude,longitude,postal_code,city,country)
+                    VALUES ('%s','%s','%s','%s','%s','%s');
+                                                       
+                    DROP TRIGGER insert_listing_trigger
+                    """;
             Statement st = this.conn.createStatement();
             query = String.format(query, hId, type, latitude, longitude, postal_code, city, country);
             st.executeUpdate(query);

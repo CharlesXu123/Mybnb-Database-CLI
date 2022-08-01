@@ -43,6 +43,7 @@ public class BookListing extends SubCmd implements Callable<Integer> {
         }
         try{
             String query = """
+                DROP TRIGGER IF EXISTS create_booking_trigger;
                 CREATE TRIGGER create_booking_trigger
                     BEFORE INSERT ON rented
                     FOR EACH ROW
@@ -50,10 +51,10 @@ public class BookListing extends SubCmd implements Callable<Integer> {
                     IF NEW.start_date > NEW.end_date OR NEW.start_date < CURDATE() THEN
                         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid';
                     END IF;
-                    IF EXISTS (SELECT * FROM available WHERE available.lId='%s' AND available.query_date<=NEW.start_date AND available.query_date>=NEW.end_date AND available=false) THEN
+                    IF EXISTS (SELECT * FROM available WHERE available.lId=NEW.lId AND available.query_date>=NEW.start_date AND available.query_date<=NEW.end_date AND available=false) THEN
                         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'listing unavailable during this period';
                     end if;
-                    UPDATE available SET available=false WHERE available.lId='%s' AND available.query_date<=NEW.start_date AND available.query_date>=NEW.end_date;
+                    UPDATE available SET available=false WHERE available.lId=NEW.lId AND available.query_date>=NEW.start_date AND available.query_date<=NEW.end_date;
                 END;
                 
                 INSERT INTO rented(rId, lId, hId, start_date, end_date) values ('%s','%s',(SELECT uId FROM owned WHERE owned.lId='%s'),'%s','%s');
@@ -61,7 +62,7 @@ public class BookListing extends SubCmd implements Callable<Integer> {
                 DROP TRIGGER create_booking_trigger;
                 """;
             Statement st = this.conn.createStatement();
-            query = String.format(query, lId, lId, rId, lId, lId, start_date, end_date);
+            query = String.format(query, rId, lId, lId, start_date, end_date);
             st.executeUpdate(query);
             System.out.println("booking created");
         }

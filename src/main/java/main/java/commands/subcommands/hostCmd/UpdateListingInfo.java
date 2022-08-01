@@ -61,12 +61,15 @@ public class UpdateListingInfo extends SubCmd implements Callable<Integer> {
                         BEFORE UPDATE ON available
                         FOR EACH ROW
                         BEGIN
+                            IF '%s' < CURDATE() THEN
+                                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'cannot update past listing price and availability';
+                            end if;
                             IF EXISTS(SELECT * FROM rented WHERE rented.lId=NEW.lId AND ((start_date between '%s' AND '%s') OR (end_date between '%s' AND '%s')) AND canceled=false) THEN
                                 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'listing unavailable during this period';
                             end if;
                         end;
                     """;
-            query = String.format(query, start_date, end_date, start_date, end_date);
+            query = String.format(query, start_date, start_date, end_date, start_date, end_date);
             st.executeUpdate(query);
             if (!price.equals("not given")) {
                 String query1 = "UPDATE available SET price='%s' WHERE lId = '%s' AND query_date >= '%s' AND query_date <= '%s';";
@@ -82,6 +85,7 @@ public class UpdateListingInfo extends SubCmd implements Callable<Integer> {
             }
             query2 = String.format(query2, lId, start_date, end_date);
             st.executeUpdate(query2);
+            st.executeUpdate("DROP TRIGGER IF EXISTS update_available_trigger;");
             System.out.println("update listing info");
         }
         catch (Exception e) {

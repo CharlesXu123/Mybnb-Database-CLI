@@ -1,9 +1,6 @@
 package main.java.commands.subcommands;
 
-import main.java.commands.subcommands.renterCmd.AddRenter;
-import main.java.commands.subcommands.renterCmd.CancelBooking;
-import main.java.commands.subcommands.renterCmd.DeleteRenter;
-import main.java.commands.subcommands.renterCmd.MyBookings;
+import main.java.commands.subcommands.renterCmd.*;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -16,7 +13,9 @@ import java.util.concurrent.Callable;
                 AddRenter.class,
                 DeleteRenter.class,
                 MyBookings.class,
-                CancelBooking.class
+                CancelBooking.class,
+                BookListing.class,
+                CommentAndRate.class
         })
 public class Renter implements Callable<Integer> {
     @Override

@@ -120,3 +120,50 @@ UPDATE available SET price='200' WHERE lId = '2i' AND query_date >= '2021-02-02'
 SELECT * FROM rented WHERE rented.lId='2i' AND ((start_date between '2021-02-02' AND '2021-02-02') OR (end_date between '2021-02-02' AND '2021-02-02')) AND canceled=false;
 
 UPDATE rented SET canceled=false where lId='5i';
+
+INSERT INTO available(lid, query_date)
+SELECT lId, query_date
+from calendar, (select lId from listing where lId='1i') as tmp;
+
+SELECT lId, query_date
+from calendar, (select lId from listing where lId='1i') as tmp;
+
+SELECT lId, query_date
+from calendar, (select lId from listing where true) as tmp;
+
+SELECT lId, query_date
+from calendar, (select lId from listing) as tmp;
+
+DROP TRIGGER IF EXISTS create_booking_trigger;
+CREATE TRIGGER create_booking_trigger
+    BEFORE INSERT ON rented
+    FOR EACH ROW
+BEGIN
+    IF NEW.start_date > NEW.end_date OR NEW.start_date < CURDATE() THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid';
+    END IF;
+    IF EXISTS (SELECT * FROM available WHERE available.lId=NEW.lId AND available.query_date>=NEW.start_date AND available.query_date<=NEW.end_date AND available=false) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'his period';
+    end if;
+    UPDATE available SET available=false WHERE available.lId=NEW.lId AND available.query_date>=NEW.start_date AND available.query_date<=NEW.end_date;
+END;
+
+INSERT INTO rented(rId, lId, hId, start_date, end_date) values ('2','2i',(SELECT uId FROM owned WHERE owned.lId='2i'),'2022-09-03','2022-09-04');
+
+DROP TRIGGER create_booking_trigger;
+
+SELECT EXISTS(SELECT * FROM available WHERE available.lId='2i' AND available.query_date>='2022-09-01' AND available.query_date<='2022-09-02'AND available=false);
+
+CREATE TRIGGER renter_comment_trigger
+    BEFORE UPDATE ON rented
+    FOR EACH ROW
+BEGIN
+    IF OLD.canceled = true THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'can not comment or rate on canceled bookings';
+    end if;
+end;
+
+SELECT COUNT(*), city, postal_code
+FROM rented r JOIN listing l on r.lId = l.lId
+WHERE r.start_date >= '2001-01-01' AND r.end_date <= '2022-10-10' AND l.city = 'Llanquihue' AND l.postal_code = '735071'
+GROUP BY city, postal_code;

@@ -101,18 +101,32 @@ VALUES
     ('9i',9),
     ('10i',10);
 
-INSERT INTO available (lId,query_date)
-VALUES
-    ('1i','2022-05-24'),
-    ('2i','2022-10-04'),
-    ('3i','2022-01-19'),
-    ('4i','2022-04-11'),
-    ('5i','2022-08-26'),
-    ('6i','2022-10-24'),
-    ('7i','2022-07-21'),
-    ('8i','2022-10-03'),
-    ('9i','2022-05-01'),
-    ('10i','2022-08-28');
+INSERT INTO calendar
+select * from
+    (select adddate('1970-01-01',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) gen_date from
+                                                                                        (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+                                                                                        (select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+                                                                                        (select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,
+                                                                                        (select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,
+                                                                                        (select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v
+where gen_date between '2022-01-01' and '2022-12-31';
+
+INSERT INTO available (lid, query_date)
+SELECT lId, query_date
+from calendar, (select lId from listing where TRUE) as tmp;
+
+# INSERT INTO available (lId,query_date)
+# VALUES
+#     ('1i','2022-05-24'),
+#     ('2i','2022-10-04'),
+#     ('3i','2022-01-19'),
+#     ('4i','2022-04-11'),
+#     ('5i','2022-08-26'),
+#     ('6i','2022-10-24'),
+#     ('7i','2022-07-21'),
+#     ('8i','2022-10-03'),
+#     ('9i','2022-05-01'),
+#     ('10i','2022-08-28');
 
 
 INSERT INTO owned (lId,uId)
