@@ -167,3 +167,8 @@ SELECT COUNT(*), city, postal_code
 FROM rented r JOIN listing l on r.lId = l.lId
 WHERE r.start_date >= '2001-01-01' AND r.end_date <= '2022-10-10' AND l.city = 'Llanquihue' AND l.postal_code = '735071'
 GROUP BY city, postal_code;
+
+SELECT l.lId, renter_comments
+FROM rented r LEFT JOIN listing l on r.lId = l.lId
+WHERE renter_comments IS NOT NULL
+ORDER BY lId;

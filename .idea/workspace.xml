@@ -5,40 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="add being_rented table initailization">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_davidmoten_guava_mini_0_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_davidmoten_rtree_0_8_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_kennycason_kumo_api_1_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_kennycason_kumo_core_1_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxjava_1_3_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_12_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Report.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/NumberOfBookings.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/ListingWordCloud.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_36.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_30.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022_7_22,_7_14_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022_7_22__7_14_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2022-07-19,_9_40_a_m__[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2022-07-19__9_40_a_m___Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/c43Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/c43Project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysqlFiles/initialize.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/initialize.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/test.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/Mybnb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/Mybnb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Host.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Host.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Renter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Renter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/CommentAndRate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/CommentAndRate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/CreateListing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/CreateListing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/UpdateListingInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/hostCmd/UpdateListingInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/BookListing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/BookListing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/CancelBooking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/CancelBooking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/CommentAndRate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/CommentAndRate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/DeleteRenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/renterCmd/DeleteRenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/commands/Mybnb.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/commands/Mybnb.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +96,7 @@
       <recent name="$PROJECT_DIR$/mysqlFiles" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.Mybnb report listing word cloud">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.App" />
       <module name="c43Project" />
@@ -452,6 +425,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Mybnb report listing word cloud" type="Application" factoryName="Application">
+      <envs>
+        <env name="PASSWORD" value="apart1571709" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
+      <module name="c43Project" />
+      <option name="PROGRAM_PARAMETERS" value="Report ListingWordCloud" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="documentation" type="Application" factoryName="Application">
       <envs>
         <env name="PASSWORD" value="apart1571709" />
@@ -513,6 +507,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.Mybnb report listing word cloud" />
       <item itemvalue="Application.Mybnb deleteListing" />
       <item itemvalue="Application.Mybnb renter delete" />
       <item itemvalue="Application.Mybnb host delete" />
@@ -568,7 +563,7 @@
       <workItem from="1658764544280" duration="556000" />
       <workItem from="1659126325945" duration="5038000" />
       <workItem from="1659131378753" duration="6837000" />
-      <workItem from="1659294842172" duration="1605000" />
+      <workItem from="1659294842172" duration="5193000" />
     </task>
     <task id="LOCAL-00001" summary="add being_rented table initailization">
       <created>1658346804801</created>

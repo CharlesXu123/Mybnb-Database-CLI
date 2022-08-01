@@ -1,9 +1,12 @@
 package main.java.commands.subcommands;
 
+import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import dnl.utils.text.table.TextTable;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.text.*;
 import java.util.Date;
@@ -42,5 +45,22 @@ public class Utils {
             return false;
         }
         return false;
+    }
+
+    public static List<WordFrequency> getWordCloud(List<String> texts) {
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        Collection<String> stopWords = new ArrayList<>();
+        stopWords.add("the");
+        stopWords.add("a");
+        stopWords.add("an");
+        stopWords.add("and");
+        stopWords.add("that");
+        stopWords.add("for");
+        stopWords.add("it");
+        stopWords.add("he");
+        stopWords.add("she");
+        frequencyAnalyzer.setStopWords(stopWords);
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
+        return wordFrequencies;
     }
 }
