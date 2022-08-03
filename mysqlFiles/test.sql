@@ -172,3 +172,12 @@ SELECT l.lId, renter_comments
 FROM rented r LEFT JOIN listing l on r.lId = l.lId
 WHERE renter_comments IS NOT NULL
 ORDER BY lId;
+
+SELECT country, city, h.uId, name, count(*), (SELECT COUNT(*)
+                                              FROM listing
+                                              WHERE listing.country = l.country AND listing.city = l.city) totol
+FROM listing l JOIN owned o on l.lId = o.lId JOIN host h on h.uId = o.uId
+GROUP BY country, city, uId, name
+HAVING COUNT(*) > (SELECT COUNT(*)
+                   FROM listing
+                   WHERE listing.country = l.country AND listing.city = l.city)/10;

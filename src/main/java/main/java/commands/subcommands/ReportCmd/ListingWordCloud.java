@@ -25,7 +25,7 @@ public class ListingWordCloud extends SubCmd implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         try {
-            System.out.println("set of most popular noun phrases associated with the listing");
+            System.out.println("Set of most popular noun phrases associated with the listing: ");
             String query1 = "SELECT lId FROM listing";
             Statement st1 = this.conn.createStatement();
             ResultSet rs1 = st1.executeQuery(query1);

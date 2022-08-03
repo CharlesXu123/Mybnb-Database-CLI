@@ -1,5 +1,6 @@
 package main.java.commands.subcommands;
 
+import main.java.commands.subcommands.ReportCmd.FindCommercialHosts;
 import main.java.commands.subcommands.ReportCmd.ListingWordCloud;
 import main.java.commands.subcommands.ReportCmd.NumberOfBookings;
 import main.java.commands.subcommands.renterCmd.*;
@@ -12,7 +13,8 @@ import java.util.concurrent.Callable;
         description = "reports",
         subcommands = {
                 NumberOfBookings.class,
-                ListingWordCloud.class
+                ListingWordCloud.class,
+                FindCommercialHosts.class
         })
 public class Report implements Callable<Integer> {
         @Override
