@@ -4,6 +4,7 @@ import main.java.commands.subcommands.SubCmd;
 import main.java.commands.subcommands.Utils;
 import picocli.CommandLine;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.concurrent.Callable;
@@ -26,10 +27,20 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
     public Integer call() {
         try {
             Statement st = this.conn.createStatement();
-            ResultSet resultSet = st.executeQuery("SELECT * from listing");
+            String query = """
+                    SELECT lId, type, address, latitude,longitude, postal_code, city, country 
+                    FROM listing
+                    WHERE ((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20;
+                    """;
+
+            PreparedStatement pst = this.conn.prepareStatement(query);
+            pst.setDouble(1, lat1);
+            pst.setDouble(2, lat1);
+            pst.setDouble(3, long1);
+            ResultSet resultSet = pst.executeQuery();
             String[] str = {"ListingID", "RoomType", "address", "latitude", "longitude", "postal_code", "city", "country"};
-            Utils utl = new Utils();
-            utl.SearchByLatLong(str, resultSet, lat1, long1);
+
+            Utils.printResult(str, resultSet);
             st.close();
             this.conn.close();
         } catch (Exception e) {

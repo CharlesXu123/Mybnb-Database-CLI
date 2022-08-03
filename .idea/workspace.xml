@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysqlFiles/initialize.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/initialize.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/PostalSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/PostalSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/ShowListings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/ShowListings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Queries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Queries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/randomTestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/randomTestClass.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +99,7 @@
       <recent name="$PROJECT_DIR$/mysqlFiles" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Mybnb AddressSearch">
+  <component name="RunManager" selected="Application.Mybnb LatSearch">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.App" />
       <module name="c43Project" />
