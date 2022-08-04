@@ -3,6 +3,18 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -34,4 +46,5 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
-.idea/
+.idea/workspace.xml
+.idea/workspace.xml
