@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenity,rented;
+DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenity,rented,calendar;
 
 CREATE TABLE renter
 (
@@ -11,8 +11,7 @@ CREATE TABLE renter
 );
 
 CREATE TRIGGER renter_trigger
-    BEFORE INSERT
-    ON renter
+    BEFORE INSERT ON renter
     FOR EACH ROW
 BEGIN
     IF new.uId IS NULL THEN
@@ -23,18 +22,23 @@ BEGIN
     END IF;
 END;
 
-CREATE TABLE host
-(
-    uId           char(36) primary key,
-    name          varchar(50)  not null,
-    address       varchar(225) not null,
-    date_of_birth DATE         not null,
-    occupation    varchar(225) not null
+CREATE TRIGGER renter_delete_trigger
+    BEFORE DELETE ON renter
+    FOR EACH ROW
+BEGIN
+    UPDATE rented SET canceled = true WHERE rented.rId = OLD.uId AND rented.end_date > CURDATE();
+end;
+
+CREATE TABLE host (
+                        uId char(36) primary key,
+                        name varchar(50) not null ,
+                        address varchar(225) not null ,
+                        date_of_birth DATE not null,
+                        occupation varchar(225) not null
 );
 
 CREATE TRIGGER host_trigger
-    BEFORE INSERT
-    ON host
+    BEFORE INSERT ON host
     FOR EACH ROW
 BEGIN
     IF new.uId IS NULL THEN
@@ -44,6 +48,14 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'need be at least 18 years old!';
     END IF;
 END;
+
+CREATE TRIGGER host_delete_trigger
+    BEFORE DELETE ON host
+    FOR EACH ROW
+BEGIN
+    DELETE FROM listing WHERE listing.lId IN (SELECT lId FROM owned WHERE owned.uId = OLD.uId);
+    UPDATE rented SET canceled = true WHERE rented.hId = OLD.uId AND rented.end_date > CURDATE();
+end;
 
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
@@ -72,22 +84,24 @@ BEGIN
 end;
 # insert into listing values(1,NULL,3,4,NULL,NULL, NULL);
 # type: full house, apartment, room
-CREATE TABLE available
-(
-    lId        char(36) NOT NULL,
-    query_date date     NOT NULL,
-    available  boolean           default FALSE,
-    price      double   not null default 0,
-    primary key (lId, query_date),
-    FOREIGN KEY (lId)
-        REFERENCES listing (lId)
-        ON UPDATE CASCADE ON DELETE CASCADE
+CREATE TABLE available (
+                           lId char(36) NOT NULL,
+                           query_date date NOT NULL,
+                           available boolean default FALSE,
+                           price double not null default 0 check ( price >= 0 ),
+                           primary key(lId, query_date),
+                           FOREIGN KEY (lId)
+                            REFERENCES listing(lId)
+                            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE amenity
-(
-    aId     char(36) NOT NULL primary key,
-    amenity varchar(255)
+CREATE TABLE calendar (
+    query_date date not null primary key
+);
+
+CREATE TABLE amenity (
+                           aId char(36) NOT NULL primary key,
+                           amenity varchar(255)
 );
 
 CREATE TABLE has
@@ -103,74 +117,48 @@ CREATE TABLE has
 ################# owned, rented #############################################
 ################# owned, rented #############################################
 
-CREATE TABLE owned
-(
-    uId char(36) not null,
-    lId char(36) not null,
-    PRIMARY KEY (uId, lId),
-    FOREIGN KEY (uId)
-        REFERENCES renter (uId)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (lId)
-        REFERENCES listing (lId)
-        ON UPDATE CASCADE ON DELETE CASCADE
+CREATE TABLE owned (
+                       uId char(36) not null ,
+                       lId char(36) not null ,
+                       PRIMARY KEY (uId, lId),
+                       FOREIGN KEY (uId)
+                           REFERENCES host(uId)
+                           ON UPDATE CASCADE ON DELETE CASCADE ,
+                       FOREIGN KEY (lId)
+                           REFERENCES listing(lId)
+                           ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE rented
-(
-    rentedId        char(36),
-    rId             char(36),
-    lId             char(36),
-    hId             char(36),
-    start_date      DATE not null,
-    end_date        DATE not null,
-    canceled        BOOLEAN      default FALSE,
-    host_rating     INTEGER      default null check (host_rating >= 0 AND host_rating <= 5),
-    renter_rating   INTEGER      default null check (renter_rating >= 0 AND renter_rating <= 5),
-    host_comments   varchar(255) default null,
+
+CREATE TABLE rented (
+    rentedId char(36),
+    rId char(36),
+    lId char(36),
+    hId char(36),
+    start_date DATE not null,
+    end_date DATE not null,
+    canceled BOOLEAN default FALSE,
+    host_rating INTEGER default null check (host_rating >= 0 AND host_rating <= 5),
+    renter_rating INTEGER default null check (renter_rating >= 0 AND renter_rating <= 5),
+    host_comments varchar(255) default null,
     renter_comments varchar(255) default null,
     primary key (rentedId),
     FOREIGN KEY (rId)
-        REFERENCES renter (uId)
-        ON UPDATE CASCADE ON DELETE SET NULL,
+        REFERENCES renter(uId)
+        ON UPDATE CASCADE ON DELETE SET NULL ,
     FOREIGN KEY (hId)
-        REFERENCES host (uid)
-        ON UPDATE CASCADE ON DELETE SET NULL,
+        REFERENCES host(uid)
+        ON UPDATE CASCADE ON DELETE SET NULL ,
     FOREIGN KEY (lId)
-        REFERENCES listing (lId)
+        REFERENCES listing(lId)
         ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TRIGGER rented_insert_trigger
-    BEFORE INSERT
-    ON rented
+    BEFORE INSERT ON rented
     FOR EACH ROW
 BEGIN
     IF NEW.rentedId IS NULL THEN
         SET NEW.rentedId = uuid();
     end if;
-    IF new.start_date >= new.end_date THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'rent date invalid, start date earlier than end date';
-    END IF;
 END;
-
-CREATE TRIGGER rented_update_trigger
-    BEFORE UPDATE
-    ON rented
-    FOR EACH ROW
-BEGIN
-    IF NEW.lId IS NUlL OR NEW.hId IS NULL OR NEW.rId IS NULL THEN
-        SET NEW.canceled = true;
-    end if;
-
-end;
-
-CREATE TRIGGER rented_cleanup_trigger
-    AFTER UPDATE
-    ON rented
-    FOR EACH ROW
-BEGIN
-    IF OLD.lId IS NULL AND OLD.hId IS NULL AND OLD.rId IS NULL THEN
-        DELETE FROM rented WHERE rented.rentedId = OLD.rentedId;
-    end if;
-end;
