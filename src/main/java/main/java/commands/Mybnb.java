@@ -1,10 +1,6 @@
 package main.java.commands;
 
-import main.java.commands.subcommands.Renter;
-import main.java.commands.subcommands.Report;
-import main.java.commands.subcommands.Queries;
-import main.java.commands.subcommands.Test;
-import main.java.commands.subcommands.Host;
+import main.java.commands.subcommands.*;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -22,8 +18,8 @@ import java.util.concurrent.Callable;
                 Host.class,
                 Renter.class,
                 Report.class,
-                Test.class,
-                Queries.class
+                Queries.class,
+                Toolkit.class
         })
 public class Mybnb implements Callable<Integer> {
     final Integer SUCCESS = 0;

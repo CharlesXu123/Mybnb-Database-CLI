@@ -181,3 +181,31 @@ GROUP BY country, city, uId, name
 HAVING COUNT(*) > (SELECT COUNT(*)
                    FROM listing
                    WHERE listing.country = l.country AND listing.city = l.city)/10;
+
+SELECT @city := listing.city, @country := listing.country, @zip := listing.postal_code
+FROM listing
+WHERE lId='10i';
+
+SELECT AVG(price)
+FROM available a JOIN listing l on l.lId = a.lId
+WHERE available = true AND city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3);
+
+SELECT AVG(price)
+FROM available a JOIN listing l on l.lId = a.lId
+WHERE available = true;
+
+SELECT @city := listing.city, @country := listing.country, @zip := listing.postal_code
+FROM listing
+WHERE lId='10i';
+
+SELECT amenity, COUNT(*) / (SELECT COUNT(*)
+                                 FROM listing
+                                 WHERE city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3)) * 100
+FROM amenity a JOIN has h on a.aId = h.aId JOIN listing l on l.lId = h.lId
+WHERE city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3) AND NOT EXISTS(SELECT has.aId
+                                                                                                      FROM has
+                                                                                                      WHERE has.aId = a.aId AND has.lId = '1i')
+GROUP BY h.aId
+HAVING COUNT(*) > (SELECT COUNT(*)
+                   FROM listing
+                   WHERE city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3))/2;

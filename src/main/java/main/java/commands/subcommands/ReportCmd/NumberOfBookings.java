@@ -12,9 +12,7 @@ import static main.java.commands.subcommands.Utils.validTime;
 
 @CommandLine.Command(
         name = "NumberOfBookings",
-        description = "run a report and provide the total number of bookings in a\n" +
-                "specific date range by city. Or Run the same report by zip\n" +
-                "code within a city"
+        description = "run a report and provide the total number of bookings in a specific date range by city. Or Run the same report by zip code within a city"
 )
 public class NumberOfBookings extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")

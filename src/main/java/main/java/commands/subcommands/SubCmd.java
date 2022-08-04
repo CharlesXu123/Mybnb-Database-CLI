@@ -13,7 +13,7 @@ public class SubCmd {
             String url = "jdbc:mysql://127.0.0.1/c43Project?allowMultiQueries=true";
             String username = "root";
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.conn = DriverManager.getConnection(url, username,  System.getenv("PASSWORD"));
+            this.conn = DriverManager.getConnection(url, username, "apart1571709");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

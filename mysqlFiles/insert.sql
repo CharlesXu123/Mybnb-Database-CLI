@@ -35,7 +35,12 @@ VALUES
     ('7i','full house','-10.3630294016','5.8111873024','47720','Pinetown','Brazil'),
     ('8i','full house','47.8830946304','10.1684512768','R6N 1NL','Hafizabad','Spain'),
     ('9i','room','-26.0834111488','111.6775187456','5548-2535','Fredericton','Russian Federation'),
-    ('10i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands');
+    ('10i','room','66.8276508672','-36.7207641088','685635','Toronto','Canada'),
+    ('11i','room','69.8276508672','-31.7207641088','685111','Toronto','Canada'),
+    ('12i','room','69.8276508672','-31.7207641088','685222','Toronto','Canada'),
+    ('13i','room','69.8276508672','-31.7207641088','685333','Toronto','Canada'),
+    ('14i','room','69.8276508672','-31.7207641088','685444','Toronto','Canada'),
+    ('15i','room','69.8276508672','-31.7207641088','685555','Toronto','Canada');
 
 INSERT INTO amenity
 values ('1', 'Toilet paper'),
@@ -115,7 +120,11 @@ VALUES
     ('7i',7),
     ('8i',8),
     ('9i',9),
-    ('10i',10);
+    ('10i',10),
+    ('11i',10),
+    ('12i',10),
+    ('13i',10),
+    ('14i',10);
 
 INSERT INTO calendar
 select * from
@@ -165,7 +174,12 @@ VALUES
     ('7i',7),
     ('8i',8),
     ('9i',9),
-    ('10i',10);
+    ('10i',10),
+    ('11i',10),
+    ('12i',10),
+    ('13i',10),
+    ('14i',10),
+    ('15i',10);
 
 
 INSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date,renter_comments)
@@ -193,3 +207,8 @@ VALUES
     ('19_r',9,'9i',9,'2022-03-03','2021-08-15','sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
     ('20_r',10,'10i',10,'2022-09-22','2022-12-03','dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum libero');
 
+UPDATE available SET available=true, price=500 WHERE lId = '11i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';
+UPDATE available SET available=true, price=600 WHERE lId = '12i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';
+UPDATE available SET available=true, price=700 WHERE lId = '13i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';
+UPDATE available SET available=true, price=800 WHERE lId = '14i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';
+UPDATE available SET available=true, price=900 WHERE lId = '15i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';

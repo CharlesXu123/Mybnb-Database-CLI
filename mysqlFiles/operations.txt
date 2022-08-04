@@ -1,0 +1,6 @@
+NOTE: listing 10i~15i are in toronto, canada with close zip code
+      listing 15i don't have amenity free parking while 10i~14i have
+
+
+
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Host CreateListing -city=Toronto -country=Canada -hId=8 -latitude=100 -longitude=100 -postalCode=A1B3C4 -type=room
