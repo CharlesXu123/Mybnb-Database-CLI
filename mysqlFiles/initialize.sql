@@ -1,12 +1,13 @@
 DROP TABLE IF EXISTS owned,renter,host,listing,available,has,amenity,rented,calendar;
 
-CREATE TABLE renter (
-    uId char(36) primary key,
-    name varchar(50) not null ,
-    address varchar(225) not null,
-    date_of_birth DATE not null,
-    occupation varchar(225) not null,
-    payment_info varchar(255) not null
+CREATE TABLE renter
+(
+    uId           char(36) primary key,
+    name          varchar(50)  not null,
+    address       varchar(225) not null,
+    date_of_birth DATE         not null,
+    occupation    varchar(225) not null,
+    payment_info  varchar(255) not null
 );
 
 CREATE TRIGGER renter_trigger
@@ -60,17 +61,20 @@ end;
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
 ################# LISTINGS, RENTED, AVAILABLE, AMENITY #############################################
 
-CREATE TABLE listing (
-                         lId char(36) NOT NULL primary key ,
-                         type varchar(255) default NULL check ( type IN ('full house','apartment','room') ),
-                         latitude double default NULL,
-                         longitude  double default NULL,
-                         postal_code varchar(10) default null,
-                         city varchar(64) default null,
-                         country varchar(32) default null
+CREATE TABLE listing
+(
+    lId         char(36) NOT NULL primary key,
+    type        varchar(255) default NULL,
+    address     varchar(255) default null,
+    latitude    double       default NULL,
+    longitude   double       default NULL,
+    postal_code varchar(10)  default null,
+    city        varchar(64)  default null,
+    country     varchar(32)  default null
 );
 CREATE TRIGGER listing_trigger
-    BEFORE INSERT ON listing
+    BEFORE INSERT
+    ON listing
     FOR EACH ROW
 BEGIN
     IF new.lId IS NULL THEN
@@ -100,12 +104,13 @@ CREATE TABLE amenity (
                            amenity varchar(255)
 );
 
-CREATE TABLE has (
-                     lId char(36) NOT NULL,
-                     aId char(36) NOT NULL,
-                     PRIMARY KEY (lId,aId),
-                     foreign key (aId) references amenity(aId) on update cascade on delete cascade ,
-                     foreign key (lId) references listing(lId) on update cascade on delete cascade
+CREATE TABLE has
+(
+    lId char(36) NOT NULL,
+    aId char(36) NOT NULL,
+    PRIMARY KEY (lId, aId),
+    foreign key (aId) references amenity (aId) on update cascade on delete cascade,
+    foreign key (lId) references listing (lId) on update cascade on delete cascade
 );
 
 ################# owned, rented #############################################
