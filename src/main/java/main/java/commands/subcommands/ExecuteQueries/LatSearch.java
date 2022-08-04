@@ -23,9 +23,20 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-longitude"}, description = "longitude", required = true)
     double long1;
 
+    @CommandLine.Option(names = {"-start_date"}, description = "start date", required = false)
+    String start_date = "not given";
+    //  format YYYY-MM-DD
+    @CommandLine.Option(names = {"-end_date"}, description = "end date", required = false)
+    String end_date = "not given";
+
     @Override
     public Integer call() {
         try {
+            if (!start_date.equals("not given") && !end_date.equals("not given")
+                    && Utils.validTime(start_date, end_date)){
+
+            }
+
             Statement st = this.conn.createStatement();
             String query = """
                     SELECT lId, type, address, latitude,longitude, postal_code, city, country 

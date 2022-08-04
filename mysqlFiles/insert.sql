@@ -115,7 +115,11 @@ VALUES
     ('7i',7),
     ('8i',8),
     ('9i',9),
-    ('10i',10);
+    ('10i',10),
+    ('j', 1),
+    ('j', 2),
+    ('j', 3),
+    ('j', 4);
 
 INSERT INTO calendar
 select * from
