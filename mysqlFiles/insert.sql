@@ -131,6 +131,15 @@ INSERT INTO available (lid, query_date)
 SELECT lId, query_date
 from calendar, (select lId from listing where TRUE) as tmp;
 
+# INSERT INTO available (lid, query_date, available)
+# VALUES ('j', '2022-01-01', 1);
+
+UPDATE available
+SET
+    available = 1
+WHERE
+        lid = 'j' and
+        query_date = '2022-01-01';
 # INSERT INTO available (lId,query_date)
 # VALUES
 #     ('1i','2022-05-24'),

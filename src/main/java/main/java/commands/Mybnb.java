@@ -22,8 +22,7 @@ import java.util.concurrent.Callable;
                 Host.class,
                 Renter.class,
                 Report.class,
-                Test.class
-                Insert.class,
+                Test.class,
                 Queries.class
         })
 public class Mybnb implements Callable<Integer> {
