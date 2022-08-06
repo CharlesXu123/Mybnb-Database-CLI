@@ -1,8 +1,6 @@
 package main.java.commands.subcommands;
 
-import main.java.commands.subcommands.ReportCmd.FindCommercialHosts;
-import main.java.commands.subcommands.ReportCmd.ListingWordCloud;
-import main.java.commands.subcommands.ReportCmd.NumberOfBookings;
+import main.java.commands.subcommands.ReportCmd.*;
 import main.java.commands.subcommands.renterCmd.*;
 import picocli.CommandLine;
 
@@ -14,7 +12,12 @@ import java.util.concurrent.Callable;
         subcommands = {
                 NumberOfBookings.class,
                 ListingWordCloud.class,
-                FindCommercialHosts.class
+                FindCommercialHosts.class,
+                TotalListings.class,
+                TotalListingsCity.class,
+                TotalListingsPostalCode.class,
+                RankHostByCountry.class
+
         })
 public class Report implements Callable<Integer> {
         @Override

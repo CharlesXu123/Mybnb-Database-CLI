@@ -11,14 +11,14 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(
         name = "PostalSearch",
-        description = "Search listings by latitude longitude within 20kms"
+        description = "Search listings by nearby Postal Code"
 )
 
 public class PostalSearch extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
     boolean help;
-    @CommandLine.Option(names = {"-postal_code"}, description = "postal code", required = true)
-    String postal;
+    @CommandLine.Option(names = {"-postal_code"}, description = "postalcode", required = true)
+    String postal = "";
 
 
     @Override

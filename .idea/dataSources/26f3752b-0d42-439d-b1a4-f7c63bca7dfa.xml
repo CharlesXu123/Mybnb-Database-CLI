@@ -1285,7 +1285,7 @@ aId</ColNames>
       <Turn>before-row</Turn>
     </trigger>
     <column id="347" parent="294" name="id">
-      <AutoIncrement>5</AutoIncrement>
+      <AutoIncrement>6</AutoIncrement>
       <DataType>mediumint unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>

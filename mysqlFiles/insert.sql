@@ -35,7 +35,13 @@ VALUES
     ('7i','full house','-10.3630294016','5.8111873024','47720','Pinetown','Brazil'),
     ('8i','full house','47.8830946304','10.1684512768','R6N 1NL','Hafizabad','Spain'),
     ('9i','room','-26.0834111488','111.6775187456','5548-2535','Fredericton','Russian Federation'),
-    ('10i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands');
+    ('10i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+    ('11i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+    ('12i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+    ('13i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+    ('14i','room','66.8276508672','-36.7207641088','685635','Kollam','Russian Federation');
+
+
 
 INSERT INTO amenity
 values ('1', 'Toilet paper'),
@@ -169,7 +175,12 @@ VALUES
     ('7i',7),
     ('8i',8),
     ('9i',9),
-    ('10i',10);
+    ('10i',10),
+    ('11i', 7),
+    ('12i', 7),
+    ('13i',7),
+    ('14i',3);
+
 
 
 INSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date,renter_comments)

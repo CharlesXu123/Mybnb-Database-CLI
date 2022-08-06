@@ -2,8 +2,6 @@ package main.java.commands.subcommands;
 
 import java.sql.*;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 public class SubCmd {
     public Connection conn;
     public SubCmd(){
