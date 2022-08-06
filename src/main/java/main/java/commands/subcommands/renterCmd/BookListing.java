@@ -29,10 +29,10 @@ public class BookListing extends SubCmd implements Callable<Integer> {
     String end_date;
 
     private void parseInput() {
-        rId = rId.replace("&", " ");
-        lId = lId.replace("&", " ");
-        start_date = start_date.replace("&", " ");
-        end_date = end_date.replace("&", " ");
+        rId = rId.replace("%", " ");
+        lId = lId.replace("%", " ");
+        start_date = start_date.replace("%", " ");
+        end_date = end_date.replace("%", " ");
     }
     @Override
     public Integer call() throws Exception {

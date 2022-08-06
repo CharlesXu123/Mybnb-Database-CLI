@@ -20,7 +20,7 @@ public class SuggestAmenities extends SubCmd implements Callable<Integer> {
     String lId;
 
     private void parseInput() {
-        lId = lId.replace("&", " ");
+        lId = lId.replace("%", " ");
     }
 
     @Override

@@ -19,6 +19,9 @@ public class CreateListing extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-type"}, description = "listing type (can only be room, full house, apartment)", required = true)
     String type;
 
+    @CommandLine.Option(names = {"-addr"}, description = "listing address", required = true)
+    String address;
+
     @CommandLine.Option(names = {"-latitude"}, description = "listing's latitude", required = true)
     String latitude;
 
@@ -35,12 +38,13 @@ public class CreateListing extends SubCmd implements Callable<Integer> {
     String country;
 
     private void parseInput() {
-        hId = hId.replace("&", " ");
-        type = type.replace("&", " ");
-        latitude = longitude.replace("&", " ");
-        postal_code = postal_code.replace("&", " ");
-        city = city.replace("&", " ");
-        country = country.replace("&", " ");
+        hId = hId.replace("%", " ");
+        type = type.replace("%", " ");
+        address = address.replace("%", " ");
+        latitude = longitude.replace("%", " ");
+        postal_code = postal_code.replace("%", " ");
+        city = city.replace("%", " ");
+        country = country.replace("%", " ");
     }
 
     @Override
@@ -59,13 +63,13 @@ public class CreateListing extends SubCmd implements Callable<Integer> {
                             from calendar, (select lId from listing where lId=NEW.lId) as tmp;
                     end;
                                     
-                    INSERT INTO listing(type,latitude,longitude,postal_code,city,country)
-                    VALUES ('%s','%s','%s','%s','%s','%s');
+                    INSERT INTO listing(type,address, latitude,longitude,postal_code,city,country)
+                    VALUES ('%s','%s','%s','%s','%s','%s','%s');
                                                        
                     DROP TRIGGER insert_listing_trigger
                     """;
             Statement st = this.conn.createStatement();
-            query = String.format(query, hId, type, latitude, longitude, postal_code, city, country);
+            query = String.format(query, hId, type, address, latitude, longitude, postal_code, city, country);
             st.executeUpdate(query);
             System.out.println("listing added");
         }

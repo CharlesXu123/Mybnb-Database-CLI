@@ -209,3 +209,8 @@ GROUP BY h.aId
 HAVING COUNT(*) > (SELECT COUNT(*)
                    FROM listing
                    WHERE city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3))/2;
+
+SELECT COUNT(*) count, name
+FROM renter r JOIN rented r2 on r.uId = r2.rId
+GROUP BY rId
+ORDER BY COUNT(*) desc;

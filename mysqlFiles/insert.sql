@@ -212,3 +212,4 @@ UPDATE available SET available=true, price=600 WHERE lId = '12i' AND query_date 
 UPDATE available SET available=true, price=700 WHERE lId = '13i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';
 UPDATE available SET available=true, price=800 WHERE lId = '14i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';
 UPDATE available SET available=true, price=900 WHERE lId = '15i' AND query_date >= '2022-01-05' AND query_date <= '2022-08-01';
+UPDATE available SET available=true, price=1200 WHERE lId = '15i' AND query_date >= '2022-08-03' AND query_date <= '2022-12-01';

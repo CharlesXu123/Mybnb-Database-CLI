@@ -17,7 +17,7 @@ public class DeleteHost extends SubCmd implements Callable<Integer> {
     String uId;
 
     private void parseInput() {
-        uId = uId.replace("&", " ");
+        uId = uId.replace("%", " ");
     }
 
     @Override

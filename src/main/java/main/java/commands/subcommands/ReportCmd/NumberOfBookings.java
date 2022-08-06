@@ -18,23 +18,18 @@ public class NumberOfBookings extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
     boolean help;
 
-    @CommandLine.Option(names = {"-city"}, description = "city for report", required = true)
-    String city;
-
     @CommandLine.Option(names = {"-startDate"}, description = "start date", required = true)
     String start_date;
 
     @CommandLine.Option(names = {"-endDate"}, description = "end date", required = true)
     String end_date;
 
-    @CommandLine.Option(names = {"-zip"}, description = "zip code")
-    String zip="not given";
+    @CommandLine.Option(names = {"-zip"}, description = "zip code", negatable = true)
+    boolean zip;
 
     private void parseInput() {
-        city = city.replace("&", " ");
-        start_date = start_date.replace("&", " ");
-        end_date = end_date.replace("&", " ");
-        zip = zip.replace("&", " ");
+        start_date = start_date.replace("%", " ");
+        end_date = end_date.replace("%", " ");
     }
 
     @Override
@@ -46,28 +41,32 @@ public class NumberOfBookings extends SubCmd implements Callable<Integer> {
         }
         try {
             String query;
-            if (!zip.equals("not given")) {
+            if (zip) {
                 query =
                 """
-                    SELECT COUNT(*)
+                    SELECT COUNT(*), city, postal_code
                     FROM rented r JOIN listing l on r.lId = l.lId
-                    WHERE r.start_date >= '%s' AND r.end_date <= '%s' AND l.city = '%s' AND l.postal_code = '%s';
+                    WHERE r.start_date >= '%s' AND r.end_date <= '%s'
+                    GROUP BY city, postal_code
                 """;
-                query = String.format(query, start_date, end_date, city, zip);
             }
             else  {
                 query =
                         """
-                            SELECT COUNT(*)
+                            SELECT COUNT(*), city
                             FROM rented r JOIN listing l on r.lId = l.lId
-                            WHERE r.start_date >= '%s' AND r.end_date <= '%s' AND l.city = '%s';
+                            WHERE r.start_date >= '%s' AND r.end_date <= '%s'
+                            GROUP BY city
                         """;
-                query = String.format(query, start_date, end_date, city);
             }
+            query = String.format(query, start_date, end_date);
             Statement st = this.conn.createStatement();
             ResultSet resultSet = st.executeQuery(query);
-            String[] args = {"number of bookings"};
-            Utils.printResult(args,resultSet);
+            if (zip) {
+                Utils.printResult(new String[]{"number of bookings", "city","postal_code"},resultSet);
+            } else {
+                Utils.printResult(new String[]{"number of bookings", "city"},resultSet);
+            }
         }
         catch (Exception e) {
             System.err.println("Got an error!");

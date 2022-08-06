@@ -27,9 +27,9 @@ public class UpdateAmenities extends SubCmd implements Callable<Integer> {
     boolean showAmenities;
 
     private void parseInput() {
-        lId = lId.replace("&", " ");
+        lId = lId.replace("%", " ");
         for (int i = 0; i<amenities.length; i++) {
-            amenities[i] = amenities[i].replace("&", " ");
+            amenities[i] = amenities[i].replace("%", " ");
         }
     }
 
