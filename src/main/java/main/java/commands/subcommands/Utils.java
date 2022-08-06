@@ -27,7 +27,7 @@ public class Utils {
             }
             TextTable tt = new TextTable(args, data.toArray(new Object[0][]));
             tt.setAddRowNumbering(true);
-            tt.setSort(0);
+//            tt.setSort(1);
             tt.printTable();
         } catch (Exception e) {
             System.err.println("Got an error!");

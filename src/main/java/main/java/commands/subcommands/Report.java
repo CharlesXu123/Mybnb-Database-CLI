@@ -16,7 +16,10 @@ import java.util.concurrent.Callable;
                 TotalListings.class,
                 TotalListingsCity.class,
                 TotalListingsPostalCode.class,
-                RankHostByCountry.class
+                RankHostByCountry.class,
+                RankRentersByTime.class,
+                LargestCancellation.class,
+                RankRentersByTimePerCity.class
 
         })
 public class Report implements Callable<Integer> {

@@ -39,7 +39,8 @@ VALUES
     ('11i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
     ('12i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
     ('13i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
-    ('14i','room','66.8276508672','-36.7207641088','685635','Kollam','Russian Federation');
+    ('14i','room','66.8276508672','-36.7207641088','685635','Kollam','Russian Federation'),
+    ('15i','apartment','-58.4752264192','148.8919666688','217978','Ravenstein','Philippines');
 
 
 
@@ -179,7 +180,8 @@ VALUES
     ('11i', 7),
     ('12i', 7),
     ('13i',7),
-    ('14i',3);
+    ('14i',3),
+    ('15i',3);
 
 
 
@@ -195,16 +197,28 @@ VALUES
     ('8_r',8,'8i',8,'2022-09-05','2022-08-14','diam vel arcu. Curabitur ut odio'),
     ('9_r',9,'9i',9,'2022-02-25','2022-09-13','velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper'),
     ('10_r',10,'10i',10,'2022-07-04','2021-10-14','rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed');
-INSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date,renter_comments)
+INSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date, canceled,renter_comments)
 VALUES
-    ('11_r',1,'1i',1,'2022-09-14','2021-11-16','fermentum convallis ligula. Donec'),
-    ('12_r',2,'2i',2,'2022-04-08','2022-03-30','facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat'),
-    ('13_r',3,'3i',3,'2022-09-05','2023-03-22','egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris'),
-    ('14_r',4,'4i',4,'2022-07-11','2021-11-01','Nulla dignissim. Maecenas ornare'),
-    ('15_r',5,'5i',5,'2022-10-31','2022-07-07','porttitor interdum. Sed auctor odio a'),
-    ('16_r',6,'6i',6,'2022-10-01','2021-07-30','Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit'),
-    ('17_r',7,'7i',7,'2022-06-30','2021-12-18','non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis'),
-    ('18_r',8,'8i',8,'2022-09-07','2021-12-04','Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor,'),
-    ('19_r',9,'9i',9,'2022-03-03','2021-08-15','sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
-    ('20_r',10,'10i',10,'2022-09-22','2022-12-03','dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum libero');
+    ('11_r',1,'1i',1,'2022-09-14','2021-11-16',1, 'fermentum convallis ligula. Donec'),
+    ('12_r',2,'2i',2,'2022-04-08','2022-03-30',1, 'facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat'),
+    ('13_r',3,'3i',3,'2022-09-05','2023-03-22',1, 'egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris'),
+    ('14_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+    ('21_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+    ('22_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+    ('23_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+    ('24_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+    ('15_r',5,'5i',5,'2022-10-31','2022-07-07',1, 'porttitor interdum. Sed auctor odio a'),
+    ('16_r',6,'6i',6,'2022-10-01','2021-07-30',1, 'Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit'),
+    ('17_r',7,'7i',7,'2022-06-30','2021-12-18',1, 'non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis'),
+    ('18_r',8,'8i',8,'2022-09-07','2021-12-04',1, 'Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor,'),
+    ('19_r',9,'9i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+    ('20_r',10,'10i',10,'2022-09-22','2022-12-03',1,'dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum libero'),
+    ('25_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+    ('26_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+    ('27_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+    ('28_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+    ('29_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+    ('30_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+    ('31_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum');
+
 
