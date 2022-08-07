@@ -53,13 +53,11 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
                                                             from available
                                                             where available.query_date >= (?) 
                                                             && available.query_date <= (?) 
-                                                            && available.available = 0
+                                                            && available.lId = lst.lId &&
+                                                            (available.available = 0 ||
+                                                            available.price <= (?) ||
+                                                            available.price >= (?)
                                                             )
-                                            and lst.lId not in (SELECT lId
-                                                            from available
-                                                            where available.price <= (?)
-                                                                || available.price >= (?)
-                                                                && available.lId = lst.lId)
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
