@@ -34,12 +34,12 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-highest_price"}, description = "highest price", required = false)
     Double highest_price = -1.0;
     @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
-    String amenitiies = "not given";
+    String amenities = "not given";
 
     @Override
     public Integer call() {
         try {
-            String[] arrOfStr = amenitiies.split(",");
+            String[] arrOfStr = amenities.split(",");
             String query = new String();
             String amenities_query = new String();
             PreparedStatement pst = null;
@@ -51,13 +51,12 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
                         WHERE (((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20)
                                             and lst.lId not in (Select lId
                                                             from available
-                                                            where available.query_date >= (?) 
+                                                            where available.query_date >= (?)
                                                             && available.query_date <= (?) 
-                                                            && available.lId = lst.lId &&
-                                                            (available.available = 0 ||
-                                                            available.price <= (?) ||
-                                                            available.price >= (?)
-                                                            )
+                                                            && available.lId = lst.lId
+                                                            && (available.available = 0 
+                                                                || available.price <= (?)
+                                                                || available.price >= (?)))
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
