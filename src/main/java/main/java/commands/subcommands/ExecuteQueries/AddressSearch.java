@@ -7,10 +7,6 @@ import picocli.CommandLine;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 //import static main.java.commands.subcommands.Utils.validTime;
@@ -41,17 +37,14 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
     String amenitiies = "not given";
 
     private void parseInput() {
-        addr = addr.replace("&", " ");
+        addr = addr.replace("%", " ");
     }
 
     @Override
     public Integer call() {
-        String[] arrOfStr = amenitiies.split(",");
-        for (String a : arrOfStr)
-            System.out.println(a);
-
         try {
             parseInput();
+            String[] arrOfStr = amenitiies.split(",");
             Statement st = this.conn.createStatement();
             String query = new String();
             String amenities_query = new String();
@@ -75,15 +68,15 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
-                
+
                 int amen_len = arrOfStr.length;
-                amenities_query = " ((has.aId =" + arrOfStr[0]+")";
-                for (int i = 1; i < amen_len; i++){
-                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i]+")";
+                amenities_query = " ((has.aId =" + arrOfStr[0] + ")";
+                for (int i = 1; i < amen_len; i++) {
+                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i] + ")";
                 }
-                System.out.println("query:"+amenities_query);
-                amenities_query = amenities_query +") ";
-                amenities_query = amenities_query +"group by lId "+"having count(lId) = "+amen_len+"))";
+                System.out.println("query:" + amenities_query);
+                amenities_query = amenities_query + ") ";
+                amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
 
                 query = query + amenities_query;
 
@@ -100,7 +93,7 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
                         SELECT * FROM listing WHERE address = (?)
                         """;
                 pst = this.conn.prepareStatement(query);
-                pst.setString(1,addr);
+                pst.setString(1, addr);
             }
             ResultSet resultSet = pst.executeQuery();
             String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};

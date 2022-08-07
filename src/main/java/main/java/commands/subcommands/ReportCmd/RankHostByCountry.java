@@ -1,13 +1,11 @@
 package main.java.commands.subcommands.ReportCmd;
 
 import main.java.commands.subcommands.SubCmd;
-
 import main.java.commands.subcommands.Utils;
 import picocli.CommandLine;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
-
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(
@@ -28,16 +26,15 @@ public class RankHostByCountry extends SubCmd implements Callable<Integer> {
             Statement st = this.conn.createStatement();
             String query =
                     """
-                        SELECT country, h.name, count(h.name) v
-                        FROM listing l join owned o on l.lId = o.lId join host h on h.uid = o.uId
-                        group by country, h.name
-                        order by count(h.name) desc
-                    """;
+                                SELECT country, h.name, count(h.name) v
+                                FROM listing l join owned o on l.lId = o.lId join host h on h.uid = o.uId
+                                group by country, h.name
+                                order by count(h.name) desc
+                            """;
             ResultSet resultSet = st.executeQuery(query);
-//            String[] args = {"listingId", "room type", "a","b","c","d","e","f","g", "h", "i", "j", "k", "l", "m"};
-            String[] args= {"Country","Host Name", " Number Listings Owned"};
+            String[] args = {"Country", "Host Name", " Number Listings Owned"};
             Utils.printResult(args, resultSet);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Got an error!");
             System.err.println(e);
             return 0;

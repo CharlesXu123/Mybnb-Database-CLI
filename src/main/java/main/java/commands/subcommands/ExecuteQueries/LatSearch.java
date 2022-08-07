@@ -38,9 +38,8 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        String[] arrOfStr = amenitiies.split(",");
-
         try {
+            String[] arrOfStr = amenitiies.split(",");
             String query = new String();
             String amenities_query = new String();
             PreparedStatement pst = null;

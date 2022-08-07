@@ -35,10 +35,15 @@ public class PostalSearch extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
     String amenitiies = "not given";
 
+    private void parseInput() {
+        postal = postal.replace("%", " ");
+    }
+
     @Override
     public Integer call() {
 
         try {
+            parseInput();
             postal = postal.substring(0, 3);
             String[] arrOfStr = amenitiies.split(",");
 

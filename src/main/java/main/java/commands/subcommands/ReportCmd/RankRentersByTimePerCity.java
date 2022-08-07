@@ -35,7 +35,6 @@ public class RankRentersByTimePerCity extends SubCmd implements Callable<Integer
                 return 0;
             }
             System.out.println("Rank renters: ");
-//            Statement st = this.conn.createStatement();
             String query =
                     """
                              select city, name, count(name) c
