@@ -16,7 +16,7 @@ public class DeleteRenter extends SubCmd implements Callable<Integer> {
     String uId;
 
     private void parseInput() {
-        uId = uId.replace("&", " ");
+        uId = uId.replace("%", " ");
     }
     @Override
     public Integer call() throws Exception {

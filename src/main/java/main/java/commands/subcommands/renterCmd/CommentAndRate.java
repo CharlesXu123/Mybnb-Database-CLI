@@ -24,9 +24,9 @@ public class CommentAndRate extends SubCmd implements Callable<Integer> {
     String rating;
 
     private void parseInput() {
-        rentedId = rentedId.replace("&", " ");
-        comment =  comment.replace("&", " ");
-        rating =  rating.replace("&", " ");
+        rentedId = rentedId.replace("%", " ");
+        comment =  comment.replace("%", " ");
+        rating =  rating.replace("%", " ");
     }
 
     @Override

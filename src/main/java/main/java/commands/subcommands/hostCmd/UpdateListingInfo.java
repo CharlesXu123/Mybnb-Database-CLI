@@ -41,10 +41,10 @@ public class UpdateListingInfo extends SubCmd implements Callable<Integer> {
     boolean setUnavailable;
 
     private void parseInput() {
-        lId = lId.replace("&", " ");
-        start_date = start_date.replace("&", " ");
-        end_date = end_date.replace("&", " ");
-        price = price.replace("&", " ");
+        lId = lId.replace("%", " ");
+        start_date = start_date.replace("%", " ");
+        end_date = end_date.replace("%", " ");
+        price = price.replace("%", " ");
     }
     @Override
     public Integer call() throws Exception {

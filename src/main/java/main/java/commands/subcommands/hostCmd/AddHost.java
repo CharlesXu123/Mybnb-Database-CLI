@@ -26,10 +26,10 @@ public class AddHost extends SubCmd implements Callable<Integer> {
     String occupation;
 
     private void parseInput() {
-        name = name.replace("&", " ");
-        address = address.replace("&", " ");
-        data_of_birth = data_of_birth.replace("&", " ");
-        occupation = occupation.replace("&", " ");
+        name = name.replace("%", " ");
+        address = address.replace("%", " ");
+        data_of_birth = data_of_birth.replace("%", " ");
+        occupation = occupation.replace("%", " ");
     }
 
     @Override

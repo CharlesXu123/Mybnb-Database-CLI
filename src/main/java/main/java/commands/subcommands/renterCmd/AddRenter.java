@@ -29,11 +29,11 @@ public class AddRenter extends SubCmd implements Callable<Integer> {
     String payment_info;
 
     private void parseInput() {
-        name = name.replace("&", " ");
-        address = address.replace("&", " ");
-        data_of_birth = data_of_birth.replace("&", " ");
-        occupation = occupation.replace("&", " ");
-        payment_info = payment_info.replace("&", " ");
+        name = name.replace("%", " ");
+        address = address.replace("%", " ");
+        data_of_birth = data_of_birth.replace("%", " ");
+        occupation = occupation.replace("%", " ");
+        payment_info = payment_info.replace("%", " ");
     }
 
     @Override

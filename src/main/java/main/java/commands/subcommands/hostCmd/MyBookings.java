@@ -21,7 +21,7 @@ public class MyBookings extends SubCmd implements Callable<Integer> {
     boolean showUnfinished;
 
     private void parseInput() {
-        hId = hId.replace("&", " ");
+        hId = hId.replace("%", " ");
     }
 
     @Override

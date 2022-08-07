@@ -18,7 +18,7 @@ public class MyListings extends SubCmd implements Callable<Integer> {
     String hId;
 
     private void parseInput() {
-        hId = hId.replace("&", " ");
+        hId = hId.replace("%", " ");
     }
 
     @Override

@@ -15,9 +15,7 @@ import static main.java.commands.subcommands.Utils.printResult;
 
 @CommandLine.Command(
         name = "FindCommercialHosts",
-        description = """
-                find the hosts that have a number of listings that is more than 10% of the number of listings in that
-                city and country"""
+        description = "find the hosts that have a number of listings that is more than 10% of the number of listings in that city and country"
 )
 public class FindCommercialHosts extends SubCmd implements Callable<Integer> {
 

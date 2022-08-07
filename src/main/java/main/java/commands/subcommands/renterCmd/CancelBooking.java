@@ -21,8 +21,8 @@ public class CancelBooking extends SubCmd implements Callable<Integer> {
     String rId;
 
     private void parseInput() {
-        rentedId = rentedId.replace("&", " ");
-        rId =  rId.replace("&", " ");
+        rentedId = rentedId.replace("%", " ");
+        rId =  rId.replace("%", " ");
     }
 
     public Integer call() {
