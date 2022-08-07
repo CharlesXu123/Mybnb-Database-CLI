@@ -56,15 +56,12 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
                         FROM listing as lst
                         WHERE address = (?) and lst.lId not in (Select lId
                                                             from available
-                                                            where available.query_date >= (?) 
+                                                            where available.query_date >= (?)
                                                             && available.query_date <= (?) 
-                                                            && available.available = 0
-                                                            )
-                                            and lst.lId not in (SELECT lId
-                                                            from available
-                                                            where available.price <= (?)
-                                                                || available.price >= (?)
-                                                                && available.lId = lst.lId)
+                                                            && available.lId = lst.lId
+                                                            && (available.available = 0 
+                                                                || available.price <= (?)
+                                                                || available.price >= (?)))
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
