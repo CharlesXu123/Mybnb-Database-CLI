@@ -233,3 +233,5 @@ SELECT a, null+10
 FROM temp;
 DROP table temp;
 
+SELECT *
+FROM listing JOIN has h on listing.lId = h.lId JOIN amenity a on a.aId = h.aId;

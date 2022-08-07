@@ -33,13 +33,13 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-highest_price"}, description = "highest price", required = false)
     Double highest_price = -1.0;
-    @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
-    String amenitiies = "not given";
+    @CommandLine.Option(names = {"-amenities"}, description = "set of amenities, separating each amenity with ,", required = false)
+    String amenities = "not given";
 
     @Override
     public Integer call() {
         try {
-            String[] arrOfStr = amenitiies.split(",");
+            String[] arrOfStr = amenities.split(",");
             String query = new String();
             String amenities_query = new String();
             PreparedStatement pst = null;
