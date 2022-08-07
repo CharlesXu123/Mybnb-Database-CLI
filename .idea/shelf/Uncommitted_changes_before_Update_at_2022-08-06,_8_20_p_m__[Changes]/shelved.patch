@@ -1,0 +1,1224 @@
+Index: src/main/java/main/java/commands/subcommands/ReportCmd/LargestCancellation.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ReportCmd;\n\n\nimport com.kennycason.kumo.WordFrequency;\nimport main.java.commands.subcommands.SubCmd;\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.Date;\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.Statement;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.concurrent.Callable;\n\nimport static main.java.commands.subcommands.Utils.getWordCloud;\n\n@CommandLine.Command(\n        name = \"LargestCancellation\",\n        description = \"\"\"\n                return the hosts and renters with the largest cancellation in a year\"\"\"\n)\n\npublic class LargestCancellation extends SubCmd implements Callable<Integer> {\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n\n    @CommandLine.Option(names = {\"-start_date\"}, description = \"start date\", required = false)\n    String start_date = \"2022-01-01\";\n    //  format YYYY-MM-DD\n    @CommandLine.Option(names = {\"-end_date\"}, description = \"end date\", required = false)\n    String end_date = \"2022-12-31\";\n\n    @Override\n    public Integer call() throws Exception {\n        try {\n            System.out.println(\"Host with largest cancellation \");\n            String query =\n                    \"\"\"         \n                                select * from (\n                                SELECT h.name, count(h.name) count\n                                FROM host h join rented r on r.hId = h.uId\n                                where r.start_date >= (?) and r.end_date <= (?)\n                                group by h.name\n                                ) sub order by sub.count desc limit 1\n                            \"\"\";\n            PreparedStatement pst = this.conn.prepareStatement(query);\n            pst.setDate(1, Date.valueOf(start_date));\n            pst.setDate(2, Date.valueOf(end_date));\n            ResultSet resultSet = pst.executeQuery();\n            String[] args= {\"Name\", \"Number of Bookings\"};\n            Utils.printResult(args, resultSet);\n            System.out.println();\n            System.out.println(\"Renter with largest cancellation \");\n             query =\n                    \"\"\"         \n                        select * from (\n                        SELECT r.name, count(r.name) count\n                        FROM renter r join rented rt on rt.hId = r.uId\n                        where rt.start_date >= (?) and rt.end_date <= (?)\n                        group by r.name\n                        ) sub order by sub.count desc limit 1\n                    \"\"\";\n             pst = this.conn.prepareStatement(query);\n            pst.setDate(1, Date.valueOf(start_date));\n            pst.setDate(2, Date.valueOf(end_date));\n            resultSet = pst.executeQuery();\n            Utils.printResult(args, resultSet);\n\n        } catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ReportCmd/LargestCancellation.java b/src/main/java/main/java/commands/subcommands/ReportCmd/LargestCancellation.java
+--- a/src/main/java/main/java/commands/subcommands/ReportCmd/LargestCancellation.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ReportCmd/LargestCancellation.java	(date 1659820443661)
+@@ -1,7 +1,6 @@
+ package main.java.commands.subcommands.ReportCmd;
+ 
+ 
+-import com.kennycason.kumo.WordFrequency;
+ import main.java.commands.subcommands.SubCmd;
+ import main.java.commands.subcommands.Utils;
+ import picocli.CommandLine;
+@@ -9,13 +8,8 @@
+ import java.sql.Date;
+ import java.sql.PreparedStatement;
+ import java.sql.ResultSet;
+-import java.sql.Statement;
+-import java.util.ArrayList;
+-import java.util.List;
+ import java.util.concurrent.Callable;
+ 
+-import static main.java.commands.subcommands.Utils.getWordCloud;
+-
+ @CommandLine.Command(
+         name = "LargestCancellation",
+         description = """
+@@ -35,6 +29,10 @@
+     @Override
+     public Integer call() throws Exception {
+         try {
++            if (!Utils.validTime(start_date, end_date)) {
++                System.out.println("Invalid Time given");
++                return 0;
++            }
+             System.out.println("Host with largest cancellation ");
+             String query =
+                     """         
+@@ -43,26 +41,26 @@
+                                 FROM host h join rented r on r.hId = h.uId
+                                 where r.start_date >= (?) and r.end_date <= (?)
+                                 group by h.name
+-                                ) sub order by sub.count desc limit 1
++                                ) sub order by sub.count desc limit 5
+                             """;
+             PreparedStatement pst = this.conn.prepareStatement(query);
+             pst.setDate(1, Date.valueOf(start_date));
+             pst.setDate(2, Date.valueOf(end_date));
+             ResultSet resultSet = pst.executeQuery();
+-            String[] args= {"Name", "Number of Bookings"};
++            String[] args = {"Name", "Number of Bookings"};
+             Utils.printResult(args, resultSet);
+             System.out.println();
+             System.out.println("Renter with largest cancellation ");
+-             query =
++            query =
+                     """         
+-                        select * from (
+-                        SELECT r.name, count(r.name) count
+-                        FROM renter r join rented rt on rt.hId = r.uId
+-                        where rt.start_date >= (?) and rt.end_date <= (?)
+-                        group by r.name
+-                        ) sub order by sub.count desc limit 1
+-                    """;
+-             pst = this.conn.prepareStatement(query);
++                                select * from (
++                                SELECT r.name, count(r.name) count
++                                FROM renter r join rented rt on rt.hId = r.uId
++                                where rt.start_date >= (?) and rt.end_date <= (?)
++                                group by r.name
++                                ) sub order by sub.count desc limit 5
++                            """;
++            pst = this.conn.prepareStatement(query);
+             pst.setDate(1, Date.valueOf(start_date));
+             pst.setDate(2, Date.valueOf(end_date));
+             resultSet = pst.executeQuery();
+Index: src/main/java/main/java/commands/subcommands/Queries.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands;\n\n\nimport main.java.commands.subcommands.ExecuteQueries.AddressSearch;\nimport main.java.commands.subcommands.ExecuteQueries.LatSearch;\nimport main.java.commands.subcommands.ExecuteQueries.PostalSearch;\nimport main.java.commands.subcommands.ExecuteQueries.ShowListings;\nimport picocli.CommandLine;\n\nimport java.util.concurrent.Callable;\n\n\n@CommandLine.Command(name = \"Query\",\n        mixinStandardHelpOptions = true,\n        description = \"this is the Query tool \",\n        subcommands = {\n                ShowListings.class,\n                LatSearch.class,\n                PostalSearch.class,\n                AddressSearch.class\n        })\npublic class Queries implements Callable<Integer> {\n    public static void main(String[] args) {\n\n    }\n\n    @Override\n    public Integer call() throws Exception {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/Queries.java b/src/main/java/main/java/commands/subcommands/Queries.java
+--- a/src/main/java/main/java/commands/subcommands/Queries.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/Queries.java	(date 1659831239020)
+@@ -4,7 +4,6 @@
+ import main.java.commands.subcommands.ExecuteQueries.AddressSearch;
+ import main.java.commands.subcommands.ExecuteQueries.LatSearch;
+ import main.java.commands.subcommands.ExecuteQueries.PostalSearch;
+-import main.java.commands.subcommands.ExecuteQueries.ShowListings;
+ import picocli.CommandLine;
+ 
+ import java.util.concurrent.Callable;
+@@ -14,7 +13,6 @@
+         mixinStandardHelpOptions = true,
+         description = "this is the Query tool ",
+         subcommands = {
+-                ShowListings.class,
+                 LatSearch.class,
+                 PostalSearch.class,
+                 AddressSearch.class
+Index: mysqlFiles/insert.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>INSERT INTO renter (uid, name,address,date_of_birth,occupation,payment_info)\nVALUES\n    ('1','Noble Payne','P.O. Box 962, 6664 Massa. Ave','1999-09-06','Aliquet Sem Institute','417500 492481 5732'),\n    ('2','Quail Berg','Ap #754-6127 Erat, Ave','1999-06-20','Tincidunt Congue LLP','630 48734 41764 944'),\n    ('3','Minerva Terrell','3927 Adipiscing St.','2000-02-16','Ut Quam Vel LLC','6334 1254 5373 4669'),\n    ('4','Kaye Fowler','906-4772 Gravida Av.','1999-09-21','Id Blandit Consulting','675 98623 94577 759'),\n    ('5','Patrick Ware','Ap #615-8048 Placerat Rd.','1999-12-26','Velit Cras Institute','525 72878 35683 676'),\n    ('6','Zephr Church','Ap #761-1644 Ipsum Ave','1999-11-04','Mi Lacinia Industries','6304558847788882'),\n    ('7','Wynne Mcintosh','Ap #216-2820 Sapien. St.','2000-03-05','Eget Foundation','4916228847584844'),\n    ('8','Asher Harvey','Ap #381-9299 Justo Street','2000-02-19','Interdum Enim Incorporated','658839 2212381124'),\n    ('9','Harlan Barton','P.O. Box 538, 5814 Ut Rd.','2000-10-22','Arcu Nunc Institute','6486247576722367'),\n    ('10','Preston donnell','6728 Aliquam Avenue','1999-06-07','Vulputate Lacus Institute','670654 6557434452');\n\nINSERT INTO host (uId,name,address,date_of_birth,occupation)\nVALUES\n    (1,'Raven Baker','552-2512 Ut, Rd.','2000-02-19','Vitae Dolor Institute'),\n    (2,'Halee Wiley','5516 Mauris Street','1999-09-24','Eget PC'),\n    (3,'Aimee Pittman','P.O. Box 906, 3685 Eros Street','1999-05-25','Neque In LLC'),\n    (4,'Ryder Greene','410-9509 Urna St.','2000-09-15','Aliquam Enim LLP'),\n    (5,'Quinn Miranda','985-6161 Nunc St.','2000-03-08','Natoque Corporation'),\n    (6,'Eaton Watts','Ap #914-3802 Eu Road','2000-09-06','Lobortis PC'),\n    (7,'Sara Lott','3366 Cursus Av.','2000-05-26','Nec Industries'),\n    (8,'John Lane','487-5599 Ornare Avenue','2000-03-23','Ullamcorper Corporation'),\n    (9,'Noble Blake','Ap #374-5673 Integer St.','2000-04-30','Nisl Corp.'),\n    (10,'Amal Austin','P.O. Box 219, 1875 Tincidunt. Street','2000-07-30','Ut Cursus Limited');\n\nINSERT INTO listing (lId,type,latitude,longitude,postal_code,city,country)\nVALUES\n    ('1i','apartment','-19.2761542656','-136.6154386432','735071','Llanquihue','Russian Federation'),\n    ('2i','full house','5.1550667776','-85.7640810496','965519','Larvik','Peru'),\n    ('3i','room','-41.0428909568','138.0606258176','65150-023','San Antonio','Russian Federation'),\n    ('4i','apartment','-58.4752264192','148.8919666688','217978','Ravenstein','Philippines'),\n    ('5i','room','71.386918912','151.5778917376','VN4I 6TP','Sokoto','Chile'),\n    ('6i','apartment','-39.9093055488','-149.3089588224','44-25','Cochamó','Pakistan'),\n    ('7i','full house','-10.3630294016','5.8111873024','47720','Pinetown','Brazil'),\n    ('8i','full house','47.8830946304','10.1684512768','R6N 1NL','Hafizabad','Spain'),\n    ('9i','room','-26.0834111488','111.6775187456','5548-2535','Fredericton','Russian Federation'),\n    ('10i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),\n    ('11i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),\n    ('12i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),\n    ('13i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),\n    ('14i','room','66.8276508672','-36.7207641088','685635','Kollam','Russian Federation'),\n    ('15i','apartment','-58.4752264192','148.8919666688','217978','Ravenstein','Philippines');\n\n\n\nINSERT INTO amenity\nvalues ('1', 'Toilet paper'),\n       ('2', 'Soap for hands and body'),\n       ('3', 'One towel per guest'),\n       ('4','Linens for each bed'),\n       ('5', 'One pillow per guest'),\n       ('6', 'Cleaning supplies'),\n       ('7','A pool'),\n       ('8', 'Wifi'),\n       ('9', 'A kitchen'),\n       ('10','Free parking'),\n       ('11', 'A jacuzzi'),\n       ('12', 'A washer or dryer'),\n       ('13','Air conditioning or heating'),\n       ('14', 'Self check-in'),\n       ('15', 'Laptop-friendly workspace'),\n       ('16','Pets allowed'),\n       ('17','Carbon monoxide alarm'),\n       ('18', 'Smoke alarm'),\n       ('19', 'Fire extinguisher'),\n       ('20','First-aid kit'),\n       ('21','Emergency plan and local numbers'),\n       ('22', 'Step-free entryway'),\n       ('23', 'Wide entrances (at least 32” or 82 cm)'),\n       ('24','Wide hallways (at least 36” or 92 cm)'),\n       ('25','Accessible bathroom'),\n       ('26', 'Extra toilet paper, linens, and towels'),\n       ('27', 'Basic toiletries like shampoo and conditioner'),\n       ('28','Dish soap and cleaning supplies'),\n       ('29','Dining basics like a coffee maker, cooking utensils, dishes, and utensils'),\n       ('30', 'Wine glasses'),\n       ('31', 'Basic cooking supplies like salt, pepper, and oil'),\n       ('32','Coffee, tea'),\n       ('33','Light breakfast or snacks'),\n       ('34', 'Hangers'),\n       ('35', 'Adapters and chargers'),\n       ('36','Fast and reliable wifi'),\n       ('37','Laptop-friendly workspace'),\n       ('38', 'Good lighting'),\n       ('39', 'Fully equipped kitchens'),\n       ('40','Office supplies'),\n       ('41','A crib and high chair'),\n       ('42', 'A bathtub'),\n       ('43', 'Air conditioning'),\n       ('44','A washer and/or dryer'),\n       ('45', 'Extra cleaning supplies'),\n       ('46','Furniture covers'),\n       ('47', 'Bowls for pet food and water'),\n       ('48','Towels to wipe off paws at the door');\n\nINSERT INTO listing (lid, type, latitude, longitude, address, postal_code, city, country)\nVALUES ('a', 'in', 3, 6, 'what', '379850', 'Tønsberg', 'Austria'),\n       ('b', 'sem', 8, 5, 'what', '70384', 'Tranås', 'Ukraine'),\n       ('c', 'ut', 1, 4, 'what', '89428', 'Warszawa', 'Italy'),\n       ('d', 'enim.', 1, 4, 'what', '514518', 'South Burlington', 'Turkey'),\n       ('e', 'facilisis', 8, 9, 'what', '60725', 'Hamburg', 'South Africa'),\n       ('f', 'tristique', 0, 5, 'what', '743722', 'Uitenhage', 'New Zealand'),\n       ('g', 'ut', 3, 6, 'what', '6294', 'Hengelo', 'Australia'),\n       ('h', 'Proin', 9, 10, 'what', '8144 UM', 'Saint-LŽger', 'New Zealand'),\n       ('i', 'scelerisque', 2, 10, 'what', '886384', 'Huntly', 'Spain'),\n       ('j', 'vitae', 7, 8, 'what', '32G 4X5', 'Virginia', 'Chile'),\n       ('k', 'vitae', 43.784635, -79.189862, 'what', '32G 4X5', 'Virginia', 'Chile'),\n       ('l', 'vitae', 43.778657, -79.251816, 'what', '32G 4X5', 'Virginia', 'Chile'),\n       ('m', 'vitae', 43.800476, -79.340542, 'what', '32G 4X5', 'Virginia', 'Chile'),\n       ('n', 'vitae', 43.829009, -79.161257, 'what', '32G 4X5', 'Virginia', 'Chile'),\n       ('o', 'vitae', 43.829009, -79.161257, 'screw driver', '32G 4X5', 'Virginia', 'Chile');\n\nINSERT INTO has (lId,aId)\nVALUES\n    ('1i',1),\n    ('2i',2),\n    ('3i',3),\n    ('4i',4),\n    ('5i',5),\n    ('6i',6),\n    ('7i',7),\n    ('8i',8),\n    ('9i',9),\n    ('10i',10),\n    ('j', 1),\n    ('j', 2),\n    ('j', 3),\n    ('j', 4);\n\nINSERT INTO calendar\nselect * from\n    (select adddate('1970-01-01',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) gen_date from\n                                                                                        (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,\n                                                                                        (select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,\n                                                                                        (select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,\n                                                                                        (select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,\n                                                                                        (select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v\nwhere gen_date between '2022-01-01' and '2022-12-31';\n\nINSERT INTO available (lid, query_date)\nSELECT lId, query_date\nfrom calendar, (select lId from listing where TRUE) as tmp;\n\n# INSERT INTO available (lid, query_date, available)\n# VALUES ('j', '2022-01-01', 1);\n\nUPDATE available\nSET\n    available = 1\nWHERE\n        lid = 'j' and\n        query_date = '2022-01-01';\n# INSERT INTO available (lId,query_date)\n# VALUES\n#     ('1i','2022-05-24'),\n#     ('2i','2022-10-04'),\n#     ('3i','2022-01-19'),\n#     ('4i','2022-04-11'),\n#     ('5i','2022-08-26'),\n#     ('6i','2022-10-24'),\n#     ('7i','2022-07-21'),\n#     ('8i','2022-10-03'),\n#     ('9i','2022-05-01'),\n#     ('10i','2022-08-28');\n\n\nINSERT INTO owned (lId,uId)\nVALUES\n    ('1i',1),\n    ('2i',2),\n    ('3i',3),\n    ('4i',4),\n    ('5i',5),\n    ('6i',6),\n    ('7i',7),\n    ('8i',8),\n    ('9i',9),\n    ('10i',10),\n    ('11i', 7),\n    ('12i', 7),\n    ('13i',7),\n    ('14i',3),\n    ('15i',3);\n\n\n\nINSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date,renter_comments)\nVALUES\n    ('1_r',1,'1i',1,'2022-05-25','2023-02-28','est, vitae sodales nisi magna sed dui. Fusce aliquam, enim'),\n    ('2_r',2,'2i',2,'2022-08-13','2023-06-29','porta elit, a feugiat tellus lorem eu metus. In lorem. Donec'),\n    ('3_r',3,'3i',3,'2022-11-09','2022-01-25','porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas,'),\n    ('4_r',4,'4i',4,'2022-02-09','2023-02-22','Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci'),\n    ('5_r',5,'5i',5,'2022-06-14','2023-01-20','sem, vitae aliquam eros turpis non enim.'),\n    ('6_r',6,'6i',6,'2022-03-29','2021-11-24','id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem'),\n    ('7_r',7,'7i',7,'2022-06-20','2022-07-14','vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh'),\n    ('8_r',8,'8i',8,'2022-09-05','2022-08-14','diam vel arcu. Curabitur ut odio'),\n    ('9_r',9,'9i',9,'2022-02-25','2022-09-13','velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper'),\n    ('10_r',10,'10i',10,'2022-07-04','2021-10-14','rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed');\nINSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date, canceled,renter_comments)\nVALUES\n    ('11_r',1,'1i',1,'2022-09-14','2021-11-16',1, 'fermentum convallis ligula. Donec'),\n    ('12_r',2,'2i',2,'2022-04-08','2022-03-30',1, 'facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat'),\n    ('13_r',3,'3i',3,'2022-09-05','2023-03-22',1, 'egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris'),\n    ('14_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),\n    ('21_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),\n    ('22_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),\n    ('23_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),\n    ('24_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),\n    ('15_r',5,'5i',5,'2022-10-31','2022-07-07',1, 'porttitor interdum. Sed auctor odio a'),\n    ('16_r',6,'6i',6,'2022-10-01','2021-07-30',1, 'Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit'),\n    ('17_r',7,'7i',7,'2022-06-30','2021-12-18',1, 'non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis'),\n    ('18_r',8,'8i',8,'2022-09-07','2021-12-04',1, 'Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor,'),\n    ('19_r',9,'9i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),\n    ('20_r',10,'10i',10,'2022-09-22','2022-12-03',1,'dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum libero'),\n    ('25_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),\n    ('26_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),\n    ('27_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),\n    ('28_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),\n    ('29_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),\n    ('30_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),\n    ('31_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum');\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/mysqlFiles/insert.sql b/mysqlFiles/insert.sql
+--- a/mysqlFiles/insert.sql	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/mysqlFiles/insert.sql	(date 1659824697463)
+@@ -1,46 +1,45 @@
+-INSERT INTO renter (uid, name,address,date_of_birth,occupation,payment_info)
+-VALUES
+-    ('1','Noble Payne','P.O. Box 962, 6664 Massa. Ave','1999-09-06','Aliquet Sem Institute','417500 492481 5732'),
+-    ('2','Quail Berg','Ap #754-6127 Erat, Ave','1999-06-20','Tincidunt Congue LLP','630 48734 41764 944'),
+-    ('3','Minerva Terrell','3927 Adipiscing St.','2000-02-16','Ut Quam Vel LLC','6334 1254 5373 4669'),
+-    ('4','Kaye Fowler','906-4772 Gravida Av.','1999-09-21','Id Blandit Consulting','675 98623 94577 759'),
+-    ('5','Patrick Ware','Ap #615-8048 Placerat Rd.','1999-12-26','Velit Cras Institute','525 72878 35683 676'),
+-    ('6','Zephr Church','Ap #761-1644 Ipsum Ave','1999-11-04','Mi Lacinia Industries','6304558847788882'),
+-    ('7','Wynne Mcintosh','Ap #216-2820 Sapien. St.','2000-03-05','Eget Foundation','4916228847584844'),
+-    ('8','Asher Harvey','Ap #381-9299 Justo Street','2000-02-19','Interdum Enim Incorporated','658839 2212381124'),
+-    ('9','Harlan Barton','P.O. Box 538, 5814 Ut Rd.','2000-10-22','Arcu Nunc Institute','6486247576722367'),
+-    ('10','Preston donnell','6728 Aliquam Avenue','1999-06-07','Vulputate Lacus Institute','670654 6557434452');
++INSERT INTO renter (uid, name, address, date_of_birth, occupation, payment_info)
++VALUES ('1', 'Noble Payne', 'P.O. Box 962, 6664 Massa. Ave', '1999-09-06', 'Aliquet Sem Institute',
++        '417500 492481 5732'),
++       ('2', 'Quail Berg', 'Ap #754-6127 Erat, Ave', '1999-06-20', 'Tincidunt Congue LLP', '630 48734 41764 944'),
++       ('3', 'Minerva Terrell', '3927 Adipiscing St.', '2000-02-16', 'Ut Quam Vel LLC', '6334 1254 5373 4669'),
++       ('4', 'Kaye Fowler', '906-4772 Gravida Av.', '1999-09-21', 'Id Blandit Consulting', '675 98623 94577 759'),
++       ('5', 'Patrick Ware', 'Ap #615-8048 Placerat Rd.', '1999-12-26', 'Velit Cras Institute', '525 72878 35683 676'),
++       ('6', 'Zephr Church', 'Ap #761-1644 Ipsum Ave', '1999-11-04', 'Mi Lacinia Industries', '6304558847788882'),
++       ('7', 'Wynne Mcintosh', 'Ap #216-2820 Sapien. St.', '2000-03-05', 'Eget Foundation', '4916228847584844'),
++       ('8', 'Asher Harvey', 'Ap #381-9299 Justo Street', '2000-02-19', 'Interdum Enim Incorporated',
++        '658839 2212381124'),
++       ('9', 'Harlan Barton', 'P.O. Box 538, 5814 Ut Rd.', '2000-10-22', 'Arcu Nunc Institute', '6486247576722367'),
++       ('10', 'Preston donnell', '6728 Aliquam Avenue', '1999-06-07', 'Vulputate Lacus Institute', '670654 6557434452');
+ 
+-INSERT INTO host (uId,name,address,date_of_birth,occupation)
+-VALUES
+-    (1,'Raven Baker','552-2512 Ut, Rd.','2000-02-19','Vitae Dolor Institute'),
+-    (2,'Halee Wiley','5516 Mauris Street','1999-09-24','Eget PC'),
+-    (3,'Aimee Pittman','P.O. Box 906, 3685 Eros Street','1999-05-25','Neque In LLC'),
+-    (4,'Ryder Greene','410-9509 Urna St.','2000-09-15','Aliquam Enim LLP'),
+-    (5,'Quinn Miranda','985-6161 Nunc St.','2000-03-08','Natoque Corporation'),
+-    (6,'Eaton Watts','Ap #914-3802 Eu Road','2000-09-06','Lobortis PC'),
+-    (7,'Sara Lott','3366 Cursus Av.','2000-05-26','Nec Industries'),
+-    (8,'John Lane','487-5599 Ornare Avenue','2000-03-23','Ullamcorper Corporation'),
+-    (9,'Noble Blake','Ap #374-5673 Integer St.','2000-04-30','Nisl Corp.'),
+-    (10,'Amal Austin','P.O. Box 219, 1875 Tincidunt. Street','2000-07-30','Ut Cursus Limited');
++INSERT INTO host (uId, name, address, date_of_birth, occupation)
++VALUES (1, 'Raven Baker', '552-2512 Ut, Rd.', '2000-02-19', 'Vitae Dolor Institute'),
++       (2, 'Halee Wiley', '5516 Mauris Street', '1999-09-24', 'Eget PC'),
++       (3, 'Aimee Pittman', 'P.O. Box 906, 3685 Eros Street', '1999-05-25', 'Neque In LLC'),
++       (4, 'Ryder Greene', '410-9509 Urna St.', '2000-09-15', 'Aliquam Enim LLP'),
++       (5, 'Quinn Miranda', '985-6161 Nunc St.', '2000-03-08', 'Natoque Corporation'),
++       (6, 'Eaton Watts', 'Ap #914-3802 Eu Road', '2000-09-06', 'Lobortis PC'),
++       (7, 'Sara Lott', '3366 Cursus Av.', '2000-05-26', 'Nec Industries'),
++       (8, 'John Lane', '487-5599 Ornare Avenue', '2000-03-23', 'Ullamcorper Corporation'),
++       (9, 'Noble Blake', 'Ap #374-5673 Integer St.', '2000-04-30', 'Nisl Corp.'),
++       (10, 'Amal Austin', 'P.O. Box 219, 1875 Tincidunt. Street', '2000-07-30', 'Ut Cursus Limited');
+ 
+-INSERT INTO listing (lId,type,latitude,longitude,postal_code,city,country)
+-VALUES
+-    ('1i','apartment','-19.2761542656','-136.6154386432','735071','Llanquihue','Russian Federation'),
+-    ('2i','full house','5.1550667776','-85.7640810496','965519','Larvik','Peru'),
+-    ('3i','room','-41.0428909568','138.0606258176','65150-023','San Antonio','Russian Federation'),
+-    ('4i','apartment','-58.4752264192','148.8919666688','217978','Ravenstein','Philippines'),
+-    ('5i','room','71.386918912','151.5778917376','VN4I 6TP','Sokoto','Chile'),
+-    ('6i','apartment','-39.9093055488','-149.3089588224','44-25','Cochamó','Pakistan'),
+-    ('7i','full house','-10.3630294016','5.8111873024','47720','Pinetown','Brazil'),
+-    ('8i','full house','47.8830946304','10.1684512768','R6N 1NL','Hafizabad','Spain'),
+-    ('9i','room','-26.0834111488','111.6775187456','5548-2535','Fredericton','Russian Federation'),
+-    ('10i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+-    ('11i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+-    ('12i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+-    ('13i','room','66.8276508672','-36.7207641088','685635','Kollam','Netherlands'),
+-    ('14i','room','66.8276508672','-36.7207641088','685635','Kollam','Russian Federation'),
+-    ('15i','apartment','-58.4752264192','148.8919666688','217978','Ravenstein','Philippines');
++INSERT INTO listing (lId, type, latitude, longitude, postal_code, city, country)
++VALUES ('1i', 'apartment', '-19.2761542656', '-136.6154386432', '735071', 'Llanquihue', 'Russian Federation'),
++       ('2i', 'full house', '5.1550667776', '-85.7640810496', '965519', 'Larvik', 'Peru'),
++       ('3i', 'room', '-41.0428909568', '138.0606258176', '65150-023', 'San Antonio', 'Russian Federation'),
++       ('4i', 'apartment', '-58.4752264192', '148.8919666688', '217978', 'Ravenstein', 'Philippines'),
++       ('5i', 'room', '71.386918912', '151.5778917376', 'VN4I 6TP', 'Sokoto', 'Chile'),
++       ('6i', 'apartment', '-39.9093055488', '-149.3089588224', '44-25', 'Cochamó', 'Pakistan'),
++       ('7i', 'full house', '-10.3630294016', '5.8111873024', '47720', 'Pinetown', 'Brazil'),
++       ('8i', 'full house', '47.8830946304', '10.1684512768', 'R6N 1NL', 'Hafizabad', 'Spain'),
++       ('9i', 'room', '-26.0834111488', '111.6775187456', '5548-2535', 'Fredericton', 'Russian Federation'),
++       ('10i', 'room', '66.8276508672', '-36.7207641088', '685635', 'Kollam', 'Netherlands'),
++       ('11i', 'room', '66.8276508672', '-36.7207641088', '685635', 'Kollam', 'Netherlands'),
++       ('12i', 'room', '66.8276508672', '-36.7207641088', '685635', 'Kollam', 'Netherlands'),
++       ('13i', 'room', '66.8276508672', '-36.7207641088', '685635', 'Kollam', 'Netherlands'),
++       ('14i', 'room', '66.8276508672', '-36.7207641088', '685635', 'Kollam', 'Russian Federation'),
++       ('15i', 'apartment', '-58.4752264192', '148.8919666688', '217978', 'Ravenstein', 'Philippines');
+ 
+ 
+ 
+@@ -48,51 +47,51 @@
+ values ('1', 'Toilet paper'),
+        ('2', 'Soap for hands and body'),
+        ('3', 'One towel per guest'),
+-       ('4','Linens for each bed'),
++       ('4', 'Linens for each bed'),
+        ('5', 'One pillow per guest'),
+        ('6', 'Cleaning supplies'),
+-       ('7','A pool'),
++       ('7', 'A pool'),
+        ('8', 'Wifi'),
+        ('9', 'A kitchen'),
+-       ('10','Free parking'),
++       ('10', 'Free parking'),
+        ('11', 'A jacuzzi'),
+        ('12', 'A washer or dryer'),
+-       ('13','Air conditioning or heating'),
++       ('13', 'Air conditioning or heating'),
+        ('14', 'Self check-in'),
+        ('15', 'Laptop-friendly workspace'),
+-       ('16','Pets allowed'),
+-       ('17','Carbon monoxide alarm'),
++       ('16', 'Pets allowed'),
++       ('17', 'Carbon monoxide alarm'),
+        ('18', 'Smoke alarm'),
+        ('19', 'Fire extinguisher'),
+-       ('20','First-aid kit'),
+-       ('21','Emergency plan and local numbers'),
++       ('20', 'First-aid kit'),
++       ('21', 'Emergency plan and local numbers'),
+        ('22', 'Step-free entryway'),
+        ('23', 'Wide entrances (at least 32” or 82 cm)'),
+-       ('24','Wide hallways (at least 36” or 92 cm)'),
+-       ('25','Accessible bathroom'),
++       ('24', 'Wide hallways (at least 36” or 92 cm)'),
++       ('25', 'Accessible bathroom'),
+        ('26', 'Extra toilet paper, linens, and towels'),
+        ('27', 'Basic toiletries like shampoo and conditioner'),
+-       ('28','Dish soap and cleaning supplies'),
+-       ('29','Dining basics like a coffee maker, cooking utensils, dishes, and utensils'),
++       ('28', 'Dish soap and cleaning supplies'),
++       ('29', 'Dining basics like a coffee maker, cooking utensils, dishes, and utensils'),
+        ('30', 'Wine glasses'),
+        ('31', 'Basic cooking supplies like salt, pepper, and oil'),
+-       ('32','Coffee, tea'),
+-       ('33','Light breakfast or snacks'),
++       ('32', 'Coffee, tea'),
++       ('33', 'Light breakfast or snacks'),
+        ('34', 'Hangers'),
+        ('35', 'Adapters and chargers'),
+-       ('36','Fast and reliable wifi'),
+-       ('37','Laptop-friendly workspace'),
++       ('36', 'Fast and reliable wifi'),
++       ('37', 'Laptop-friendly workspace'),
+        ('38', 'Good lighting'),
+        ('39', 'Fully equipped kitchens'),
+-       ('40','Office supplies'),
+-       ('41','A crib and high chair'),
++       ('40', 'Office supplies'),
++       ('41', 'A crib and high chair'),
+        ('42', 'A bathtub'),
+        ('43', 'Air conditioning'),
+-       ('44','A washer and/or dryer'),
++       ('44', 'A washer and/or dryer'),
+        ('45', 'Extra cleaning supplies'),
+-       ('46','Furniture covers'),
++       ('46', 'Furniture covers'),
+        ('47', 'Bowls for pet food and water'),
+-       ('48','Towels to wipe off paws at the door');
++       ('48', 'Towels to wipe off paws at the door');
+ 
+ INSERT INTO listing (lid, type, latitude, longitude, address, postal_code, city, country)
+ VALUES ('a', 'in', 3, 6, 'what', '379850', 'Tønsberg', 'Austria'),
+@@ -111,46 +110,155 @@
+        ('n', 'vitae', 43.829009, -79.161257, 'what', '32G 4X5', 'Virginia', 'Chile'),
+        ('o', 'vitae', 43.829009, -79.161257, 'screw driver', '32G 4X5', 'Virginia', 'Chile');
+ 
+-INSERT INTO has (lId,aId)
+-VALUES
+-    ('1i',1),
+-    ('2i',2),
+-    ('3i',3),
+-    ('4i',4),
+-    ('5i',5),
+-    ('6i',6),
+-    ('7i',7),
+-    ('8i',8),
+-    ('9i',9),
+-    ('10i',10),
+-    ('j', 1),
+-    ('j', 2),
+-    ('j', 3),
+-    ('j', 4);
++INSERT INTO has (lId, aId)
++VALUES ('1i', 1),
++       ('2i', 2),
++       ('3i', 3),
++       ('4i', 4),
++       ('5i', 5),
++       ('6i', 6),
++       ('7i', 7),
++       ('8i', 8),
++       ('9i', 9),
++       ('10i', 10),
++       ('j', 1),
++       ('j', 2),
++       ('j', 3),
++       ('j', 4),
++       ('k', 1),
++       ('k', 2),
++       ('k', 3),
++       ('k', 4);
+ 
+ INSERT INTO calendar
+-select * from
+-    (select adddate('1970-01-01',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) gen_date from
+-                                                                                        (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+-                                                                                        (select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+-                                                                                        (select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,
+-                                                                                        (select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,
+-                                                                                        (select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v
++select *
++from (select adddate('1970-01-01', t4 * 10000 + t3 * 1000 + t2 * 100 + t1 * 10 + t0) gen_date
++      from (select 0 t0
++            union
++            select 1
++            union
++            select 2
++            union
++            select 3
++            union
++            select 4
++            union
++            select 5
++            union
++            select 6
++            union
++            select 7
++            union
++            select 8
++            union
++            select 9) t0,
++           (select 0 t1
++            union
++            select 1
++            union
++            select 2
++            union
++            select 3
++            union
++            select 4
++            union
++            select 5
++            union
++            select 6
++            union
++            select 7
++            union
++            select 8
++            union
++            select 9) t1,
++           (select 0 t2
++            union
++            select 1
++            union
++            select 2
++            union
++            select 3
++            union
++            select 4
++            union
++            select 5
++            union
++            select 6
++            union
++            select 7
++            union
++            select 8
++            union
++            select 9) t2,
++           (select 0 t3
++            union
++            select 1
++            union
++            select 2
++            union
++            select 3
++            union
++            select 4
++            union
++            select 5
++            union
++            select 6
++            union
++            select 7
++            union
++            select 8
++            union
++            select 9) t3,
++           (select 0 t4
++            union
++            select 1
++            union
++            select 2
++            union
++            select 3
++            union
++            select 4
++            union
++            select 5
++            union
++            select 6
++            union
++            select 7
++            union
++            select 8
++            union
++            select 9) t4) v
+ where gen_date between '2022-01-01' and '2022-12-31';
+ 
+ INSERT INTO available (lid, query_date)
+ SELECT lId, query_date
+-from calendar, (select lId from listing where TRUE) as tmp;
++from calendar,
++     (select lId from listing where TRUE) as tmp;
+ 
+ # INSERT INTO available (lid, query_date, available)
+ # VALUES ('j', '2022-01-01', 1);
+ 
+ UPDATE available
+-SET
+-    available = 1
+-WHERE
+-        lid = 'j' and
+-        query_date = '2022-01-01';
++SET available = 1
++WHERE lid = 'j'
++  and query_date = '2022-01-01'
++;
++
++UPDATE available
++SET available = 1
++WHERE lid = 'k'
++  and query_date = '2022-01-01'
++;
++UPDATE available
++SET available = 1
++WHERE lid = 'l'
++  and query_date = '2022-01-01'
++;
++UPDATE available
++SET available = 1
++WHERE lid = 'm'
++  and query_date = '2022-01-01'
++;
+ # INSERT INTO available (lId,query_date)
+ # VALUES
+ #     ('1i','2022-05-24'),
+@@ -165,60 +273,76 @@
+ #     ('10i','2022-08-28');
+ 
+ 
+-INSERT INTO owned (lId,uId)
+-VALUES
+-    ('1i',1),
+-    ('2i',2),
+-    ('3i',3),
+-    ('4i',4),
+-    ('5i',5),
+-    ('6i',6),
+-    ('7i',7),
+-    ('8i',8),
+-    ('9i',9),
+-    ('10i',10),
+-    ('11i', 7),
+-    ('12i', 7),
+-    ('13i',7),
+-    ('14i',3),
+-    ('15i',3);
++INSERT INTO owned (lId, uId)
++VALUES ('1i', 1),
++       ('2i', 2),
++       ('3i', 3),
++       ('4i', 4),
++       ('5i', 5),
++       ('6i', 6),
++       ('7i', 7),
++       ('8i', 8),
++       ('9i', 9),
++       ('10i', 10),
++       ('11i', 7),
++       ('12i', 7),
++       ('13i', 7),
++       ('14i', 3),
++       ('15i', 3);
+ 
+ 
+ 
+-INSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date,renter_comments)
+-VALUES
+-    ('1_r',1,'1i',1,'2022-05-25','2023-02-28','est, vitae sodales nisi magna sed dui. Fusce aliquam, enim'),
+-    ('2_r',2,'2i',2,'2022-08-13','2023-06-29','porta elit, a feugiat tellus lorem eu metus. In lorem. Donec'),
+-    ('3_r',3,'3i',3,'2022-11-09','2022-01-25','porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas,'),
+-    ('4_r',4,'4i',4,'2022-02-09','2023-02-22','Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci'),
+-    ('5_r',5,'5i',5,'2022-06-14','2023-01-20','sem, vitae aliquam eros turpis non enim.'),
+-    ('6_r',6,'6i',6,'2022-03-29','2021-11-24','id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem'),
+-    ('7_r',7,'7i',7,'2022-06-20','2022-07-14','vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh'),
+-    ('8_r',8,'8i',8,'2022-09-05','2022-08-14','diam vel arcu. Curabitur ut odio'),
+-    ('9_r',9,'9i',9,'2022-02-25','2022-09-13','velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper'),
+-    ('10_r',10,'10i',10,'2022-07-04','2021-10-14','rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed');
+-INSERT INTO rented (rentedId,rId,lId,hId,start_date,end_date, canceled,renter_comments)
+-VALUES
+-    ('11_r',1,'1i',1,'2022-09-14','2021-11-16',1, 'fermentum convallis ligula. Donec'),
+-    ('12_r',2,'2i',2,'2022-04-08','2022-03-30',1, 'facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat'),
+-    ('13_r',3,'3i',3,'2022-09-05','2023-03-22',1, 'egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris'),
+-    ('14_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+-    ('21_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+-    ('22_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+-    ('23_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+-    ('24_r',4,'4i',4,'2022-07-11','2021-11-01',1, 'Nulla dignissim. Maecenas ornare'),
+-    ('15_r',5,'5i',5,'2022-10-31','2022-07-07',1, 'porttitor interdum. Sed auctor odio a'),
+-    ('16_r',6,'6i',6,'2022-10-01','2021-07-30',1, 'Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit'),
+-    ('17_r',7,'7i',7,'2022-06-30','2021-12-18',1, 'non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis'),
+-    ('18_r',8,'8i',8,'2022-09-07','2021-12-04',1, 'Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor,'),
+-    ('19_r',9,'9i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+-    ('20_r',10,'10i',10,'2022-09-22','2022-12-03',1,'dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum libero'),
+-    ('25_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+-    ('26_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+-    ('27_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+-    ('28_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+-    ('29_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+-    ('30_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
+-    ('31_r',9,'15i',9,'2022-03-03','2021-08-15',1, 'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum');
++INSERT INTO rented (rentedId, rId, lId, hId, start_date, end_date, renter_comments)
++VALUES ('1_r', 1, '1i', 1, '2022-05-25', '2023-02-28', 'est, vitae sodales nisi magna sed dui. Fusce aliquam, enim'),
++       ('2_r', 2, '2i', 2, '2022-08-13', '2023-06-29', 'porta elit, a feugiat tellus lorem eu metus. In lorem. Donec'),
++       ('3_r', 3, '3i', 3, '2022-11-09', '2022-01-25',
++        'porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas,'),
++       ('4_r', 4, '4i', 4, '2022-02-09', '2023-02-22',
++        'Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci'),
++       ('5_r', 5, '5i', 5, '2022-06-14', '2023-01-20', 'sem, vitae aliquam eros turpis non enim.'),
++       ('6_r', 6, '6i', 6, '2022-03-29', '2021-11-24',
++        'id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem'),
++       ('7_r', 7, '7i', 7, '2022-06-20', '2022-07-14', 'vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh'),
++       ('8_r', 8, '8i', 8, '2022-09-05', '2022-08-14', 'diam vel arcu. Curabitur ut odio'),
++       ('9_r', 9, '9i', 9, '2022-02-25', '2022-09-13',
++        'velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper'),
++       ('10_r', 10, '10i', 10, '2022-07-04', '2021-10-14',
++        'rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed');
++INSERT INTO rented (rentedId, rId, lId, hId, start_date, end_date, canceled, renter_comments)
++VALUES ('11_r', 1, '1i', 1, '2022-09-14', '2021-11-16', 1, 'fermentum convallis ligula. Donec'),
++       ('12_r', 2, '2i', 2, '2022-04-08', '2022-03-30', 1,
++        'facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat'),
++       ('13_r', 3, '3i', 3, '2022-09-05', '2023-03-22', 1,
++        'egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris'),
++       ('14_r', 4, '4i', 4, '2022-07-11', '2021-11-01', 1, 'Nulla dignissim. Maecenas ornare'),
++       ('21_r', 4, '4i', 4, '2022-07-11', '2021-11-01', 1, 'Nulla dignissim. Maecenas ornare'),
++       ('22_r', 4, '4i', 4, '2022-07-11', '2021-11-01', 1, 'Nulla dignissim. Maecenas ornare'),
++       ('23_r', 4, '4i', 4, '2022-07-11', '2021-11-01', 1, 'Nulla dignissim. Maecenas ornare'),
++       ('24_r', 4, '4i', 4, '2022-07-11', '2021-11-01', 1, 'Nulla dignissim. Maecenas ornare'),
++       ('15_r', 5, '5i', 5, '2022-10-31', '2022-07-07', 1, 'porttitor interdum. Sed auctor odio a'),
++       ('16_r', 6, '6i', 6, '2022-10-01', '2021-07-30', 1,
++        'Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit'),
++       ('17_r', 7, '7i', 7, '2022-06-30', '2021-12-18', 1,
++        'non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis'),
++       ('18_r', 8, '8i', 8, '2022-09-07', '2021-12-04', 1,
++        'Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor,'),
++       ('19_r', 9, '9i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
++       ('20_r', 10, '10i', 10, '2022-09-22', '2022-12-03', 1,
++        'dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum libero'),
++       ('25_r', 9, '15i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
++       ('26_r', 9, '15i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
++       ('27_r', 9, '15i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
++       ('28_r', 9, '15i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
++       ('29_r', 9, '15i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
++       ('30_r', 9, '15i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum'),
++       ('31_r', 9, '15i', 9, '2022-03-03', '2021-08-15', 1,
++        'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum');
+ 
+ 
+Index: src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ExecuteQueries;\n\nimport main.java.commands.subcommands.SubCmd;\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.Statement;\nimport java.text.SimpleDateFormat;\nimport java.util.Collections;\nimport java.util.Date;\nimport java.util.List;\nimport java.util.concurrent.Callable;\n\n//import static main.java.commands.subcommands.Utils.validTime;\n\n@CommandLine.Command(\n        name = \"AddressSearch\",\n        description = \"show all the listings available atm\"\n)\n\npublic class AddressSearch extends SubCmd implements Callable<Integer> {\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n    @CommandLine.Option(names = {\"-address\"}, description = \"address\", required = true)\n    String addr;\n\n    @CommandLine.Option(names = {\"-start_date\"}, description = \"start date\", required = false)\n    String start_date = \"not given\";\n    //  format YYYY-MM-DD\n    @CommandLine.Option(names = {\"-end_date\"}, description = \"end date\", required = false)\n    String end_date = \"not given\";\n\n    @CommandLine.Option(names = {\"-lowest_price\"}, description = \"lowest price\", required = false)\n    Double lowest_price = -1.1;\n    @CommandLine.Option(names = {\"-highest_price\"}, description = \"highest price\", required = false)\n    Double highest_price = -0.1;\n\n    @CommandLine.Option(names = {\"-amenities\"}, description = \"highest price\", required = false)\n    String amenitiies = \"not given\";\n\n    private void parseInput() {\n        addr = addr.replace(\"&\", \" \");\n    }\n\n    @Override\n    public Integer call() {\n        String[] arrOfStr = amenitiies.split(\",\");\n        for (String a : arrOfStr)\n            System.out.println(a);\n\n        try {\n            parseInput();\n            Statement st = this.conn.createStatement();\n            String query = new String();\n            String amenities_query = new String();\n            PreparedStatement pst = null;\n            if (!start_date.equals(\"not given\") && !end_date.equals(\"not given\")\n                    && Utils.validTime(start_date, end_date)) {\n                query = \"\"\"\n                        SELECT lId, type, address, latitude,longitude, postal_code, city, country \n                        FROM listing as lst\n                        WHERE address = (?) and lst.lId not in (Select lId\n                                                            from available\n                                                            where available.query_date >= (?) \n                                                            && available.query_date <= (?) \n                                                            && available.available = 0\n                                                            )\n                                            and lst.lId not in (SELECT lId\n                                                            from available\n                                                            where available.price <= (?)\n                                                                || available.price >= (?)\n                                                                && available.lId = lst.lId)\n                                            and lst.lId in ((Select lId\n                                                             from has\n                                                             where has.lId = lst.lId && \"\"\";\n                \n                int amen_len = arrOfStr.length;\n                amenities_query = \" ((has.aId =\" + arrOfStr[0]+\")\";\n                for (int i = 1; i < amen_len; i++){\n                    amenities_query = amenities_query + \" || \" + \"(has.aId = \" + arrOfStr[i]+\")\";\n                }\n                System.out.println(\"query:\"+amenities_query);\n                amenities_query = amenities_query +\") \";\n                amenities_query = amenities_query +\"group by lId \"+\"having count(lId) = \"+amen_len+\"))\";\n\n                query = query + amenities_query;\n\n                pst = this.conn.prepareStatement(query);\n                pst.setString(1, addr);\n                pst.setDate(2, java.sql.Date.valueOf(start_date));\n                pst.setDate(3, java.sql.Date.valueOf(end_date));\n                pst.setDouble(4, lowest_price);\n                pst.setDouble(5, highest_price);\n                System.out.println(pst);\n\n            } else if (start_date.equals(\"not given\")) {\n                query = \"\"\"\n                        SELECT * FROM listing WHERE address = (?)\n                        \"\"\";\n                pst = this.conn.prepareStatement(query);\n                pst.setString(1,addr);\n            }\n            ResultSet resultSet = pst.executeQuery();\n            String[] str = {\"lId\", \"type\", \"latitude\", \"longitude\", \"postal_code\", \"city\", \"country\"};\n            Utils.printResult(str, resultSet);\n            st.close();\n            this.conn.close();\n        } catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java b/src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java
+--- a/src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java	(date 1659831552078)
+@@ -7,10 +7,6 @@
+ import java.sql.PreparedStatement;
+ import java.sql.ResultSet;
+ import java.sql.Statement;
+-import java.text.SimpleDateFormat;
+-import java.util.Collections;
+-import java.util.Date;
+-import java.util.List;
+ import java.util.concurrent.Callable;
+ 
+ //import static main.java.commands.subcommands.Utils.validTime;
+@@ -38,7 +34,7 @@
+     Double highest_price = -0.1;
+ 
+     @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
+-    String amenitiies = "not given";
++    String amenities = "not given";
+ 
+     private void parseInput() {
+         addr = addr.replace("&", " ");
+@@ -46,18 +42,14 @@
+ 
+     @Override
+     public Integer call() {
+-        String[] arrOfStr = amenitiies.split(",");
+-        for (String a : arrOfStr)
+-            System.out.println(a);
+-
+         try {
++            String[] arrOfStr = amenities.split(",");
+             parseInput();
+             Statement st = this.conn.createStatement();
+             String query = new String();
+             String amenities_query = new String();
+             PreparedStatement pst = null;
+-            if (!start_date.equals("not given") && !end_date.equals("not given")
+-                    && Utils.validTime(start_date, end_date)) {
++            if (Utils.validTime(start_date, end_date) && Utils.validPrice(lowest_price, highest_price)) {
+                 query = """
+                         SELECT lId, type, address, latitude,longitude, postal_code, city, country 
+                         FROM listing as lst
+@@ -75,15 +67,14 @@
+                                             and lst.lId in ((Select lId
+                                                              from has
+                                                              where has.lId = lst.lId && """;
+-                
++
+                 int amen_len = arrOfStr.length;
+-                amenities_query = " ((has.aId =" + arrOfStr[0]+")";
+-                for (int i = 1; i < amen_len; i++){
+-                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i]+")";
++                amenities_query = " ((has.aId =" + arrOfStr[0] + ")";
++                for (int i = 1; i < amen_len; i++) {
++                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i] + ")";
+                 }
+-                System.out.println("query:"+amenities_query);
+-                amenities_query = amenities_query +") ";
+-                amenities_query = amenities_query +"group by lId "+"having count(lId) = "+amen_len+"))";
++                amenities_query = amenities_query + ") ";
++                amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
+ 
+                 query = query + amenities_query;
+ 
+@@ -93,14 +84,14 @@
+                 pst.setDate(3, java.sql.Date.valueOf(end_date));
+                 pst.setDouble(4, lowest_price);
+                 pst.setDouble(5, highest_price);
+-                System.out.println(pst);
+ 
+             } else if (start_date.equals("not given")) {
++
+                 query = """
+                         SELECT * FROM listing WHERE address = (?)
+                         """;
+                 pst = this.conn.prepareStatement(query);
+-                pst.setString(1,addr);
++                pst.setString(1, addr);
+             }
+             ResultSet resultSet = pst.executeQuery();
+             String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
+Index: src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsPostalCode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ReportCmd;\n\nimport main.java.commands.subcommands.SubCmd;\n\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.ResultSet;\nimport java.sql.Statement;\n\nimport java.util.concurrent.Callable;\n\n@CommandLine.Command(\n        name = \"TotalListingsPostalCode\",\n        description = \"\"\"\n                find the total listings per country and city\"\"\"\n)\npublic class TotalListingsPostalCode extends SubCmd implements Callable<Integer> {\n\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n\n    @Override\n    public Integer call() throws Exception {\n        try {\n            System.out.println(\"TotalListingPostalCode: \");\n            Statement st = this.conn.createStatement();\n            String query =\n                    \"\"\"\n                        SELECT distinct country, city, postal_code, COUNT(postal_code)\n                        FROM listing\n                        group by country, city, postal_code\n                    \"\"\";\n            ResultSet resultSet = st.executeQuery(query);\n            String[] args = {\"country\",\"city\", \"postal_code\", \"total listing in the region\"};\n            Utils.printResult(args, resultSet);\n        }catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsPostalCode.java b/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsPostalCode.java
+--- a/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsPostalCode.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsPostalCode.java	(date 1659809768669)
+@@ -30,6 +30,7 @@
+                         SELECT distinct country, city, postal_code, COUNT(postal_code)
+                         FROM listing
+                         group by country, city, postal_code
++                        order by country, city, postal_code
+                     """;
+             ResultSet resultSet = st.executeQuery(query);
+             String[] args = {"country","city", "postal_code", "total listing in the region"};
+Index: src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ExecuteQueries;\n\nimport main.java.commands.subcommands.SubCmd;\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.Statement;\nimport java.util.concurrent.Callable;\n\n@CommandLine.Command(\n        name = \"LatSearch\",\n        description = \"Search listings by latitude longitude within 20kms\"\n)\n\npublic class LatSearch extends SubCmd implements Callable<Integer> {\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n    @CommandLine.Option(names = {\"-latitude\"}, description = \"latitude\", required = true)\n    double lat1;\n\n    @CommandLine.Option(names = {\"-longitude\"}, description = \"longitude\", required = true)\n    double long1;\n\n    @CommandLine.Option(names = {\"-start_date\"}, description = \"start date\", required = false)\n    String start_date = \"not given\";\n    //  format YYYY-MM-DD\n    @CommandLine.Option(names = {\"-end_date\"}, description = \"end date\", required = false)\n    String end_date = \"not given\";\n\n    @Override\n    public Integer call() {\n        try {\n            if (!start_date.equals(\"not given\") && !end_date.equals(\"not given\")\n                    && Utils.validTime(start_date, end_date)){\n\n            }\n\n            Statement st = this.conn.createStatement();\n            String query = \"\"\"\n                    SELECT lId, type, address, latitude,longitude, postal_code, city, country \n                    FROM listing\n                    WHERE ((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20;\n                    \"\"\";\n\n            PreparedStatement pst = this.conn.prepareStatement(query);\n            pst.setDouble(1, lat1);\n            pst.setDouble(2, lat1);\n            pst.setDouble(3, long1);\n            ResultSet resultSet = pst.executeQuery();\n            String[] str = {\"ListingID\", \"RoomType\", \"address\", \"latitude\", \"longitude\", \"postal_code\", \"city\", \"country\"};\n\n            Utils.printResult(str, resultSet);\n            st.close();\n            this.conn.close();\n        } catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java b/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java
+--- a/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java	(date 1659824347878)
+@@ -6,7 +6,6 @@
+ 
+ import java.sql.PreparedStatement;
+ import java.sql.ResultSet;
+-import java.sql.Statement;
+ import java.util.concurrent.Callable;
+ 
+ @CommandLine.Command(
+@@ -29,31 +28,80 @@
+     @CommandLine.Option(names = {"-end_date"}, description = "end date", required = false)
+     String end_date = "not given";
+ 
++    @CommandLine.Option(names = {"-lowest_price"}, description = "lowest price", required = false)
++    Double lowest_price = -1.0;
++
++    @CommandLine.Option(names = {"-highest_price"}, description = "highest price", required = false)
++    Double highest_price = -1.0;
++    @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
++    String amenitiies = "not given";
++
+     @Override
+     public Integer call() {
++        String[] arrOfStr = amenitiies.split(",");
++
+         try {
+-            if (!start_date.equals("not given") && !end_date.equals("not given")
+-                    && Utils.validTime(start_date, end_date)){
++            String query = new String();
++            String amenities_query = new String();
++            PreparedStatement pst = null;
++            if (Utils.validTime(start_date, end_date) && Utils.validPrice(lowest_price, highest_price)) {
++
++                query = """
++                        SELECT lId, type, address, latitude,longitude, postal_code, city, country 
++                        FROM listing lst
++                        WHERE (((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20)
++                                            and lst.lId not in (Select lId
++                                                            from available
++                                                            where available.query_date >= (?) 
++                                                            && available.query_date <= (?) 
++                                                            && available.available = 0
++                                                            )
++                                            and lst.lId not in (SELECT lId
++                                                            from available
++                                                            where available.price <= (?)
++                                                                || available.price >= (?)
++                                                                && available.lId = lst.lId)
++                                            and lst.lId in ((Select lId
++                                                             from has
++                                                             where has.lId = lst.lId && """;
+ 
+-            }
++                int amen_len = arrOfStr.length;
++                amenities_query = " ((has.aId =" + arrOfStr[0] + ")";
++                for (int i = 1; i < amen_len; i++) {
++                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i] + ")";
++                }
++                amenities_query = amenities_query + ") ";
++                amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
+ 
+-            Statement st = this.conn.createStatement();
+-            String query = """
+-                    SELECT lId, type, address, latitude,longitude, postal_code, city, country 
+-                    FROM listing
+-                    WHERE ((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20;
+-                    """;
++                query = query + amenities_query;
++
++                pst = this.conn.prepareStatement(query);
++                pst.setDouble(1, lat1);
++                pst.setDouble(2, lat1);
++                pst.setDouble(3, long1);
++                pst.setDate(4, java.sql.Date.valueOf(start_date));
++                pst.setDate(5, java.sql.Date.valueOf(end_date));
++                pst.setDouble(6, lowest_price);
++                pst.setDouble(7, highest_price);
++            } else if (start_date.equals("not given")) {
++                query = """
++                        SELECT lId, type, address, latitude,longitude, postal_code, city, country 
++                        FROM listing
++                        WHERE ((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20;
++                        """;
+ 
+-            PreparedStatement pst = this.conn.prepareStatement(query);
+-            pst.setDouble(1, lat1);
+-            pst.setDouble(2, lat1);
+-            pst.setDouble(3, long1);
++                pst = this.conn.prepareStatement(query);
++                pst.setDouble(1, lat1);
++                pst.setDouble(2, lat1);
++                pst.setDouble(3, long1);
++            } else {
++                return 0;
++            }
+             ResultSet resultSet = pst.executeQuery();
+-            String[] str = {"ListingID", "RoomType", "address", "latitude", "longitude", "postal_code", "city", "country"};
+-
++            String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
+             Utils.printResult(str, resultSet);
+-            st.close();
+             this.conn.close();
++
+         } catch (Exception e) {
+             System.err.println("Got an error!");
+             System.err.println(e);
+Index: src/main/java/main/java/commands/subcommands/ExecuteQueries/PostalSearch.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ExecuteQueries;\n\n\nimport main.java.commands.subcommands.SubCmd;\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.ResultSet;\nimport java.sql.Statement;\nimport java.util.concurrent.Callable;\n\n@CommandLine.Command(\n        name = \"PostalSearch\",\n        description = \"Search listings by nearby Postal Code\"\n)\n\npublic class PostalSearch extends SubCmd implements Callable<Integer> {\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n    @CommandLine.Option(names = {\"-postal_code\"}, description = \"postalcode\", required = true)\n    String postal = \"\";\n\n\n    @Override\n    public Integer call() {\n        try {\n            postal = postal.replace(\"&\", \" \");\n            System.out.println(\"Postal is\" + postal);\n            Statement st = this.conn.createStatement();\n            ResultSet resultSet = st.executeQuery(\"SELECT * from listing\");\n            String[] str = {\"ListingID\", \"RoomType\", \"address\", \"latitude\", \"longitude\", \"postal_code\", \"city\", \"country\"};\n            Utils utl = new Utils();\n            utl.SearchByPostal(str, resultSet, postal);\n            st.close();\n            this.conn.close();\n        } catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ExecuteQueries/PostalSearch.java b/src/main/java/main/java/commands/subcommands/ExecuteQueries/PostalSearch.java
+--- a/src/main/java/main/java/commands/subcommands/ExecuteQueries/PostalSearch.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ExecuteQueries/PostalSearch.java	(date 1659831134741)
+@@ -5,6 +5,7 @@
+ import main.java.commands.subcommands.Utils;
+ import picocli.CommandLine;
+ 
++import java.sql.PreparedStatement;
+ import java.sql.ResultSet;
+ import java.sql.Statement;
+ import java.util.concurrent.Callable;
+@@ -20,18 +21,83 @@
+     @CommandLine.Option(names = {"-postal_code"}, description = "postalcode", required = true)
+     String postal = "";
+ 
++    @CommandLine.Option(names = {"-start_date"}, description = "start date", required = false)
++    String start_date = "not given";
++    //  format YYYY-MM-DD
++    @CommandLine.Option(names = {"-end_date"}, description = "end date", required = false)
++    String end_date = "not given";
++
++    @CommandLine.Option(names = {"-lowest_price"}, description = "lowest price", required = false)
++    Double lowest_price = -1.0;
++
++    @CommandLine.Option(names = {"-highest_price"}, description = "highest price", required = false)
++    Double highest_price = -1.0;
++    @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
++    String amenitiies = "not given";
+ 
+     @Override
+     public Integer call() {
++
+         try {
+-            postal = postal.replace("&", " ");
+-            System.out.println("Postal is" + postal);
+-            Statement st = this.conn.createStatement();
+-            ResultSet resultSet = st.executeQuery("SELECT * from listing");
+-            String[] str = {"ListingID", "RoomType", "address", "latitude", "longitude", "postal_code", "city", "country"};
+-            Utils utl = new Utils();
+-            utl.SearchByPostal(str, resultSet, postal);
+-            st.close();
++            postal = postal.substring(0, 3);
++            String[] arrOfStr = amenitiies.split(",");
++
++            String query = new String();
++            String amenities_query = new String();
++            PreparedStatement pst = null;
++            if (Utils.validPrice(lowest_price, highest_price) && Utils.validTime(start_date, end_date)) {
++
++                query = """
++                        SELECT * from listing lst
++                        where SUBSTR(lst.postal_code, 1,3) = (?) 
++                                            and lst.lId not in (Select lId
++                                                            from available
++                                                            where available.query_date >= (?) 
++                                                            && available.query_date <= (?) 
++                                                            && available.available = 0
++                                                            )
++                                            and lst.lId not in (SELECT lId
++                                                            from available
++                                                            where available.price <= (?)
++                                                                || available.price >= (?)
++                                                                && available.lId = lst.lId)
++                                            and lst.lId in ((Select lId
++                                                             from has
++                                                             where has.lId = lst.lId && """;
++
++                int amen_len = arrOfStr.length;
++                amenities_query = " ((has.aId =" + arrOfStr[0] + ")";
++                for (int i = 1; i < amen_len; i++) {
++                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i] + ")";
++                }
++                amenities_query = amenities_query + ") ";
++                amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
++
++                query = query + amenities_query;
++
++                pst = this.conn.prepareStatement(query);
++                pst.setString(1, postal);
++                pst.setDate(2, java.sql.Date.valueOf(start_date));
++                pst.setDate(3, java.sql.Date.valueOf(end_date));
++                pst.setDouble(4, lowest_price);
++                pst.setDouble(5, highest_price);
++
++            } else if (start_date.equals("not given")) {
++                postal = postal.replace("&", " ");
++                System.out.println("Postal is" + postal);
++                Statement st = this.conn.createStatement();
++                query = """
++                        SELECT * from listing
++                        where SUBSTR(listing.postal_code, 1,3) = (?)
++                        """;
++                pst = this.conn.prepareStatement(query);
++                pst.setString(1, postal);
++            } else {
++                return 0;
++            }
++            ResultSet resultSet = pst.executeQuery();
++            String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
++            Utils.printResult(str, resultSet);
+             this.conn.close();
+         } catch (Exception e) {
+             System.err.println("Got an error!");
+Index: src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsCity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ReportCmd;\n\nimport main.java.commands.subcommands.SubCmd;\n\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.ResultSet;\nimport java.sql.Statement;\n\nimport java.util.concurrent.Callable;\n\n@CommandLine.Command(\n        name = \"TotalListingsCity\",\n        description = \"\"\"\n                find the total listings per country and city\"\"\"\n)\npublic class TotalListingsCity extends SubCmd implements Callable<Integer> {\n\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n\n    @Override\n    public Integer call() throws Exception {\n        try {\n            System.out.println(\"TotalListingPostalCode: \");\n            Statement st = this.conn.createStatement();\n            String query =\n                    \"\"\"\n                        SELECT distinct country, city, COUNT(city)\n                        FROM listing\n                        group by country, city\n                    \"\"\";\n            ResultSet resultSet = st.executeQuery(query);\n            String[] args = {\"country\",\"city\", \"total listing in the city\"};\n            Utils.printResult(args, resultSet);\n        }catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsCity.java b/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsCity.java
+--- a/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsCity.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsCity.java	(date 1659809742352)
+@@ -30,6 +30,7 @@
+                         SELECT distinct country, city, COUNT(city)
+                         FROM listing
+                         group by country, city
++                        order by country, city
+                     """;
+             ResultSet resultSet = st.executeQuery(query);
+             String[] args = {"country","city", "total listing in the city"};
+Index: src/main/java/main/java/commands/subcommands/Utils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands;\n\nimport com.kennycason.kumo.WordFrequency;\nimport com.kennycason.kumo.nlp.FrequencyAnalyzer;\nimport dnl.utils.text.table.TextTable;\n\nimport java.sql.ResultSet;\nimport java.text.SimpleDateFormat;\nimport java.util.ArrayList;\nimport java.util.Date;\nimport java.util.Collection;\nimport java.util.List;\nimport java.text.*;\nimport java.util.Date;\n\npublic class Utils {\n    public static void printResult(String[] args, ResultSet resultSet) {\n        List<Object[]> data = new ArrayList<>();\n        try {\n            int columnsNumber = args.length;\n            while (resultSet.next()) {\n                Object[] row = new String[columnsNumber];\n                for (int i = 1; i <= columnsNumber; i++) {\n                    row[i - 1] = resultSet.getString(i);\n                }\n                data.add(row);\n            }\n            TextTable tt = new TextTable(args, data.toArray(new Object[0][]));\n            tt.setAddRowNumbering(true);\n//            tt.setSort(1);\n            tt.printTable();\n        } catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n        }\n    }\n\n\n    public void SearchByPostal(String[] str, ResultSet resultSet, String postal) {\n        //this utils return the listing if the first 3 characters match with desired postal code\n        try {\n            for (String s : str) {\n                System.out.print(s);\n                System.out.print(\"  \");\n            }\n            System.out.println();\n            ArrayList<String[]> listings = new ArrayList<>();\n            int columnsNumber = str.length;\n            while (resultSet.next()) {\n                String cur_postal = resultSet.getString(6);\n                cur_postal = cur_postal.substring(0, 3);\n                postal = postal.substring(0, 3);\n                if (cur_postal.equals(postal)) {\n                    String[] lst = new String[columnsNumber + 2];\n                    for (int i = 1; i <= columnsNumber; i++) {\n                        lst[i - 1] = resultSet.getString(i);\n                    }\n                    listings.add(lst);\n                }\n            }\n\n            for (int i = 0; i < listings.size(); i++) {\n                for (int j = 0; j < columnsNumber; j++) {\n                    if (j > 0) System.out.print(\",  \");\n                    System.out.print(listings.get(i)[j] + \" \");\n                }\n                System.out.println();\n            }\n        } catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n        }\n    }\n\n        public static boolean validTime (String start_date, String end_date){\n            try {\n                SimpleDateFormat sdformat = new SimpleDateFormat(\"yyyy-MM-dd\");\n                Date d1 = sdformat.parse(start_date);\n                Date d2 = sdformat.parse(end_date);\n                if (d1.compareTo(d2) <= 0) {\n                    return true;\n                }\n            } catch (Exception e) {\n                return false;\n            }\n            return false;\n        }\n\n\n        public static List<WordFrequency> getWordCloud (List < String > texts) {\n            final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();\n            Collection<String> stopWords = new ArrayList<>();\n            stopWords.add(\"the\");\n            stopWords.add(\"a\");\n            stopWords.add(\"an\");\n            stopWords.add(\"and\");\n            stopWords.add(\"that\");\n            stopWords.add(\"for\");\n            stopWords.add(\"it\");\n            stopWords.add(\"he\");\n            stopWords.add(\"she\");\n            frequencyAnalyzer.setStopWords(stopWords);\n            final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);\n            return wordFrequencies;\n        }\n    }\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/Utils.java b/src/main/java/main/java/commands/subcommands/Utils.java
+--- a/src/main/java/main/java/commands/subcommands/Utils.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/Utils.java	(date 1659820609552)
+@@ -7,11 +7,9 @@
+ import java.sql.ResultSet;
+ import java.text.SimpleDateFormat;
+ import java.util.ArrayList;
+-import java.util.Date;
+ import java.util.Collection;
++import java.util.Date;
+ import java.util.List;
+-import java.text.*;
+-import java.util.Date;
+ 
+ public class Utils {
+     public static void printResult(String[] args, ResultSet resultSet) {
+@@ -72,35 +70,46 @@
+         }
+     }
+ 
+-        public static boolean validTime (String start_date, String end_date){
+-            try {
+-                SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+-                Date d1 = sdformat.parse(start_date);
+-                Date d2 = sdformat.parse(end_date);
+-                if (d1.compareTo(d2) <= 0) {
+-                    return true;
+-                }
+-            } catch (Exception e) {
+-                return false;
+-            }
+-            return false;
+-        }
++    public static boolean validTime(String start_date, String end_date) {
++        try {
++            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
++            Date d1 = sdformat.parse(start_date);
++            Date d2 = sdformat.parse(end_date);
++            if (d1.compareTo(d2) <= 0) {
++                return true;
++            }
++        } catch (Exception e) {
++            return false;
++        }
++        return false;
++    }
++
++    public static boolean validPrice(Double lowest_price, Double highest_price) {
++        if (lowest_price.equals(-1) || highest_price.equals(-1)) return false;
++        try {
++            if (lowest_price <= highest_price) {
++                return true;
++            }
++        } catch (Exception e) {
++            return false;
++        }
++        return false;
++    }
+ 
+-
+-        public static List<WordFrequency> getWordCloud (List < String > texts) {
+-            final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+-            Collection<String> stopWords = new ArrayList<>();
+-            stopWords.add("the");
+-            stopWords.add("a");
+-            stopWords.add("an");
+-            stopWords.add("and");
+-            stopWords.add("that");
+-            stopWords.add("for");
+-            stopWords.add("it");
+-            stopWords.add("he");
+-            stopWords.add("she");
+-            frequencyAnalyzer.setStopWords(stopWords);
+-            final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
+-            return wordFrequencies;
+-        }
+-    }
++    public static List<WordFrequency> getWordCloud(List<String> texts) {
++        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
++        Collection<String> stopWords = new ArrayList<>();
++        stopWords.add("the");
++        stopWords.add("a");
++        stopWords.add("an");
++        stopWords.add("and");
++        stopWords.add("that");
++        stopWords.add("for");
++        stopWords.add("it");
++        stopWords.add("he");
++        stopWords.add("she");
++        frequencyAnalyzer.setStopWords(stopWords);
++        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
++        return wordFrequencies;
++    }
++}
+Index: src/main/java/main/java/commands/subcommands/ExecuteQueries/ShowListings.java
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ExecuteQueries/ShowListings.java b/src/main/java/main/java/commands/subcommands/ExecuteQueries/ShowListings.java
+deleted file mode 100644
+--- a/src/main/java/main/java/commands/subcommands/ExecuteQueries/ShowListings.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ /dev/null	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
+@@ -1,35 +0,0 @@
+-package main.java.commands.subcommands.ExecuteQueries;
+-
+-import main.java.commands.subcommands.SubCmd;
+-import main.java.commands.subcommands.Utils;
+-import picocli.CommandLine;
+-
+-import java.sql.ResultSet;
+-import java.sql.Statement;
+-import java.util.concurrent.Callable;
+-
+-@CommandLine.Command(
+-        name = "Listing",
+-        description = "show all the listings available atm"
+-)
+-
+-public class ShowListings extends SubCmd implements Callable<Integer> {
+-
+-
+-    @Override
+-    public Integer call() {
+-        try {
+-            Statement st = this.conn.createStatement();
+-            ResultSet resultSet = st.executeQuery("SELECT * from listing");
+-            String[] str = {"lId", "type", "address", "latitude", "longitude", "postal_code", "city", "country"};
+-            Utils.printResult(str, resultSet);
+-            st.close();
+-            this.conn.close();
+-        } catch (Exception e) {
+-            System.err.println("Got an error!");
+-            System.err.println(e);
+-            return 0;
+-        }
+-        return 1;
+-    }
+-}
+Index: src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTimePerCity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ReportCmd;\n\nimport main.java.commands.subcommands.SubCmd;\n\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.Date;\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.Statement;\n\nimport java.util.concurrent.Callable;\n\n@CommandLine.Command(\n        name = \"RankRentersByTimePerCity\",\n        description = \"\"\"\n                rank the renters by number of booking in a time period per city\n                \"\"\"\n)\npublic class RankRentersByTimePerCity extends SubCmd implements Callable<Integer> {\n\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n\n    @CommandLine.Option(names = {\"-start_date\"}, description = \"start date\", required = false)\n    String start_date = \"2022-01-01\";\n    //  format YYYY-MM-DD\n    @CommandLine.Option(names = {\"-end_date\"}, description = \"end date\", required = false)\n    String end_date = \"2022-12-31\";\n\n\n    @Override\n    public Integer call() throws Exception {\n        try {\n            System.out.println(\"Rank renters: \");\n//            Statement st = this.conn.createStatement();\n            String query =\n                    \"\"\"\n                     select city, name, count(name) c\n                     from renter r join rented r2 on r.uId = r2.rId join listing l on r2.lId = l.lId\n                     where r2.start_date >= (?) and r2.end_date <= (?)\n                     group by city, name\n                     having c >= 2\n                     order by city, c desc \n                    \"\"\";\n            PreparedStatement pst = this.conn.prepareStatement(query);\n            pst.setDate(1, Date.valueOf(start_date));\n            pst.setDate(2, Date.valueOf(end_date));\n            ResultSet resultSet = pst.executeQuery();\n            String[] args= {\"City\", \"Name\", \"Number of Bookings\"};\n            Utils.printResult(args, resultSet);\n        }catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTimePerCity.java b/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTimePerCity.java
+--- a/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTimePerCity.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTimePerCity.java	(date 1659820414478)
+@@ -1,15 +1,12 @@
+ package main.java.commands.subcommands.ReportCmd;
+ 
+ import main.java.commands.subcommands.SubCmd;
+-
+ import main.java.commands.subcommands.Utils;
+ import picocli.CommandLine;
+ 
+ import java.sql.Date;
+ import java.sql.PreparedStatement;
+ import java.sql.ResultSet;
+-import java.sql.Statement;
+-
+ import java.util.concurrent.Callable;
+ 
+ @CommandLine.Command(
+@@ -33,24 +30,28 @@
+     @Override
+     public Integer call() throws Exception {
+         try {
++            if (!Utils.validTime(start_date, end_date)) {
++                System.out.println("Invalid Time given");
++                return 0;
++            }
+             System.out.println("Rank renters: ");
+ //            Statement st = this.conn.createStatement();
+             String query =
+                     """
+-                     select city, name, count(name) c
+-                     from renter r join rented r2 on r.uId = r2.rId join listing l on r2.lId = l.lId
+-                     where r2.start_date >= (?) and r2.end_date <= (?)
+-                     group by city, name
+-                     having c >= 2
+-                     order by city, c desc 
+-                    """;
++                             select city, name, count(name) c
++                             from renter r join rented r2 on r.uId = r2.rId join listing l on r2.lId = l.lId
++                             where r2.start_date >= (?) and r2.end_date <= (?)
++                             group by city, name
++                             having c >= 2
++                             order by city, c desc
++                            """;
+             PreparedStatement pst = this.conn.prepareStatement(query);
+             pst.setDate(1, Date.valueOf(start_date));
+             pst.setDate(2, Date.valueOf(end_date));
+             ResultSet resultSet = pst.executeQuery();
+-            String[] args= {"City", "Name", "Number of Bookings"};
++            String[] args = {"City", "Name", "Number of Bookings"};
+             Utils.printResult(args, resultSet);
+-        }catch (Exception e) {
++        } catch (Exception e) {
+             System.err.println("Got an error!");
+             System.err.println(e);
+             return 0;
+Index: src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTime.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.java.commands.subcommands.ReportCmd;\n\nimport main.java.commands.subcommands.SubCmd;\n\nimport main.java.commands.subcommands.Utils;\nimport picocli.CommandLine;\n\nimport java.sql.Date;\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.Statement;\n\nimport java.util.concurrent.Callable;\n\n@CommandLine.Command(\n        name = \"RankRentersByTime\",\n        description = \"\"\"\n                rank the renters by number of booking in a time period\n                \"\"\"\n)\npublic class RankRentersByTime extends SubCmd implements Callable<Integer> {\n\n    @CommandLine.Option(names = {\"-h\", \"-help\"}, usageHelp = true, description = \"show help\")\n    boolean help;\n\n    @CommandLine.Option(names = {\"-start_date\"}, description = \"start date\", required = false)\n    String start_date = \"2022-01-01\";\n    //  format YYYY-MM-DD\n    @CommandLine.Option(names = {\"-end_date\"}, description = \"end date\", required = false)\n    String end_date = \"2022-12-31\";\n\n\n    @Override\n    public Integer call() throws Exception {\n        try {\n            System.out.println(\"Rank renters: \");\n//            Statement st = this.conn.createStatement();\n            String query =\n                    \"\"\"\n                     select name, count(*) count\n                     from renter r join rented r2 on r.uId = r2.rId\n                     where r2.start_date >= (?) and r2.end_date <= (?)\n                     group by rId\n                     order by count(*) desc\n                    \"\"\";\n            PreparedStatement pst = this.conn.prepareStatement(query);\n            pst.setDate(1, Date.valueOf(start_date));\n            pst.setDate(2, Date.valueOf(end_date));\n            ResultSet resultSet = pst.executeQuery();\n//            String[] args = {\"listingId\", \"room type\", \"a\",\"b\",\"c\",\"d\",\"e\",\"f\",\"g\", \"h\", \"i\", \"j\", \"k\", \"l\", \"m\"};\n            String[] args= {\"Name\", \"Number of Bookings\"};\n            Utils.printResult(args, resultSet);\n        }catch (Exception e) {\n            System.err.println(\"Got an error!\");\n            System.err.println(e);\n            return 0;\n        }\n        return 1;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTime.java b/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTime.java
+--- a/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTime.java	(revision 713cf3d6c30d23ec668da5631b5d511aa3b96b47)
++++ b/src/main/java/main/java/commands/subcommands/ReportCmd/RankRentersByTime.java	(date 1659820393644)
+@@ -1,15 +1,12 @@
+ package main.java.commands.subcommands.ReportCmd;
+ 
+ import main.java.commands.subcommands.SubCmd;
+-
+ import main.java.commands.subcommands.Utils;
+ import picocli.CommandLine;
+ 
+ import java.sql.Date;
+ import java.sql.PreparedStatement;
+ import java.sql.ResultSet;
+-import java.sql.Statement;
+-
+ import java.util.concurrent.Callable;
+ 
+ @CommandLine.Command(
+@@ -23,34 +20,36 @@
+     @CommandLine.Option(names = {"-h", "-help"}, usageHelp = true, description = "show help")
+     boolean help;
+ 
+-    @CommandLine.Option(names = {"-start_date"}, description = "start date", required = false)
++    @CommandLine.Option(names = {"-start_date"}, description = "start date", required = true)
+     String start_date = "2022-01-01";
+     //  format YYYY-MM-DD
+-    @CommandLine.Option(names = {"-end_date"}, description = "end date", required = false)
++    @CommandLine.Option(names = {"-end_date"}, description = "end date", required = true)
+     String end_date = "2022-12-31";
+ 
+ 
+     @Override
+     public Integer call() throws Exception {
+         try {
++            if (!Utils.validTime(start_date, end_date)) {
++                System.out.println("Invalid Time given");
++                return 0;
++            }
+             System.out.println("Rank renters: ");
+-//            Statement st = this.conn.createStatement();
+             String query =
+                     """
+-                     select name, count(*) count
+-                     from renter r join rented r2 on r.uId = r2.rId
+-                     where r2.start_date >= (?) and r2.end_date <= (?)
+-                     group by rId
+-                     order by count(*) desc
+-                    """;
++                             select name, count(*) count
++                             from renter r join rented r2 on r.uId = r2.rId
++                             where r2.start_date >= (?) and r2.end_date <= (?)
++                             group by rId
++                             order by count(*) desc
++                            """;
+             PreparedStatement pst = this.conn.prepareStatement(query);
+             pst.setDate(1, Date.valueOf(start_date));
+             pst.setDate(2, Date.valueOf(end_date));
+             ResultSet resultSet = pst.executeQuery();
+-//            String[] args = {"listingId", "room type", "a","b","c","d","e","f","g", "h", "i", "j", "k", "l", "m"};
+-            String[] args= {"Name", "Number of Bookings"};
++            String[] args = {"Name", "Number of Bookings"};
+             Utils.printResult(args, resultSet);
+-        }catch (Exception e) {
++        } catch (Exception e) {
+             System.err.println("Got an error!");
+             System.err.println(e);
+             return 0;

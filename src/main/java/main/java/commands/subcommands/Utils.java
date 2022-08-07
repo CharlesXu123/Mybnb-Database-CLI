@@ -7,11 +7,9 @@ import dnl.utils.text.table.TextTable;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Collection;
-import java.util.List;
-import java.text.*;
 import java.util.Date;
+import java.util.List;
 
 public class Utils {
     public static void printResult(String[] args, ResultSet resultSet) {
@@ -27,7 +25,7 @@ public class Utils {
             }
             TextTable tt = new TextTable(args, data.toArray(new Object[0][]));
             tt.setAddRowNumbering(true);
-            tt.setSort(0);
+//            tt.setSort(1);
             tt.printTable();
         } catch (Exception e) {
             System.err.println("Got an error!");
@@ -72,35 +70,46 @@ public class Utils {
         }
     }
 
-        public static boolean validTime (String start_date, String end_date){
-            try {
-                SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
-                Date d1 = sdformat.parse(start_date);
-                Date d2 = sdformat.parse(end_date);
-                if (d1.compareTo(d2) <= 0) {
-                    return true;
-                }
-            } catch (Exception e) {
-                return false;
+    public static boolean validTime(String start_date, String end_date) {
+        try {
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date d1 = sdformat.parse(start_date);
+            Date d2 = sdformat.parse(end_date);
+            if (d1.compareTo(d2) <= 0) {
+                return true;
             }
+        } catch (Exception e) {
             return false;
         }
-
-
-        public static List<WordFrequency> getWordCloud (List < String > texts) {
-            final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-            Collection<String> stopWords = new ArrayList<>();
-            stopWords.add("the");
-            stopWords.add("a");
-            stopWords.add("an");
-            stopWords.add("and");
-            stopWords.add("that");
-            stopWords.add("for");
-            stopWords.add("it");
-            stopWords.add("he");
-            stopWords.add("she");
-            frequencyAnalyzer.setStopWords(stopWords);
-            final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
-            return wordFrequencies;
-        }
+        return false;
     }
+
+    public static boolean validPrice(Double lowest_price, Double highest_price) {
+        if (lowest_price.equals(-1) || highest_price.equals(-1)) return false;
+        try {
+            if (lowest_price <= highest_price) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    public static List<WordFrequency> getWordCloud(List<String> texts) {
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        Collection<String> stopWords = new ArrayList<>();
+        stopWords.add("the");
+        stopWords.add("a");
+        stopWords.add("an");
+        stopWords.add("and");
+        stopWords.add("that");
+        stopWords.add("for");
+        stopWords.add("it");
+        stopWords.add("he");
+        stopWords.add("she");
+        frequencyAnalyzer.setStopWords(stopWords);
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
+        return wordFrequencies;
+    }
+}
