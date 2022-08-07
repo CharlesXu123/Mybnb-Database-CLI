@@ -214,3 +214,11 @@ SELECT COUNT(*) count, name
 FROM renter r JOIN rented r2 on r.uId = r2.rId
 GROUP BY rId
 ORDER BY COUNT(*) desc;
+
+CREATE table temp(a char(36)
+                 check (a > 10 ));
+INSERT INTO temp values (null);
+SELECT a, null+10
+FROM temp;
+DROP table temp;
+
