@@ -30,6 +30,7 @@ public class TotalListingsPostalCode extends SubCmd implements Callable<Integer>
                         SELECT distinct country, city, postal_code, COUNT(postal_code)
                         FROM listing
                         group by country, city, postal_code
+                        order by country, city, postal_code
                     """;
             ResultSet resultSet = st.executeQuery(query);
             String[] args = {"country","city", "postal_code", "total listing in the region"};

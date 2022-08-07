@@ -1,7 +1,6 @@
 package main.java.commands.subcommands.ReportCmd;
 
 
-import com.kennycason.kumo.WordFrequency;
 import main.java.commands.subcommands.SubCmd;
 import main.java.commands.subcommands.Utils;
 import picocli.CommandLine;
@@ -9,12 +8,7 @@ import picocli.CommandLine;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
-
-import static main.java.commands.subcommands.Utils.getWordCloud;
 
 @CommandLine.Command(
         name = "LargestCancellation",
@@ -35,6 +29,10 @@ public class LargestCancellation extends SubCmd implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         try {
+            if (!Utils.validTime(start_date, end_date)) {
+                System.out.println("Invalid Time given");
+                return 0;
+            }
             System.out.println("Host with largest cancellation ");
             String query =
                     """         
@@ -43,26 +41,26 @@ public class LargestCancellation extends SubCmd implements Callable<Integer> {
                                 FROM host h join rented r on r.hId = h.uId
                                 where r.start_date >= (?) and r.end_date <= (?)
                                 group by h.name
-                                ) sub order by sub.count desc limit 1
+                                ) sub order by sub.count desc limit 5
                             """;
             PreparedStatement pst = this.conn.prepareStatement(query);
             pst.setDate(1, Date.valueOf(start_date));
             pst.setDate(2, Date.valueOf(end_date));
             ResultSet resultSet = pst.executeQuery();
-            String[] args= {"Name", "Number of Bookings"};
+            String[] args = {"Name", "Number of Bookings"};
             Utils.printResult(args, resultSet);
             System.out.println();
             System.out.println("Renter with largest cancellation ");
-             query =
+            query =
                     """         
-                        select * from (
-                        SELECT r.name, count(r.name) count
-                        FROM renter r join rented rt on rt.hId = r.uId
-                        where rt.start_date >= (?) and rt.end_date <= (?)
-                        group by r.name
-                        ) sub order by sub.count desc limit 1
-                    """;
-             pst = this.conn.prepareStatement(query);
+                                select * from (
+                                SELECT r.name, count(r.name) count
+                                FROM renter r join rented rt on rt.hId = r.uId
+                                where rt.start_date >= (?) and rt.end_date <= (?)
+                                group by r.name
+                                ) sub order by sub.count desc limit 5
+                            """;
+            pst = this.conn.prepareStatement(query);
             pst.setDate(1, Date.valueOf(start_date));
             pst.setDate(2, Date.valueOf(end_date));
             resultSet = pst.executeQuery();

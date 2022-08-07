@@ -30,6 +30,7 @@ public class TotalListingsCity extends SubCmd implements Callable<Integer> {
                         SELECT distinct country, city, COUNT(city)
                         FROM listing
                         group by country, city
+                        order by country, city
                     """;
             ResultSet resultSet = st.executeQuery(query);
             String[] args = {"country","city", "total listing in the city"};
