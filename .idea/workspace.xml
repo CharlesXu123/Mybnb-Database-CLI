@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="add being_rented table initailization">
+      <change afterPath="$PROJECT_DIR$/mysqlFiles/demo.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/test.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java" afterDir="false" />
     </list>
@@ -54,11 +57,13 @@
       "mysql"
     ],
     "RunConfigurationTargetLRU": [
-      "26f3752b-0d42-439d-b1a4-f7c63bca7dfa"
+      "26f3752b-0d42-439d-b1a4-f7c63bca7dfa",
+      "e3642136-6197-4864-9f8b-13afbe7b8d0b/schema/\"c43Project\"",
+      "e3642136-6197-4864-9f8b-13afbe7b8d0b"
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Application.suggest listing price">
+  <component name="RunManager" selected="Database Script.insert">
     <configuration name="number of bookings" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
       <module name="c43Project" />
@@ -98,13 +103,13 @@
     <configuration name="initialize" type="DatabaseScript">
       <script-file value="$PROJECT_DIR$/mysqlFiles/initialize.sql" />
       <script-mode>FILE</script-mode>
-      <data-source id="26f3752b-0d42-439d-b1a4-f7c63bca7dfa" />
+      <data-source id="e3642136-6197-4864-9f8b-13afbe7b8d0b" />
       <method v="2" />
     </configuration>
     <configuration name="insert" type="DatabaseScript">
       <script-file value="$PROJECT_DIR$/mysqlFiles/insert.sql" />
       <script-mode>FILE</script-mode>
-      <data-source id="26f3752b-0d42-439d-b1a4-f7c63bca7dfa" />
+      <data-source id="e3642136-6197-4864-9f8b-13afbe7b8d0b" />
       <method v="2" />
     </configuration>
     <list>
@@ -123,7 +128,7 @@
       <option name="presentableId" value="Default" />
       <updated>1659752473785</updated>
       <workItem from="1659752475378" duration="51000" />
-      <workItem from="1659752529246" duration="9543000" />
+      <workItem from="1659752529246" duration="15099000" />
     </task>
     <servers />
   </component>

@@ -233,5 +233,28 @@ SELECT a, null+10
 FROM temp;
 DROP table temp;
 
+
+SELECT lId, type, address, latitude,longitude, postal_code, city, country
+FROM listing lst
+WHERE (((acos((sin(latitude * (PI() / 180))) * sin((69.8) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((69.8) * (PI() / 180)) * cos((longitude * (PI() / 180) - (-31.7) * (PI() / 180))))) * 6371) <= 20)
+  and lst.lId not in (Select lId
+                      from available
+                      where available.query_date >= ('2022-01-01')
+                                && available.query_date <= ('2022-12-31')
+                                && available.available = 0
+)
+  and lst.lId not in (SELECT lId
+                      from available
+                      where available.price <= (0.0)
+                                || available.price >= (999.0)
+                                && available.lId = lst.lId)
+  and lst.lId in ((Select lId
+                   from has
+                   where has.lId = lst.lId && ((has.aId =10) || (has.aId = 11)) group by lId having count(lId) = 2));
+
 SELECT *
-FROM listing JOIN has h on listing.lId = h.lId JOIN amenity a on a.aId = h.aId;
+FROM listing JOIN has h on listing.lId = h.lId
+WHERE 2=(SELECT COUNT(distinct has.aId)
+        FROM has
+        WHERE has.lId = listing.lId AND has.aId in ('10','12'));
+

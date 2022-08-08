@@ -96,6 +96,7 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
             } else {
                 return 0;
             }
+            System.out.println(pst);
             ResultSet resultSet = pst.executeQuery();
             String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
             Utils.printResult(str, resultSet);
