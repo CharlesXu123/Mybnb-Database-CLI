@@ -234,23 +234,25 @@ FROM temp;
 DROP table temp;
 
 
-SELECT lId, type, address, latitude,longitude, postal_code, city, country
-FROM listing lst
-WHERE (((acos((sin(latitude * (PI() / 180))) * sin((69.8) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((69.8) * (PI() / 180)) * cos((longitude * (PI() / 180) - (-31.7) * (PI() / 180))))) * 6371) <= 20)
-  and lst.lId not in (Select lId
+SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(price)
+FROM listing lst JOIN available a on lst.lId = a.lId
+WHERE ((acos((sin(latitude * (PI() / 180))) * sin((66.8) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((66.8) * (PI() / 180)) * cos((longitude * (PI() / 180) - (-36.7) * (PI() / 180))))) * 6371) <= 20
+  and true = All (Select a.available
                       from available
-                      where available.query_date >= ('2022-01-01')
-                                && available.query_date <= ('2022-12-31')
-                                && available.available = 0
+                      where available.query_date >= ('2022-02-02')
+                                && available.query_date <= ('2022-05-05')
+                                && available.price <= 900
+                                && available.price >= 100
+                                && available.lId = lst.lId
 )
-  and lst.lId not in (SELECT lId
-                      from available
-                      where available.price <= (0.0)
-                                || available.price >= (999.0)
-                                && available.lId = lst.lId)
   and lst.lId in ((Select lId
                    from has
-                   where has.lId = lst.lId && ((has.aId =10) || (has.aId = 11)) group by lId having count(lId) = 2));
+                   where has.lId = lst.lId && (has.aId =10) group by lId having count(lId) = 1))
+GROUP BY a.lId
+ORDER BY avg(price);
+
+
+
 
 SELECT *
 FROM listing JOIN has h on listing.lId = h.lId
