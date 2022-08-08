@@ -233,25 +233,29 @@ SELECT a, null+10
 FROM temp;
 DROP table temp;
 
-
-SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(price)
+SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
 FROM listing lst JOIN available a on lst.lId = a.lId
 WHERE ((acos((sin(latitude * (PI() / 180))) * sin((66.8) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((66.8) * (PI() / 180)) * cos((longitude * (PI() / 180) - (-36.7) * (PI() / 180))))) * 6371) <= 20
-  and true = All (Select a.available
+  and true = All (Select available.available
                       from available
                       where available.query_date >= ('2022-02-02')
-                                && available.query_date <= ('2022-05-05')
-                                && available.price <= 900
-                                && available.price >= 100
-                                && available.lId = lst.lId
-)
+                                && available.query_date <= ('2022-07-05')
+                                && available.lId = lst.lId)
+  and 0 <= ALL (Select available.price
+                from available
+                where available.query_date >= ('2022-02-02')
+                          && available.query_date <= ('2022-07-05')
+                          && available.lId = lst.lId)
+  and 900 >= ALL (Select available.price
+                from available
+                where available.query_date >= ('2022-02-02')
+                          && available.query_date <= ('2022-07-05')
+                          && available.lId = lst.lId)
   and lst.lId in ((Select lId
                    from has
                    where has.lId = lst.lId && (has.aId =10) group by lId having count(lId) = 1))
 GROUP BY a.lId
-ORDER BY avg(price);
-
-
+ORDER BY avg(a.price);
 
 
 SELECT *
@@ -259,4 +263,3 @@ FROM listing JOIN has h on listing.lId = h.lId
 WHERE 2=(SELECT COUNT(distinct has.aId)
         FROM has
         WHERE has.lId = listing.lId AND has.aId in ('10','12'));
-

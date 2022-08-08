@@ -386,6 +386,12 @@ WHERE lid = '14i'
 ;
 
 UPDATE available
+SET price = 2000
+WHERE lid = '14i'
+  and query_date = '2022-06-15'
+;
+
+UPDATE available
 SET available = 1, price = 1000
 WHERE lid = '15i'
   and query_date >= '2022-01-01' AND query_date <='2022-10-10'

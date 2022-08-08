@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d3cfab-c1a7-4783-921e-9a8169f8edcd" name="Changes" comment="add being_rented table initailization">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysqlFiles/test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/test.sql" afterDir="false" />
     </list>
@@ -125,7 +124,7 @@
       <option name="presentableId" value="Default" />
       <updated>1659752473785</updated>
       <workItem from="1659752475378" duration="51000" />
-      <workItem from="1659752529246" duration="17489000" />
+      <workItem from="1659752529246" duration="18192000" />
     </task>
     <servers />
   </component>
