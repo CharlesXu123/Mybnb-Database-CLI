@@ -47,8 +47,7 @@ public class CancelBooking extends SubCmd implements Callable<Integer> {
                 """;
             Statement st = this.conn.createStatement();
             query = String.format(query,rentedId,hId);
-            int action = st.executeUpdate(query);
-            System.out.println(action);
+            st.executeUpdate(query);
             System.out.println("order canceled");
         }
         catch (Exception e) {

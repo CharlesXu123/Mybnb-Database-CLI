@@ -205,3 +205,56 @@ where r2.start_date >= '2022-01-01' and r2.end_date <= '2022-12-31'
 group by city, name
 having c >= 2
 order by city, c desc
+SELECT @city := listing.city, @country := listing.country, @zip := listing.postal_code
+FROM listing
+WHERE lId='10i';
+
+SELECT amenity, COUNT(*) / (SELECT COUNT(*)
+                                 FROM listing
+                                 WHERE city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3)) * 100
+FROM amenity a JOIN has h on a.aId = h.aId JOIN listing l on l.lId = h.lId
+WHERE city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3) AND NOT EXISTS(SELECT has.aId
+                                                                                                      FROM has
+                                                                                                      WHERE has.aId = a.aId AND has.lId = '1i')
+GROUP BY h.aId
+HAVING COUNT(*) > (SELECT COUNT(*)
+                   FROM listing
+                   WHERE city=@city AND country=@country AND SUBSTR(postal_code, 1, 3)=SUBSTR(@zip, 1, 3))/2;
+
+SELECT COUNT(*) count, name
+FROM renter r JOIN rented r2 on r.uId = r2.rId
+GROUP BY rId
+ORDER BY COUNT(*) desc;
+
+CREATE table temp(a char(36)
+                 check (a > 10 ));
+INSERT INTO temp values (null);
+SELECT a, null+10
+FROM temp;
+DROP table temp;
+
+
+SELECT lId, type, address, latitude,longitude, postal_code, city, country
+FROM listing lst
+WHERE (((acos((sin(latitude * (PI() / 180))) * sin((69.8) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((69.8) * (PI() / 180)) * cos((longitude * (PI() / 180) - (-31.7) * (PI() / 180))))) * 6371) <= 20)
+  and lst.lId not in (Select lId
+                      from available
+                      where available.query_date >= ('2022-01-01')
+                                && available.query_date <= ('2022-12-31')
+                                && available.available = 0
+)
+  and lst.lId not in (SELECT lId
+                      from available
+                      where available.price <= (0.0)
+                                || available.price >= (999.0)
+                                && available.lId = lst.lId)
+  and lst.lId in ((Select lId
+                   from has
+                   where has.lId = lst.lId && ((has.aId =10) || (has.aId = 11)) group by lId having count(lId) = 2));
+
+SELECT *
+FROM listing JOIN has h on listing.lId = h.lId
+WHERE 2=(SELECT COUNT(distinct has.aId)
+        FROM has
+        WHERE has.lId = listing.lId AND has.aId in ('10','12'));
+
