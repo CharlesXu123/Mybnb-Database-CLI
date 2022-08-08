@@ -62,9 +62,9 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
                                                              where has.lId = lst.lId && """;
 
                 int amen_len = arrOfStr.length;
-                amenities_query = " ((has.aId =" + arrOfStr[0] + ")";
+                amenities_query = " ((has.aId =" + "\'"+ arrOfStr[0]+ "\'" + ")";
                 for (int i = 1; i < amen_len; i++) {
-                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i] + ")";
+                    amenities_query = amenities_query + " || " + "(has.aId = " + "\'"+arrOfStr[i]+"\'" + ")";
                 }
                 amenities_query = amenities_query + ") ";
                 amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
