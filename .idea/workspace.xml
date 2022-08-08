@@ -5,20 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ca0bcb0-b850-4944-a5bc-840b16c07e02" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/c43Project.lx7ymA.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/26f3752b-0d42-439d-b1a4-f7c63bca7dfa/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysqlFiles/demo.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/demo.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysqlFiles/insert.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/insert.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysqlFiles/operations.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/operations.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysqlFiles/test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/mysqlFiles/test.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/AddressSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ExecuteQueries/LatSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/LargestCancellation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/LargestCancellation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsPostalCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/ReportCmd/TotalListingsPostalCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/SubCmd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/commands/subcommands/SubCmd.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProjectId" id="2D2ena052ILb50vzUsq5zUKFZDy" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -33,20 +56,41 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "actions.on.save"
   },
   "keyToStringList": {
     "RunConfigurationTargetLRU": [
       "26f3752b-0d42-439d-b1a4-f7c63bca7dfa",
-      "26f3752b-0d42-439d-b1a4-f7c63bca7dfa/schema/\"c43Project\""
+      "26f3752b-0d42-439d-b1a4-f7c63bca7dfa/schema/\"c43Project\"",
+      "e3642136-6197-4864-9f8b-13afbe7b8d0b"
     ]
   }
 }]]></component>
   <component name="RunManager" selected="Application.Mybnb LatSearch">
+    <configuration name="Mybnb AddressSearch help" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
+      <module name="c43Project" />
+      <option name="PROGRAM_PARAMETERS" value="Query AddressSearch -h" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Mybnb AddressSearch" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
       <module name="c43Project" />
@@ -65,10 +109,46 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Mybnb Largest Cancellation" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
+      <module name="c43Project" />
+      <option name="PROGRAM_PARAMETERS" value="Report LargestCancellation" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Mybnb LatSearch" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
       <module name="c43Project" />
-      <option name="PROGRAM_PARAMETERS" value="Query LatSearch -latitude=43.78 -longitude=-79.18 -start_date=2022-01-01 -end_date=2022-01-01 -lowest_price=-10 -highest_price=10000 -amenities=1,2,3,4" />
+      <option name="PROGRAM_PARAMETERS" value="Query LatSearch -latitude=43.78 -longitude=-79.18 -start_date=2022-01-01 -end_date=2022-01-02 -lowest_price=-10 -highest_price=10000 -amenities=1,2,3,4" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Mybnb PostalSearch help" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="main.java.commands.Mybnb" />
+      <module name="c43Project" />
+      <option name="PROGRAM_PARAMETERS" value="Query PostalSearch -h" />
       <extension name="net.ashald.envfile">
         <option name="IS_ENABLED" value="false" />
         <option name="IS_SUBST" value="false" />
@@ -104,19 +184,22 @@
     <configuration name="initialize" type="DatabaseScript">
       <script-file value="$PROJECT_DIR$/mysqlFiles/initialize.sql" />
       <script-mode>FILE</script-mode>
-      <data-source id="26f3752b-0d42-439d-b1a4-f7c63bca7dfa" namespace="schema/&quot;c43Project&quot;" />
+      <data-source id="e3642136-6197-4864-9f8b-13afbe7b8d0b" />
       <method v="2" />
     </configuration>
     <configuration name="insert" type="DatabaseScript">
       <script-file value="$PROJECT_DIR$/mysqlFiles/insert.sql" />
       <script-mode>FILE</script-mode>
-      <data-source id="26f3752b-0d42-439d-b1a4-f7c63bca7dfa" namespace="schema/&quot;c43Project&quot;" />
+      <data-source id="e3642136-6197-4864-9f8b-13afbe7b8d0b" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Application.Mybnb LatSearch" />
       <item itemvalue="Application.Mybnb AddressSearch" />
+      <item itemvalue="Application.Mybnb Largest Cancellation" />
+      <item itemvalue="Application.Mybnb AddressSearch help" />
       <item itemvalue="Application.Mybnb PostalSearch" />
+      <item itemvalue="Application.Mybnb PostalSearch help" />
       <item itemvalue="Database Script.initialize" />
       <item itemvalue="Database Script.insert" />
     </list>
@@ -146,5 +229,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

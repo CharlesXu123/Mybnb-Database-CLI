@@ -258,3 +258,40 @@ WHERE 2=(SELECT COUNT(distinct has.aId)
         FROM has
         WHERE has.lId = listing.lId AND has.aId in ('10','12'));
 
+
+(SELECT AVG(available.price)
+ FROM listing, available
+ WHERE listing.lId = available.lId AND
+         available.query_date >= (?) AND available.query_date <= (?)
+ group by available.lId);
+(SELECT av.lid, avg(price)
+ FROM listing lst join available av on av.lId = lst.lId
+ where query_date >= '2022-01-01' and query_date <= '2022-01-02' and av.lId='k'
+ group by av.lId
+);
+
+SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
+FROM listing lst JOIN available a on lst.lId = a.lId
+WHERE ((acos((sin(latitude * (PI() / 180))) * sin((43.78) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((43.78) * (PI() / 180)) * cos((longitude * (PI() / 180) - (-79.18) * (PI() / 180))))) * 6371) <= 20
+  and true = All (Select available.available
+                  from available
+                  where available.query_date >= ('2022-01-01')
+                            && available.query_date <= ('2022-01-02')
+                            && available.lId = lst.lId)
+  and -10 <= ALL (Select available.price
+                from available
+                where available.query_date >= ('2022-01-01')
+                          && available.query_date <= ('2022-01-02')
+                          && available.lId = lst.lId)
+  and 10000 >= ALL (Select available.price
+                  from available
+                  where available.query_date >= ('2022-01-01')
+                            && available.query_date <= ('2022-01-02')
+                            && available.lId = lst.lId)
+  and lst.lId in ((Select lId
+                   from has
+                   where has.lId = lst.lId && (has.aId =4) group by lId having count(lId) = 1))
+  and ( a.query_date >= ('2022-01-01')
+    && a.query_date <= ('2022-01-02') )
+GROUP BY a.lId
+ORDER BY avg(a.price);

@@ -255,15 +255,25 @@ WHERE lid = 'j'
 ;
 
 UPDATE available
-SET available = 1
+SET available = 1,
+    price     = 25
 WHERE lid = 'k'
   and query_date = '2022-01-01'
 ;
+
+UPDATE available
+SET available = 1,
+    price     = 39
+WHERE lid = 'k'
+  and query_date = '2022-01-02'
+;
+
 UPDATE available
 SET available = 1
 WHERE lid = 'l'
-  and query_date = '2022-01-01'
+  and price = 38
 ;
+
 UPDATE available
 SET available = 1
 WHERE lid = 'm'
@@ -356,3 +366,49 @@ VALUES ('11_r', 1, '1i', 1, '2022-09-14', '2021-11-16', 1, 'fermentum convallis 
         'sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum');
 
 
+UPDATE available
+SET available = 1,
+    price     = 500
+WHERE lid = '10i'
+  and query_date >= '2022-01-01'
+  AND query_date <= '2022-10-10'
+;
+
+UPDATE available
+SET available = 1,
+    price     = 600
+WHERE lid = '11i'
+  and query_date >= '2022-01-01'
+  AND query_date <= '2022-10-10'
+;
+
+UPDATE available
+SET available = 1,
+    price     = 700
+WHERE lid = '12i'
+  and query_date >= '2022-01-01'
+  AND query_date <= '2022-10-10'
+;
+
+UPDATE available
+SET available = 1,
+    price     = 800
+WHERE lid = '13i'
+  and query_date >= '2022-01-01'
+  AND query_date <= '2022-10-10'
+;
+UPDATE available
+SET available = 1,
+    price     = 900
+WHERE lid = '14i'
+  and query_date >= '2022-01-01'
+  AND query_date <= '2022-10-10'
+;
+
+UPDATE available
+SET available = 1,
+    price     = 1000
+WHERE lid = '15i'
+  and query_date >= '2022-01-01'
+  AND query_date <= '2022-10-10'
+;
