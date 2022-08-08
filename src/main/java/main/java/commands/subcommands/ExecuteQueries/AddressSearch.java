@@ -60,8 +60,8 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
                                                             && available.query_date <= (?) 
                                                             && available.lId = lst.lId
                                                             && (available.available = 0 
-                                                                || available.price <= (?)
-                                                                || available.price >= (?)))
+                                                                || available.price < (?)
+                                                                || available.price > (?)))
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;

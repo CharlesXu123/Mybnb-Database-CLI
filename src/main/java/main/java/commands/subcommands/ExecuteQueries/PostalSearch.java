@@ -61,8 +61,8 @@ public class PostalSearch extends SubCmd implements Callable<Integer> {
                                                             && available.query_date <= (?) 
                                                             && available.lId = lst.lId
                                                             && (available.available = 0 
-                                                                || available.price <= (?)
-                                                                || available.price >= (?)))
+                                                                || available.price < (?)
+                                                                || available.price > (?)))
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
@@ -76,7 +76,6 @@ public class PostalSearch extends SubCmd implements Callable<Integer> {
                 amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
 
                 query = query + amenities_query;
-
                 pst = this.conn.prepareStatement(query);
                 pst.setString(1, postal);
                 pst.setDate(2, java.sql.Date.valueOf(start_date));
