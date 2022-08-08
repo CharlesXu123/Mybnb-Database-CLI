@@ -33,46 +33,66 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-highest_price"}, description = "highest price", required = false)
     Double highest_price = -1.0;
-    @CommandLine.Option(names = {"-amenities"}, description = "set of amenities, separating each amenity with ,", required = false)
+    @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
     String amenities = "not given";
+
+    @CommandLine.Option(names = {"-rank"}, description = "highest price", required = false)
+    String rank = "not given";
 
     @Override
     public Integer call() {
         try {
             String[] arrOfStr = amenities.split(",");
             String query = new String();
+            String pre_query = new String("");
+            String post_query = new String("");
+
             String amenities_query = new String();
             PreparedStatement pst = null;
             if (Utils.validTime(start_date, end_date) && Utils.validPrice(lowest_price, highest_price)) {
 
+
                 query = """
-                        SELECT lId, type, address, latitude,longitude, postal_code, city, country 
-                        FROM listing lst
-                        WHERE (((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20)
-                                            and lst.lId not in (Select lId
-                                                            from available
-                                                            where available.query_date >= (?) 
-                                                            && available.query_date <= (?) 
-                                                            && available.available = 0
-                                                            )
-                                            and lst.lId not in (SELECT lId
-                                                            from available
-                                                            where available.price <= (?)
-                                                                || available.price >= (?)
-                                                                && available.lId = lst.lId)
+                                                
+                        SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
+                        FROM listing lst JOIN available a on lst.lId = a.lId
+                        WHERE ((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20
+                          and true = All (Select available.available
+                                          from available
+                                          where available.query_date >= (?)
+                                                    && available.query_date <= (?)
+                                                    && available.lId = lst.lId)
+                          and (?) <= ALL (Select available.price
+                                        from available
+                                        where available.query_date >= (?)
+                                                  && available.query_date <= (?)
+                                                  && available.lId = lst.lId)
+                          and (?) >= ALL (Select available.price
+                                          from available
+                                          where available.query_date >= (?)
+                                                    && available.query_date <= (?)
+                                                    && available.lId = lst.lId)
+                                              
+                          and (a.query_date >= (?)
+                            && a.query_date <= (?))
+                                            
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
 
                 int amen_len = arrOfStr.length;
-                amenities_query = " ((has.aId =" + arrOfStr[0] + ")";
+                amenities_query = " ((has.aId =" + "\'" + arrOfStr[0] + "\'" + ")";
                 for (int i = 1; i < amen_len; i++) {
-                    amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i] + ")";
+                    amenities_query = amenities_query + " || " + "(has.aId = " + "\'" + arrOfStr[i] + "\'" + ")";
                 }
                 amenities_query = amenities_query + ") ";
                 amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
+                post_query = """
+                         GROUP BY a.lId
+                         order by avg(a.price)
+                        """;
+                query = query + amenities_query + post_query;
 
-                query = query + amenities_query;
 
                 pst = this.conn.prepareStatement(query);
                 pst.setDouble(1, lat1);
@@ -80,8 +100,17 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
                 pst.setDouble(3, long1);
                 pst.setDate(4, java.sql.Date.valueOf(start_date));
                 pst.setDate(5, java.sql.Date.valueOf(end_date));
+
                 pst.setDouble(6, lowest_price);
-                pst.setDouble(7, highest_price);
+                pst.setDate(7, java.sql.Date.valueOf(start_date));
+                pst.setDate(8, java.sql.Date.valueOf(end_date));
+
+                pst.setDouble(9, highest_price);
+                pst.setDate(10, java.sql.Date.valueOf(start_date));
+                pst.setDate(11, java.sql.Date.valueOf(end_date));
+
+                pst.setDate(12, java.sql.Date.valueOf(start_date));
+                pst.setDate(13, java.sql.Date.valueOf(end_date));
             } else if (start_date.equals("not given")) {
                 query = """
                         SELECT lId, type, address, latitude,longitude, postal_code, city, country 
@@ -96,9 +125,8 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
             } else {
                 return 0;
             }
-            System.out.println(pst);
             ResultSet resultSet = pst.executeQuery();
-            String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
+            String[] str = {"lId", "name", "address", "latitude", "longitude", "postal_code", "city", "country", "price"};
             Utils.printResult(str, resultSet);
             this.conn.close();
 

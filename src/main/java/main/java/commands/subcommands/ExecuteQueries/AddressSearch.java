@@ -33,7 +33,7 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-highest_price"}, description = "highest price", required = false)
     Double highest_price = -0.1;
 
-    @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
+    @CommandLine.Option(names = {"-amenities"}, description = "amenities", required = false)
     String amenitiies = "not given";
 
     private void parseInput() {
@@ -56,15 +56,12 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
                         FROM listing as lst
                         WHERE address = (?) and lst.lId not in (Select lId
                                                             from available
-                                                            where available.query_date >= (?) 
+                                                            where available.query_date >= (?)
                                                             && available.query_date <= (?) 
-                                                            && available.available = 0
-                                                            )
-                                            and lst.lId not in (SELECT lId
-                                                            from available
-                                                            where available.price <= (?)
-                                                                || available.price >= (?)
-                                                                && available.lId = lst.lId)
+                                                            && available.lId = lst.lId
+                                                            && (available.available = 0 
+                                                                || available.price < (?)
+                                                                || available.price > (?)))
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
@@ -96,7 +93,8 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
                 pst.setString(1, addr);
             }
             ResultSet resultSet = pst.executeQuery();
-            String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
+            String[] str = {"lId", "name", "address", "latitude", "longitude", "postal_code", "city", "country"};
+
             Utils.printResult(str, resultSet);
             st.close();
             this.conn.close();

@@ -39,7 +39,7 @@ public class LargestCancellation extends SubCmd implements Callable<Integer> {
                                 select * from (
                                 SELECT h.name, count(h.name) count
                                 FROM host h join rented r on r.hId = h.uId
-                                where r.start_date >= (?) and r.end_date <= (?)
+                                where r.start_date >= (?) and r.end_date <= (?) and r.canceled=1
                                 group by h.name
                                 ) sub order by sub.count desc limit 5
                             """;
@@ -56,7 +56,7 @@ public class LargestCancellation extends SubCmd implements Callable<Integer> {
                                 select * from (
                                 SELECT r.name, count(r.name) count
                                 FROM renter r join rented rt on rt.hId = r.uId
-                                where rt.start_date >= (?) and rt.end_date <= (?)
+                                where rt.start_date >= (?) and rt.end_date <= (?) and rt.canceled=1
                                 group by r.name
                                 ) sub order by sub.count desc limit 5
                             """;

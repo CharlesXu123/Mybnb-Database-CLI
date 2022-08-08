@@ -6,3 +6,15 @@ NOTE: listing 10i~14i are in Kollam, Netherlands with close zip code
 java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Host CreateListing -city=Kollam -country=Netherlands -hId=7 -latitude=100 -longitude=100 -postalCode=A1B3C4 -type=room  -addr=123%road
 
 
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Host CreateListing -city=Toronto -country=Canada -hId=8 -latitude=100 -longitude=100 -postalCode=A1B3C4 -type=room
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Report LargestCancellation -start_date=2022-01-01 -end_date=2022-12-31
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Report RankHostByCountry -start_date=2022-01-01 -end_date=2022-12-31
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Report RankRentersByTime -start_date=2022-01-01 -end_date=2022-12-31
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Report RankRentersByTimePerCity -start_date=2022-01-01 -end_date=2022-12-31
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Report TotalListings
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Report TotalListingsCity
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Report TotalListingsPostalCode
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query AddressSearch -address=what
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query PostalSearch -postal_code=32G%abc
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query PostalSearch -postal_code=32G%abc -start_date=2022-01-01 -end_date=2022-01-01 -lowest_price=-10 -highest_price=10000 -amenities=1,2,3,4
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query AddressSearch -address=what -start_date=2022-01-01 -end_date=2022-01-01 -lowest_price=-10 -highest_price=10000 -amenities=1,2,3,4
