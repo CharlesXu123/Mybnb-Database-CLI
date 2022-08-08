@@ -236,21 +236,18 @@ DROP table temp;
 SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
 FROM listing lst JOIN available a on lst.lId = a.lId
 WHERE ((acos((sin(latitude * (PI() / 180))) * sin((66.8) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((66.8) * (PI() / 180)) * cos((longitude * (PI() / 180) - (-36.7) * (PI() / 180))))) * 6371) <= 20
-  and true = All (Select available.available
+  and lst.lId not in (Select distinct lId
                       from available
-                      where available.query_date >= ('2022-02-02')
+                      where (available.query_date >= ('2022-02-02')
                                 && available.query_date <= ('2022-07-05')
-                                && available.lId = lst.lId)
-  and 0 <= ALL (Select available.price
-                from available
-                where available.query_date >= ('2022-02-02')
-                          && available.query_date <= ('2022-07-05')
-                          && available.lId = lst.lId)
-  and 900 >= ALL (Select available.price
-                from available
-                where available.query_date >= ('2022-02-02')
-                          && available.query_date <= ('2022-07-05')
-                          && available.lId = lst.lId)
+                                && available.available = false)
+                                ||
+                            (available.query_date >= ('2022-02-02')
+                                && available.query_date <= ('2022-07-05')
+                                && available.available = true
+                                && (available.price < 0 || available.price > 900))
+                            )
+  and a.query_date >= ('2022-02-02') && a.query_date <= ('2022-07-05')
   and lst.lId in ((Select lId
                    from has
                    where has.lId = lst.lId && (has.aId =10) group by lId having count(lId) = 1))

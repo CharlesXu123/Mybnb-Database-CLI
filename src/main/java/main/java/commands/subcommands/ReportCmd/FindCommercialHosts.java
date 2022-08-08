@@ -36,7 +36,8 @@ public class FindCommercialHosts extends SubCmd implements Callable<Integer> {
                         GROUP BY country, city, uId, name
                         HAVING COUNT(*) > (SELECT COUNT(*)
                                            FROM listing
-                                           WHERE listing.country = l.country AND listing.city = l.city)/10;
+                                           WHERE listing.country = l.country AND listing.city = l.city)/10
+                        ORDER BY country, city;
                     """;
             ResultSet resultSet = st.executeQuery(query);
             String[] args = {"country", "city", "uId", "name", "listing owned", "total listing in the region"};
