@@ -12,7 +12,7 @@ The project doesn't have a login system to validate the user identity or a compl
  - Have a MySQL serve set up and initialize databases by running `mysqlFiles/initialize.sql`
 
 # How to run
-  - Click the green run button in Intellij mavan package, it will generate `c43Project-1.0-jar-with-dependencies.jar` under `/target`
+  - Click the green run button in IntelliJ mavan package, it will generate `c43Project-1.0-jar-with-dependencies.jar` under `/target`
   
     <img width="358" alt="Screen Shot 2022-08-18 at 7 05 29 PM" src="https://user-images.githubusercontent.com/78982364/185510057-5a198fee-404c-44ef-a173-d5301f2a2fac.png">
   - Run command using `java -jar /target/c43Project-1.0-jar-with-dependencies.jar [commands from user manual]`
