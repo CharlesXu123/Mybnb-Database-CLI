@@ -1,5 +1,6 @@
 package main.java.commands.subcommands;
 
+//import main.java.commands.subcommands.InsertSub.Renter;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -7,10 +8,17 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "Insert",
         mixinStandardHelpOptions = true,
-        description = "this is the get tool ")
-public class Insert implements Callable {
+        description = "this is the get tool ",
+        subcommands = {
+                Renter.class
+        })
+public class Insert implements Callable<Integer> {
     @Override
-    public Object call() throws Exception {
+    public Integer call() throws Exception {
         return null;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

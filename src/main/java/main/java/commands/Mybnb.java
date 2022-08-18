@@ -1,13 +1,10 @@
 package main.java.commands;
 
-import main.java.commands.subcommands.Get;
-import main.java.commands.subcommands.Insert;
+import main.java.commands.subcommands.*;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
 
-import java.sql.*;
 import java.util.concurrent.Callable;
 
 @Command(name = "Mybnb",
@@ -18,8 +15,11 @@ import java.util.concurrent.Callable;
         parameterListHeading = "Params are:%n",
         optionListHeading = "Options are:%n",
         subcommands = {
-                Insert.class,
-                Get.class
+                Host.class,
+                Renter.class,
+                Report.class,
+                Queries.class,
+                Toolkit.class
         })
 public class Mybnb implements Callable<Integer> {
     final Integer SUCCESS = 0;
@@ -35,6 +35,6 @@ public class Mybnb implements Callable<Integer> {
     }
 
     public static void main(String[] args) {
-        new CommandLine(new Mybnb()).execute("Get", "Course");
+        new CommandLine(new Mybnb()).execute(args);
     }
 }
