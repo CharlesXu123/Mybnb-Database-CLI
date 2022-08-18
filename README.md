@@ -7,8 +7,8 @@ The project doesn't have a login system to validate the user identity or a compl
 [Complete Documentation and User manual](https://docs.google.com/document/d/1_E9HEIFYJf2TkhxW_CuDHhsUBc7a6nC949AJCODEu5w/edit?usp=sharing)
 
 # Prerequisite 
- - Have a `.env` file with env variable `PASSWORD` 
-     or directly change variable `pass` in `src/main/java/main/java/commands/subcommands/SubCmd.java`
+ - Have a `.env` file with env variable `PASSWORD` <br />
+   or directly change variable `pass` in `src/main/java/main/java/commands/subcommands/SubCmd.java`
  - Have a MySQL serve set up and initialize databases by running `mysqlFiles/initialize.sql`
 
 # How to run
