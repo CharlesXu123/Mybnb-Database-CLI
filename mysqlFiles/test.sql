@@ -260,3 +260,8 @@ FROM listing JOIN has h on listing.lId = h.lId
 WHERE 2=(SELECT COUNT(distinct has.aId)
         FROM has
         WHERE has.lId = listing.lId AND has.aId in ('10','12'));
+
+UPDATE listing
+SET country='Netherlands'
+where lId='16i'
+

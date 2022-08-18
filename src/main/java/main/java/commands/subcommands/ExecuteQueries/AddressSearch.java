@@ -35,6 +35,8 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-amenities"}, description = "amenities", required = false)
     String amenitiies = "not given";
+    @CommandLine.Option(names = {"-rank"}, description = "asc or desc", required = false)
+    String rank = "not given";
 
     private void parseInput() {
         addr = addr.replace("%", " ");
@@ -52,16 +54,28 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
             if (!start_date.equals("not given") && !end_date.equals("not given")
                     && Utils.validTime(start_date, end_date)) {
                 query = """
-                        SELECT lId, type, address, latitude,longitude, postal_code, city, country 
-                        FROM listing as lst
-                        WHERE address = (?) and lst.lId not in (Select lId
-                                                            from available
-                                                            where available.query_date >= (?)
-                                                            && available.query_date <= (?) 
-                                                            && available.lId = lst.lId
-                                                            && (available.available = 0 
-                                                                || available.price < (?)
-                                                                || available.price > (?)))
+                        SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
+                        FROM listing lst JOIN available a on lst.lId = a.lId
+                        WHERE address = (?)
+                          and true = All (Select available.available
+                                          from available
+                                          where available.query_date >= (?)
+                                                    && available.query_date <= (?)
+                                                    && available.lId = lst.lId)
+                          and (?) <= ALL (Select available.price
+                                        from available
+                                        where available.query_date >= (?)
+                                                  && available.query_date <= (?)
+                                                  && available.lId = lst.lId)
+                          and (?) >= ALL (Select available.price
+                                          from available
+                                          where available.query_date >= (?)
+                                                    && available.query_date <= (?)
+                                                    && available.lId = lst.lId)
+                                              
+                          and (a.query_date >= (?)
+                            && a.query_date <= (?))
+                                            
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
@@ -71,29 +85,64 @@ public class AddressSearch extends SubCmd implements Callable<Integer> {
                 for (int i = 1; i < amen_len; i++) {
                     amenities_query = amenities_query + " || " + "(has.aId = " + arrOfStr[i] + ")";
                 }
-                System.out.println("query:" + amenities_query);
                 amenities_query = amenities_query + ") ";
                 amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
+                String post_query = null;
+                if (rank.equals("desc")) {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) desc
+                            """;
+                } else {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) asc
+                            """;
+                }
 
-                query = query + amenities_query;
+                query = query + amenities_query + post_query;
 
                 pst = this.conn.prepareStatement(query);
                 pst.setString(1, addr);
+
                 pst.setDate(2, java.sql.Date.valueOf(start_date));
                 pst.setDate(3, java.sql.Date.valueOf(end_date));
+
                 pst.setDouble(4, lowest_price);
-                pst.setDouble(5, highest_price);
-                System.out.println(pst);
+                pst.setDate(5, java.sql.Date.valueOf(start_date));
+                pst.setDate(6, java.sql.Date.valueOf(end_date));
+
+                pst.setDouble(7, highest_price);
+                pst.setDate(8, java.sql.Date.valueOf(start_date));
+                pst.setDate(9, java.sql.Date.valueOf(end_date));
+
+                pst.setDate(10, java.sql.Date.valueOf(start_date));
+                pst.setDate(11, java.sql.Date.valueOf(end_date));
 
             } else if (start_date.equals("not given")) {
                 query = """
-                        SELECT * FROM listing WHERE address = (?)
+                        SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price) 
+                        FROM listing lst JOIN available a on lst.lId = a.lId 
+                        WHERE a.available = 1 && address = (?)
                         """;
+                String post_query = null;
+                if (rank.equals("desc")) {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) desc
+                            """;
+                } else {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) asc
+                            """;
+                }
+                query = query + post_query;
                 pst = this.conn.prepareStatement(query);
                 pst.setString(1, addr);
             }
             ResultSet resultSet = pst.executeQuery();
-            String[] str = {"lId", "name", "address", "latitude", "longitude", "postal_code", "city", "country"};
+            String[] str = {"lId", "name", "address", "latitude", "longitude", "postal_code", "city", "country", "price"};
 
             Utils.printResult(str, resultSet);
             st.close();

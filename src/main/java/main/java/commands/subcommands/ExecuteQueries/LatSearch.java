@@ -33,10 +33,10 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-highest_price"}, description = "highest price", required = false)
     Double highest_price = -1.0;
-    @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
+    @CommandLine.Option(names = {"-amenities"}, description = "amenities", required = false)
     String amenities = "not given";
 
-    @CommandLine.Option(names = {"-rank"}, description = "highest price", required = false)
+    @CommandLine.Option(names = {"-rank"}, description = "desc if want to order by desc, default is asc", required = false)
     String rank = "not given";
 
     @Override
@@ -44,14 +44,11 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
         try {
             String[] arrOfStr = amenities.split(",");
             String query = new String();
-            String pre_query = new String("");
             String post_query = new String("");
-
+            String[] str = {};
             String amenities_query = new String();
             PreparedStatement pst = null;
             if (Utils.validTime(start_date, end_date) && Utils.validPrice(lowest_price, highest_price)) {
-
-
                 query = """
                                                 
                         SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
@@ -87,10 +84,18 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
                 }
                 amenities_query = amenities_query + ") ";
                 amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
-                post_query = """
-                         GROUP BY a.lId
-                         order by avg(a.price)
-                        """;
+                if (rank.equals("desc")) {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) desc
+                            """;
+                } else {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) asc
+                            """;
+                }
+
                 query = query + amenities_query + post_query;
 
 
@@ -111,22 +116,36 @@ public class LatSearch extends SubCmd implements Callable<Integer> {
 
                 pst.setDate(12, java.sql.Date.valueOf(start_date));
                 pst.setDate(13, java.sql.Date.valueOf(end_date));
+
             } else if (start_date.equals("not given")) {
                 query = """
-                        SELECT lId, type, address, latitude,longitude, postal_code, city, country 
-                        FROM listing
-                        WHERE ((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20;
+                        SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
+                        FROM listing lst JOIN available a on lst.lId = a.lId
+                        WHERE a.available = 1 && ((acos((sin(latitude * (PI() / 180))) * sin((?) * (PI() / 180)) + cos(latitude * (PI() / 180)) * cos((?) * (PI() / 180)) * cos((longitude * (PI() / 180) - (?) * (PI() / 180))))) * 6371) <= 20
                         """;
-
+                if (rank.equals("desc")) {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) desc
+                            """;
+                } else {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) asc
+                            """;
+                }
+                query = query + post_query;
                 pst = this.conn.prepareStatement(query);
                 pst.setDouble(1, lat1);
                 pst.setDouble(2, lat1);
                 pst.setDouble(3, long1);
+
             } else {
                 return 0;
             }
+            str = new String[]{"lId", "name", "address", "latitude", "longitude", "postal_code", "city", "country", "price"};
+
             ResultSet resultSet = pst.executeQuery();
-            String[] str = {"lId", "name", "address", "latitude", "longitude", "postal_code", "city", "country", "price"};
             Utils.printResult(str, resultSet);
             this.conn.close();
 

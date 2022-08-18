@@ -35,6 +35,9 @@ public class PostalSearch extends SubCmd implements Callable<Integer> {
     @CommandLine.Option(names = {"-amenities"}, description = "highest price", required = false)
     String amenitiies = "not given";
 
+    @CommandLine.Option(names = {"-rank"}, description = "asc or desc ", required = false)
+    String rank = "not given";
+
     private void parseInput() {
         postal = postal.replace("%", " ");
     }
@@ -51,21 +54,34 @@ public class PostalSearch extends SubCmd implements Callable<Integer> {
             String amenities_query = new String();
             PreparedStatement pst = null;
             if (Utils.validPrice(lowest_price, highest_price) && Utils.validTime(start_date, end_date)) {
-
                 query = """
-                        SELECT * from listing lst
-                        where SUBSTR(lst.postal_code, 1,3) = (?) 
-                                            and lst.lId not in (Select lId
-                                                            from available
-                                                            where available.query_date >= (?)
-                                                            && available.query_date <= (?) 
-                                                            && available.lId = lst.lId
-                                                            && (available.available = 0 
-                                                                || available.price < (?)
-                                                                || available.price > (?)))
+                                                
+                        SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
+                        FROM listing lst JOIN available a on lst.lId = a.lId
+                        where SUBSTR(lst.postal_code, 1,3) = (?)
+                          and true = All (Select available.available
+                                          from available
+                                          where available.query_date >= (?)
+                                                    && available.query_date <= (?)
+                                                    && available.lId = lst.lId)
+                          and (?) <= ALL (Select available.price
+                                        from available
+                                        where available.query_date >= (?)
+                                                  && available.query_date <= (?)
+                                                  && available.lId = lst.lId)
+                          and (?) >= ALL (Select available.price
+                                          from available
+                                          where available.query_date >= (?)
+                                                    && available.query_date <= (?)
+                                                    && available.lId = lst.lId)
+                                              
+                          and (a.query_date >= (?)
+                            && a.query_date <= (?))
+                                            
                                             and lst.lId in ((Select lId
                                                              from has
                                                              where has.lId = lst.lId && """;
+
 
                 int amen_len = arrOfStr.length;
                 amenities_query = " ((has.aId =" + arrOfStr[0] + ")";
@@ -74,30 +90,68 @@ public class PostalSearch extends SubCmd implements Callable<Integer> {
                 }
                 amenities_query = amenities_query + ") ";
                 amenities_query = amenities_query + "group by lId " + "having count(lId) = " + amen_len + "))";
+                String post_query = null;
+                if (rank.equals("desc")) {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) desc
+                            """;
+                } else {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) asc
+                            """;
+                }
 
-                query = query + amenities_query;
+                query = query + amenities_query + post_query;
                 pst = this.conn.prepareStatement(query);
                 pst.setString(1, postal);
                 pst.setDate(2, java.sql.Date.valueOf(start_date));
                 pst.setDate(3, java.sql.Date.valueOf(end_date));
+
                 pst.setDouble(4, lowest_price);
-                pst.setDouble(5, highest_price);
+                pst.setDate(5, java.sql.Date.valueOf(start_date));
+                pst.setDate(6, java.sql.Date.valueOf(end_date));
+
+                pst.setDouble(7, highest_price);
+                pst.setDate(8, java.sql.Date.valueOf(start_date));
+                pst.setDate(9, java.sql.Date.valueOf(end_date));
+
+                pst.setDate(10, java.sql.Date.valueOf(start_date));
+                pst.setDate(11, java.sql.Date.valueOf(end_date));
+
 
             } else if (start_date.equals("not given")) {
                 postal = postal.replace("&", " ");
                 System.out.println("Postal is" + postal);
                 Statement st = this.conn.createStatement();
+
                 query = """
-                        SELECT * from listing
-                        where SUBSTR(listing.postal_code, 1,3) = (?)
+                        SELECT lst.lId, type, address, latitude,longitude, postal_code, city, country, avg(a.price)
+                        FROM listing lst JOIN available a on lst.lId = a.lId
+                        WHERE a.available = 1 && SUBSTR(lst.postal_code, 1,3) = (?)
                         """;
+                String post_query = null;
+                if (rank.equals("desc")) {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) desc
+                            """;
+                } else {
+                    post_query = """
+                             GROUP BY a.lId
+                             order by avg(a.price) asc
+                            """;
+                }
+                query = query + post_query;
                 pst = this.conn.prepareStatement(query);
                 pst.setString(1, postal);
             } else {
                 return 0;
             }
+            String[] str = null;
             ResultSet resultSet = pst.executeQuery();
-            String[] str = {"lId", "type", "latitude", "longitude", "postal_code", "city", "country"};
+            str = new String[]{"lId", "name", "address", "latitude", "longitude", "postal_code", "city", "country", "price"};
             Utils.printResult(str, resultSet);
             this.conn.close();
         } catch (Exception e) {

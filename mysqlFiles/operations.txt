@@ -1,7 +1,10 @@
-NOTE: listing 10i~14i are in Kollam, Netherlands with close zip code
-      listing 15i don't have amenity free parking while 10i~14i have
+NOTE: listing 10i~14i,16i are in Kollam, Netherlands with close zip code
+      listing 16i don't have amenity free parking while 10i~14i have
 
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Renter Add -address=some%address -DOB=2000-01-01 -name=user1 -occupation=student -paymentInfo=1233424324
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Host Add -address=some%address -DOB=2000-01-01 -name=user1 -occupation=student
 
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Renter BookListing -endDate=2022-08-10 -startDate=2022-01-01 -lId=15i -rId=10
 
 java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Host CreateListing -city=Kollam -country=Netherlands -hId=7 -latitude=100 -longitude=100 -postalCode=A1B3C4 -type=room  -addr=123%road
 
@@ -18,3 +21,4 @@ java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query AddressSearch 
 java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query PostalSearch -postal_code=32G%abc
 java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query PostalSearch -postal_code=32G%abc -start_date=2022-01-01 -end_date=2022-01-01 -lowest_price=-10 -highest_price=10000 -amenities=1,2,3,4
 java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query AddressSearch -address=what -start_date=2022-01-01 -end_date=2022-01-01 -lowest_price=-10 -highest_price=10000 -amenities=1,2,3,4
+java -jar ./target/c43Project-1.0-jar-with-dependencies.jar Query LatSearch -latitude=43.78 -longitude=-79.189 -start_date=2022-01-01 -end_date=2022-01-01 -lowest_price=-10 -highest_price=10000 -amenities=1,2,3,4
